@@ -3,8 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="assets/css/style_home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<h1>Hiiiiiiii LTW-GROUP15</h1>
+<header class="header">
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="assets/images/logo.jpg" alt="logo">
+            </div>
+            <div class="nav-right">
+                <div class="language-currency">
+                    <img src="assets/images/Anh_VN.webp" alt="Việt Nam">
+                    <span>VND</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <img src="assets/images/Avatar.png" alt="avatar">
+            </div>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-background">
+        <img src="assets/images/Hero%20Header.png" alt="hero header">
+    </div>
+    <div class="container hero-content">
+        <h1>Your Trip Starts Here</h1>
+        <p>Find unique stays across hotels, villas, and more.</p>
+
+        <div class="search-container">
+            <div class="search-tabs">
+                <button class="tab-btn active"><i class="fas fa-hotel"></i> Hotel</button>
+                <button class="tab-btn"><i class="fas fa-home"></i> House</button>
+                <button class="tab-btn"><i class="fas fa-user-friends"></i> Guest House</button>
+                <button class="tab-btn"><i class="fas fa-campground"></i> Cabins</button>
+                <button class="tab-btn"><i class="fas fa-tent"></i> Glamping</button>
+                <button class="tab-btn"><i class="fas fa-water"></i> Dams</button>
+            </div>
+
+            <div class="search-form">
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="Where are you going?">
+                </div>
+                <div class="form-group">
+                    <label for="checkin">Check In</label>
+                    <input type="text" id="checkin" placeholder="Add Dates">
+                </div>
+                <div class="form-group">
+                    <label for="checkout">Check Out</label>
+                    <input type="text" id="checkout" placeholder="Add Dates">
+                </div>
+                <div class="form-group">
+                    <label for="guests">Rooms and Guests</label>
+                    <input type="text" id="guests" placeholder="1 rooms, 1 adults, 2 children">
+                </div>
+                <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </div>
+</section>
+
 </body>
 </html>
