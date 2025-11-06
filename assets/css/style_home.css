@@ -707,3 +707,192 @@ p {
         height: 250px; /* Đồng bộ chiều cao trên mobile */
     }
 }
+/* =================================== */
+/* Footer
+/* =================================== */
+.footer {
+    background-color: var(--dark-blue); /* Sử dụng màu xanh đậm làm nền */
+    color: #E0E0E0; /* Màu chữ sáng */
+    padding: 60px 0 30px 0;
+}
+
+.footer .logo img {
+    /* Đảm bảo logo phù hợp với nền tối
+       (Nếu logo của bạn là file .jpg có nền trắng,
+       bạn có thể cần một logo khác cho footer) */
+    width: 48px;
+    height: 48px;
+    border-radius: 10%;
+    /* Giả sử logo của bạn đã đẹp trên nền tối */
+}
+
+.footer-main {
+    display: grid;
+    /* Chia 5 cột, cột 1 (about) rộng hơn */
+    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-col h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--background-color); /* Màu trắng */
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.footer-col p {
+    font-size: 0.9rem;
+    color: #B0B0B0; /* Màu xám nhạt */
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+/* Cột 1: Giới thiệu & App */
+.app-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.app-buttons img {
+    height: 40px;
+    width: auto;
+    border-radius: 6px;
+}
+
+/* Cột 2, 3, 4: Danh sách Links */
+.footer-col.links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col.links li {
+    margin-bottom: 12px;
+}
+
+.footer-col.links a {
+    font-size: 0.9rem;
+    color: #B0B0B0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-col.links a:hover {
+    color: var(--background-color);
+    text-decoration: underline;
+}
+
+/* Cột 5: Liên hệ */
+.footer-col.contact p {
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #E0E0E0; /* Màu sáng hơn cho thông tin liên hệ */
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: #2A4157; /* Màu nền cho icon */
+    color: var(--background-color);
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: var(--primary-color); /* Đổi màu khi hover */
+}
+
+/* Đường kẻ ngang */
+.footer-divider {
+    border: none;
+    height: 1px;
+    background-color: #2A4157; /* Màu kẻ ngang */
+    margin: 0 0 30px 0;
+}
+
+/* Phần bản quyền & thanh toán */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Tự động xuống hàng trên mobile */
+    gap: 20px;
+}
+
+.copyright {
+    font-size: 0.85rem;
+    color: #8A9AA8;
+    margin: 0;
+}
+
+.payment-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.payment-icons img {
+    height: 25px;
+    width: auto;
+    border-radius: 4px;
+    background: white; /* Thêm nền trắng cho dễ nhìn */
+    padding: 2px 4px;
+}
+
+/* =================================== */
+/* Responsive cho Footer
+/* =================================== */
+
+@media (max-width: 1024px) {
+    .footer-main {
+        /* Chuyển sang 3 cột */
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .footer-col.about {
+        /* Cột 'about' chiếm 3 cột (toàn hàng) */
+        grid-column: 1 / -1;
+    }
+    .footer-col.contact {
+        /* Cột 'contact' chiếm 2 cột */
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-main {
+        /* Chuyển sang 2 cột */
+        grid-template-columns: 1fr 1fr;
+    }
+    .footer-col.about,
+    .footer-col.contact {
+        /* Cả 2 cột này đều chiếm toàn hàng */
+        grid-column: 1 / -1;
+    }
+
+    .footer-bottom {
+        flex-direction: column-reverse; /* Đảo ngược thứ tự */
+        align-items: center; /* Căn giữa */
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-main {
+        /* Chuyển về 1 cột */
+        grid-template-columns: 1fr;
+    }
+    .footer-col.contact {
+        grid-column: span 1; /* Reset lại */
+    }
+}
