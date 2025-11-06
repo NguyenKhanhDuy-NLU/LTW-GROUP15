@@ -503,7 +503,9 @@ p {
         grid-template-columns: 1fr;
         gap: 40px;
     }
-
+    .features-grid::before {
+        display: none;
+    }
     .destination-filters {
         flex-wrap: wrap;
         gap: 10px;
