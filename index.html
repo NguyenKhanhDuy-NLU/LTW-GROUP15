@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+
 <header class="header">
     <div class="container">
         <nav class="navbar">
@@ -19,12 +20,82 @@
                     <span>VND</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
-                <img src="assets/images/Avatar.png" alt="avatar">
+                <!--<img src="assets/images/Avatar.png" alt="avatar">-->
+                <a href="#" class="nav-login-btn">Login</a>
             </div>
         </nav>
     </div>
 </header>
+<!-- login -->
+<div class="modal-overlay hidden">
+    <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">&times;</button>
 
+        <div id="login-form" class="modal-form">
+            <h3>Đăng nhập</h3>
+            <div class="form-group">
+                <label for="login-email">Gmail/SĐT</label>
+                <input type="text" id="login-email" placeholder="Nhập gmail hoặc SĐT của bạn">
+            </div>
+            <div class="form-group">
+                <label for="login-pass">Mật khẩu</label>
+                <input type="password" id="login-pass" placeholder="Nhập mật khẩu">
+            </div>
+            <button class="form-submit-btn">Đăng nhập</button>
+            <div class="form-link-row">
+                <a href="#" class="form-link">Quên mật khẩu?</a>
+                <a href="#" class="form-toggle-link" data-target="signup-email-form">Đăng ký</a>
+            </div>
+        </div>
+
+        <div id="signup-email-form" class="modal-form hidden">
+            <h3>Đăng ký</h3>
+            <div class="form-group">
+                <label for="signup-name-email">Tên</label>
+                <input type="text" id="signup-name-email" placeholder="Nhập tên của bạn">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Gmail</label>
+                <input type="email" id="signup-email" placeholder="Nhập gmail">
+            </div>
+            <div class="form-group">
+                <label for="signup-pass-email">Mật khẩu</label>
+                <input type="password" id="signup-pass-email" placeholder="Nhập mật khẩu">
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-email">Xác nhận lại mật khẩu</label>
+                <input type="password" id="signup-confirm-email" placeholder="Nhập lại mật khẩu">
+            </div>
+            <button class="form-submit-btn">Đăng ký</button>
+            <a href="#" class="form-toggle-link" data-target="signup-phone-form">Đăng ký bằng SĐT</a>
+            <a href="#" class="form-toggle-link" data-target="login-form">Quay lại Đăng nhập</a>
+        </div>
+
+        <div id="signup-phone-form" class="modal-form hidden">
+            <h3>Đăng ký bằng SĐT</h3>
+            <div class="form-group">
+                <label for="signup-name-phone">Tên</label>
+                <input type="text" id="signup-name-phone" placeholder="Nhập tên của bạn">
+            </div>
+            <div class="form-group">
+                <label for="signup-phone">SĐT</label>
+                <input type="tel" id="signup-phone" placeholder="Nhập số điện thoại">
+            </div>
+            <div class="form-group">
+                <label for="signup-pass-phone">Mật khẩu</label>
+                <input type="password" id="signup-pass-phone" placeholder="Nhập mật khẩu">
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-phone">Xác nhận lại mật khẩu</label>
+                <input type="password" id="signup-confirm-phone" placeholder="Nhập lại mật khẩu">
+            </div>
+            <button class="form-submit-btn">Đăng ký</button>
+            <a href="#" class="form-toggle-link" data-target="signup-email-form">Đăng ký bằng Gmail</a>
+            <a href="#" class="form-toggle-link" data-target="login-form">Quay lại Đăng nhập</a>
+        </div>
+
+    </div>
+</div>
 <section class="hero">
     <div class="hero-background">
         <img src="assets/images/Hero%20Header.png" alt="hero header">
@@ -144,7 +215,7 @@
 <section class="content-section">
     <div class="container">
         <h2>Travel more, spend less</h2>
-        <div class="features-grid">
+        <div class="promo-grid">
             <div class="feature-card">
                 <h3>10% discounts on stays</h3>
                 <p>Enjoy discounts at participating properties wordwide crowd</p>
@@ -283,5 +354,7 @@
         </div>
     </div>
 </footer>
+
 </body>
+<script src="assets/js/home_js.js"></script>
 </html>
