@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+
 <header class="header">
     <div class="container">
         <nav class="navbar">
@@ -19,12 +20,82 @@
                     <span>VND</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
-                <img src="assets/images/Avatar.png" alt="avatar">
+                <!--<img src="assets/images/Avatar.png" alt="avatar">-->
+                <a href="#" class="nav-login-btn">Login</a>
             </div>
         </nav>
     </div>
 </header>
+<!-- login -->
+<div class="modal-overlay hidden">
+    <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Đóng">&times;</button>
 
+        <div id="login-form" class="modal-form">
+            <h3>Đăng nhập</h3>
+            <div class="form-group">
+                <label for="login-email">Gmail/SĐT</label>
+                <input type="text" id="login-email" placeholder="Nhập gmail hoặc SĐT của bạn">
+            </div>
+            <div class="form-group">
+                <label for="login-pass">Mật khẩu</label>
+                <input type="password" id="login-pass" placeholder="Nhập mật khẩu">
+            </div>
+            <button class="form-submit-btn">Đăng nhập</button>
+            <div class="form-link-row">
+                <a href="#" class="form-link">Quên mật khẩu?</a>
+                <a href="#" class="form-toggle-link" data-target="signup-email-form">Đăng ký</a>
+            </div>
+        </div>
+
+        <div id="signup-email-form" class="modal-form hidden">
+            <h3>Đăng ký</h3>
+            <div class="form-group">
+                <label for="signup-name-email">Tên</label>
+                <input type="text" id="signup-name-email" placeholder="Nhập tên của bạn">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Gmail</label>
+                <input type="email" id="signup-email" placeholder="Nhập gmail">
+            </div>
+            <div class="form-group">
+                <label for="signup-pass-email">Mật khẩu</label>
+                <input type="password" id="signup-pass-email" placeholder="Nhập mật khẩu">
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-email">Xác nhận lại mật khẩu</label>
+                <input type="password" id="signup-confirm-email" placeholder="Nhập lại mật khẩu">
+            </div>
+            <button class="form-submit-btn">Đăng ký</button>
+            <a href="#" class="form-toggle-link" data-target="signup-phone-form">Đăng ký bằng SĐT</a>
+            <a href="#" class="form-toggle-link" data-target="login-form">Quay lại Đăng nhập</a>
+        </div>
+
+        <div id="signup-phone-form" class="modal-form hidden">
+            <h3>Đăng ký bằng SĐT</h3>
+            <div class="form-group">
+                <label for="signup-name-phone">Tên</label>
+                <input type="text" id="signup-name-phone" placeholder="Nhập tên của bạn">
+            </div>
+            <div class="form-group">
+                <label for="signup-phone">SĐT</label>
+                <input type="tel" id="signup-phone" placeholder="Nhập số điện thoại">
+            </div>
+            <div class="form-group">
+                <label for="signup-pass-phone">Mật khẩu</label>
+                <input type="password" id="signup-pass-phone" placeholder="Nhập mật khẩu">
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-phone">Xác nhận lại mật khẩu</label>
+                <input type="password" id="signup-confirm-phone" placeholder="Nhập lại mật khẩu">
+            </div>
+            <button class="form-submit-btn">Đăng ký</button>
+            <a href="#" class="form-toggle-link" data-target="signup-email-form">Đăng ký bằng Gmail</a>
+            <a href="#" class="form-toggle-link" data-target="login-form">Quay lại Đăng nhập</a>
+        </div>
+
+    </div>
+</div>
 <section class="hero">
     <div class="hero-background">
         <img src="assets/images/Hero%20Header.png" alt="hero header">
@@ -141,6 +212,149 @@
         </div>
     </div>
 </section>
+<section class="content-section">
+    <div class="container">
+        <h2>Travel more, spend less</h2>
+        <div class="promo-grid">
+            <div class="feature-card">
+                <h3>10% discounts on stays</h3>
+                <p>Enjoy discounts at participating properties wordwide crowd</p>
+            </div>
+            <div class="feature-card">
+                <h3>Travel of season</h3>
+                <p>Avoid peak times ans enjoy lower and fever crowds</p>
+            </div>
+            <div class="feature-card">
+                <h3>Exclusive deals</h3>
+                <p>Enjoy discounts at participating properties wordwide</p>
+            </div>
+            <div class="feature-card">
+                <h3>Weekend Special</h3>
+                <p>Enjoy 12% off weekend stays</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content-section" style="background-color: #F9FAFB;">
+    <div class="container">
+        <h2>Top Sights to See</h2>
+        <div class="sights-grid">
+
+            <div class="sight-card span-3">
+                <img src="https://placehold.co/600x400/5B9A62/FFFFFF" alt="Sassnitz">
+                <div class="sight-content">
+                    <h3>Sassnitz 🇫🇮</h3>
+                </div>
+            </div>
+
+            <div class="sight-card span-3">
+                <img src="https://placehold.co/600x400/3A5B57/FFFFFF" alt="Binz">
+                <div class="sight-content">
+                    <h3>Binz 🇻🇳</h3>
+                </div>
+            </div>
+
+            <div class="sight-card span-2">
+                <img src="https://placehold.co/400x600/CBA158/FFFFFF" alt="Sagard">
+                <div class="sight-content">
+                    <h3>Sagard 🇫🇷</h3>
+                </div>
+            </div>
+
+            <div class="sight-card span-2">
+                <img src="https://placehold.co/400x600/574C7A/FFFFFF" alt="Bergen">
+                <div class="sight-content">
+                    <h3>Bergen 🇬🇧</h3>
+                </div>
+            </div>
+
+            <div class="sight-card span-2">
+                <img src="https://placehold.co/400x600/6DA4CC/FFFFFF" alt="Freedom">
+                <div class="sight-content">
+                    <h3>Freedom 🇲🇾</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-main">
+            <div class="footer-col about">
+                <div class="logo">
+                    <img src="assets/images/logo.jpg" alt="logo">
+                </div>
+                <p>We help you find and book the perfect stay from cozy guesthouses to top hotels-with ease, trust, and the best deals.</p>
+                <h3>Download Our App</h3>
+                <div class="app-buttons">
+                    <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=App+Store" alt="App Store"></a>
+                    <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=Google+Play" alt="Google Play"></a>
+                </div>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="#">Trending Destinations</a></li>
+                    <li><a href="#">Summer Hotspots</a></li>
+                    <li><a href="#">Winter Getaways</a></li>
+                    <li><a href="#">Weekend Deals</a></li>
+                    <li><a href="#">Family-Friendly Stays</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Property Types</h3>
+                <ul>
+                    <li><a href="#">Hotels</a></li>
+                    <li><a href="#">Apartments</a></li>
+                    <li><a href="#">Villas</a></li>
+                    <li><a href="#">Cabins</a></li>
+                    <li><a href="#">Glamping</a></li>
+                    <li><a href="#">Domes</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Centre</a></li>
+                    <li><a href="#">Live Chat Support</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col contact">
+                <h3>Get In Touch</h3>
+                <p>+1 (800) 123 456</p>
+                <p>support@tripto.com</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 Tripto. All rights reserved.</p>
+            <div class="payment-icons">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Visa" alt="Visa">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=MC" alt="Mastercard">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=AE" alt="American Express">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Disc" alt="Discover">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=GPay" alt="Google Pay">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=APay" alt="Apple Pay">
+            </div>
+        </div>
+    </div>
+</footer>
 
 </body>
+<script src="assets/js/home_js.js"></script>
 </html>
