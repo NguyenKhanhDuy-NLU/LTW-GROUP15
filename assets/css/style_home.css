@@ -25,11 +25,25 @@ body {
     padding: 0 20px;
 }
 
-h1 {
+h1, h2, h3 {
     color: var(--dark-blue);
     font-weight: 700;
+}
+
+h1 {
     font-size: 3.5rem;
     margin-bottom: 16px;
+}
+
+h2 {
+    font-size: 2.25rem;
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
 }
 
 p {
@@ -38,11 +52,13 @@ p {
 }
 
 .header {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 5px 0;
+    padding: 24px 0;
+    z-index: 10;
     box-sizing: border-box;
-    background-color: var(--background-color);
-    border-bottom: 1px solid var(--border-color);
 }
 
 .navbar {
@@ -52,8 +68,8 @@ p {
 }
 
 .logo img {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 10%;
 }
 
@@ -63,8 +79,8 @@ p {
     gap: 24px;
 }
 .nav-right .language-currency img{
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
@@ -72,25 +88,33 @@ p {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--text-color);
+    color: var(--background-color);
     font-weight: 500;
     cursor: pointer;
+}
+
+.language-currency .flag {
+    width: 24px;
+    height: auto;
+    border-radius: 50%;
 }
 
 .language-currency i {
     font-size: 0.8rem;
 }
 
-.nav-right img[alt="avatar"] {
+
+.profile-pic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    border: 2px solid var(--background-color);
     cursor: pointer;
 }
 
 .hero {
     position: relative;
-    padding: 80px 0 120px 0;
+    padding: 180px 0 120px 0;
     color: var(--background-color);
     overflow: hidden;
 }
@@ -145,23 +169,28 @@ p {
 .search-container {
     max-width: 1000px;
     margin: 0 auto;
+
     position: relative;
 }
 
 .search-tabs {
     display: flex;
     gap: 8px;
+
     margin: 0 auto;
     position: relative;
     z-index: 10;
     margin-bottom: -26px;
+
     max-width: max-content;
     flex-wrap: wrap;
     justify-content: center;
+
+
     background: rgba(40, 40, 40, 0.5);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 50px;
+    border-radius: 50px; /* Bo tròn */
     padding: 8px;
 }
 
@@ -199,6 +228,7 @@ p {
     border-radius: var(--border-radius);
     padding: 16px 8px 16px 24px;
     box-shadow: var(--box-shadow);
+
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 2fr auto;
     gap: 0;
@@ -210,6 +240,7 @@ p {
     display: flex;
     flex-direction: column;
     padding: 8px 16px;
+
     border-right: 1px solid var(--border-color);
 }
 
@@ -225,6 +256,7 @@ p {
     margin-bottom: 8px;
 }
 
+/* Ô Input */
 .form-group input {
     border: none;
     border-radius: 0;
@@ -248,6 +280,7 @@ p {
     border: none;
 }
 
+/* Nút Search */
 .search-btn {
     background-color: var(--primary-color);
     color: var(--background-color);
@@ -270,6 +303,148 @@ p {
 .search-btn:hover {
     background-color: #0048CC;
 }
+
+
+
+.features {
+    padding: 20px 0;
+    background-color: var(--background-color);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    text-align: center;
+    position: relative;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    background-color: #E6F0FF;
+}
+
+.icon-wrapper i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.feature-item p {
+    max-width: 300px;
+}
+
+
+.features-grid::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    border-top: 2px dashed var(--border-color);
+    z-index: 1;
+}
+
+
+.destinations {
+    padding: 20px 0;
+    background-color: #F9FAFB;
+}
+
+.destination-filters {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn i {
+    margin-right: 8px;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background-color: var(--dark-blue);
+    color: var(--background-color);
+    border-color: var(--dark-blue);
+}
+
+.destination-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.destination-card {
+    background: var(--background-color);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.destination-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.destination-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content h3 {
+    margin-bottom: 4px;
+}
+
+.price {
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.price span {
+    color: var(--dark-blue);
+    font-weight: 700;
+}
+
+.description {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
 
 @media (max-width: 1024px) {
 
@@ -295,6 +470,10 @@ p {
         justify-content: center;
         margin: 16px 0 0 0;
     }
+
+    .destination-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
@@ -302,11 +481,12 @@ p {
         font-size: 2.5rem;
     }
     .hero {
-        padding: 60px 0 80px 0;
+        padding: 140px 0 80px 0;
     }
 
     .search-tabs {
         border-radius: 20px;
+
         margin-bottom: -22px;
     }
 
@@ -314,8 +494,10 @@ p {
         grid-template-columns: 1fr;
         gap: 20px;
         padding: 24px;
+
         padding-top: 48px;
     }
+
 
     .search-form .form-group:nth-of-type(1),
     .search-form .form-group:nth-of-type(4) {
@@ -324,6 +506,22 @@ p {
 
     .search-btn {
         grid-column: auto;
+    }
+
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .features-grid::before {
+        display: none;
+    }
+    .destination-filters {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .destination-grid {
+        grid-template-columns: 1fr;
     }
 }
 
