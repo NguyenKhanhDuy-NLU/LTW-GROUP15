@@ -23,12 +23,12 @@
       </div>
       <div class="header-center">
         <div class="search-bar">
-          <input id="q" placeholder="Hotel name or province?" />
+          <input id="q" placeholder="Nơi bạn muốn đến?" />
           <input id="dateRange" placeholder="Select date range" readonly />
 
           <div class="guest-input" aria-label="Guests">
             <button id="minusGuest" class="guest-btn" aria-label="Decrease guests">−</button>
-            <div id="guests" class="guest-display" aria-live="polite">2 guests</div>
+            <div id="guests" class="guest-display" aria-live="polite">1 guests</div>
             <button id="plusGuest" class="guest-btn" aria-label="Increase guests">+</button>
           </div>
 
@@ -81,7 +81,7 @@
     </aside>
     <section class="grid-container">
   <div class="layout">
-    <div class="map-icon" onclick="window.location.href='map.html'">
+    <div class="map-icon" onclick="window.location.href='search.html'">
     <i class="fa-solid fa-location-dot"></i>
     <p>Hiển thị trên bản đồ</p>
     </div>
@@ -3847,7 +3847,82 @@ data-amenities="Wi-Fi,Pool,Free breakfast,Spa">
 
 </section>
   </main>
-  <footer class="site-footer">© 2025 Tripto — Prototype</footer>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-main">
+            <div class="footer-col about">
+                <div class="logo">
+                    <img src="assets/images/logo.jpg" alt="Tripto Logo">
+                </div>
+                <p>We help you find and book the perfect stay from cozy guesthouses to top hotels — with ease, trust, and the best deals.</p>
+                <h3>Download Our App</h3>
+                <div class="app-buttons">
+                    <a href="#"><img src="https://placehold.co/135x40/1A1A1A/FFFFFF?text=App+Store&font=roboto" alt="App Store"></a>
+                    <a href="#"><img src="https://placehold.co/135x40/1A1A1A/FFFFFF?text=Google+Play&font=roboto" alt="Google Play"></a>
+                </div>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="#">Trending Destinations</a></li>
+                    <li><a href="#">Summer Hotspots</a></li>
+                    <li><a href="#">Winter Getaways</a></li>
+                    <li><a href="#">Weekend Deals</a></li>
+                    <li><a href="#">Family-Friendly Stays</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Property Types</h3>
+                <ul>
+                    <li><a href="#">Hotels</a></li>
+                    <li><a href="#">Apartments</a></li>
+                    <li><a href="#">Villas</a></li>
+                    <li><a href="#">Cabins</a></li>
+                    <li><a href="#">Glamping</a></li>
+                    <li><a href="#">Domes</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Centre</a></li>
+                    <li><a href="#">Live Chat Support</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col contact">
+                <h3>Get In Touch</h3>
+                <p>+1 (800) 123 456</p>
+                <p>support@tripto.com</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 Tripto. All rights reserved.</p>
+            <div class="payment-icons">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Visa" alt="Visa">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=MC" alt="Mastercard">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=AE" alt="American Express">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Disc" alt="Discover">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=GPay" alt="Google Pay">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=APay" alt="Apple Pay">
+            </div>
+        </div>
+    </div>
+</footer>
   <script src="search.js"></script>
 </body>
 </html>
