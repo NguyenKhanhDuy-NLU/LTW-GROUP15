@@ -1,0 +1,350 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f9f9fb;
+    color: #333;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+/* HEADER */
+.header {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.language-currency {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+}
+
+.language-currency img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #eee;
+}
+
+/* TIÊU ĐỀ KHÁCH SẠN */
+.hotel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0 10px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+.hotel-info h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.hotel-sub {
+    color: #555;
+    font-size: 15px;
+}
+
+.hotel-sub .stars {
+    color: #ffb400;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.hotel-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-btn {
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.icon-btn:hover {
+    background: #f1f1f1;
+}
+
+/* GALLERY */
+.gallery {
+    display: flex;
+    gap: 10px;
+    margin: 20px auto;
+    max-width: 1100px;
+}
+
+.gallery-main {
+    flex: 2;
+}
+
+.gallery-side {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.gallery-main img,
+.gallery-side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.gallery-main img:hover,
+.gallery-side img:hover {
+    transform: scale(1.03);
+}
+
+/* BUTTON */
+.btn {
+    padding: 8px 16px;
+    background: #00bfa5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #009e8a;
+}
+
+/* GIỚI THIỆU */
+.description {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-top: 10px;
+    padding: 20px;
+}
+
+.description h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.description p {
+    line-height: 1.6;
+}
+
+/* TIỆN NGHI */
+.amenities {
+    background: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+.amenities h2 {
+    margin-bottom: 10px;
+}
+
+.amenities ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    line-height: 1.8;
+}
+
+.amenities li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #444;
+}
+
+/* VỊ TRÍ */
+.location {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.location h2 {
+    margin-bottom: 10px;
+}
+
+.location-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+/* PHÒNG */
+.rooms {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.room {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    gap: 20px;
+}
+
+.room:last-child {
+    border-bottom: none;
+}
+
+.room img {
+    width: 250px;
+    height: 180px;
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.room img:hover {
+    transform: scale(1.05);
+}
+
+.room-info {
+    flex: 1;
+}
+
+.room-info .price {
+    font-size: 18px;
+    color: #009e8a;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ĐÁNH GIÁ */
+.reviews {
+    background: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+.review {
+    background: #fdfdfd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.review span {
+    display: block;
+    margin-top: 8px;
+    color: #555;
+}
+
+/* KHÁCH SẠN TƯƠNG TỰ */
+.similar {
+    background: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+.similar-list {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.similar-item {
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    width: 30%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.similar-item:hover {
+    transform: translateY(-5px);
+}
+
+.similar-item img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+/* CHÍNH SÁCH */
+.policy {
+    background: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.policy ul {
+    list-style: none;
+    line-height: 1.8;
+}
+
+/* FOOTER */
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 14px;
+}
