@@ -10,9 +10,7 @@ body {
   color: #333;
 }
 
-/* 
-   HEADER 
-*/
+
 header {
   display: flex;
   align-items: center;
@@ -34,7 +32,7 @@ header {
   gap: 20px;
 }
 
-/* --- Logo bên trái --- */
+
 .header-left img {
   height: 40px;
   cursor: pointer;
@@ -44,16 +42,14 @@ header {
   transform: scale(1.05);
 }
 
-/* --- header center --- */
+
 .header-center {
   flex: 1;
   display: flex;
   justify-content: center;
 }
 
-/*
-   SEARCH BAR
-*/
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -85,7 +81,7 @@ header {
   background: #f4f7fb;
 }
 
-/* --- số khách --- */
+
 .guest-input {
   display: flex;
   align-items: center;
@@ -114,7 +110,7 @@ header {
   text-align: center;
 }
 
-/* --- nút tìm kiếm --- */
+
 .search-btn {
   background: #0071eb;
   border: none;
@@ -132,9 +128,7 @@ header {
   background: #005bb8;
 }
 
-/*
-   HEADER PHẢI
-*/
+
 .header-right {
   display: flex;
   align-items: center;
@@ -172,10 +166,8 @@ header {
   transform: scale(1.08);
   box-shadow: 0 0 0 2px #0071eb33;
 }
+ 
 
-/*
-   MAIN
-*/
 .main-container {
   display: flex;
   max-width: 1200px;
@@ -184,7 +176,7 @@ header {
   padding: 0 12px;
 }
 
-/* --- Thanh chính bên trái --- */
+
 .main-left {
   width: 260px;
   background: #fff;
@@ -198,9 +190,7 @@ header {
   color: #0466cf;
 }
 
-/*
- CÁC LOẠI FILTERS
- */
+
 .filters { margin-bottom: 14px; }
 .filters h4 {
   margin: 0 0 8px 0;
@@ -215,7 +205,7 @@ header {
   gap: 6px;
 }
 
-/* --- ngân sách --- */
+
 .budget-container {
   padding: 12px;
   border: 1px solid #ccc;
@@ -235,7 +225,7 @@ header {
   color: #333;
 }
 
-/* --- Thanh trượt --- */
+
 .slider-container {
   position: relative;
   height: 30px;
@@ -271,9 +261,7 @@ header {
   box-shadow: 0 0 4px rgba(0,0,0,0.2);
 }
 
-/* 
-   KHU VỰC HIỂN THỊ KHÁCH SẠN LIST/GRID
- */
+
 .grid-container {
   display: flex;
   flex: 1;
@@ -281,7 +269,7 @@ header {
   gap: 14px;
 }
 
-/* --- thanh chứa nút chuyển list/grid --- */
+
 .grid-container .layout {
   display: flex;
   justify-content: space-between;
@@ -296,7 +284,7 @@ header {
   color: #0466cf;
 }
 
-/* --- Nút chuyển chế độ list/grid --- */
+
 .view-toggle {
   display: flex;
   border: 1px solid #0071eb;
@@ -320,7 +308,7 @@ header {
   background: #e6f0ff;
 }
 
-/* --- Bản đồ --- */
+
 .map-icon {
   display: flex;
   flex-direction: column;
@@ -353,7 +341,7 @@ header {
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* --- Grid / List mode --- */
+
 #grid {
   width: 100%;
   display: grid;
@@ -384,10 +372,8 @@ header {
 #grid.grid-mode .card-list { 
   display: none; 
 }
+ 
 
-/*
-   CARD HIỂN THỊ KHÁCH SẠN
- */
 .card {
   background: #fff;
   border: 1px solid #e6e6e6;
@@ -405,7 +391,7 @@ header {
   z-index: 5;
 }
 
-/* --- dạng list --- */
+
 .card-list .card-imgg {
   width: 220px;
   height: 140px;
@@ -456,7 +442,7 @@ header {
   gap: 12px;
 }
 
-/* --- card chứa giá & đánh giá) --- */
+
 .card-right-list, .card-right-grid {
   align-items: flex-end;
   gap: 10px;
@@ -468,38 +454,7 @@ header {
   width: 250px; 
 }
 
-/* --- đánh giá --- */
-.rating-box {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-.rating-text { 
-  text-align: right; 
-}
-.rating-title {
-  font-weight: 600;
-  font-size: 14px;
-  color: #000;
-}
-.rating-count {
-  font-size: 12px;
-  color: #666;
-}
-.rating-score {
-  background-color: #003580;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  min-width: 32px;
-  text-align: center;
-}
 
-/* --- dạng grid --- */
 .card-grid {
   border-radius: 14px;
   overflow: hidden;
@@ -557,7 +512,6 @@ header {
   align-items: flex-end;
   gap: 10px;
   font-family: "Segoe UI", Arial, sans-serif;
-  margin-top: 40px;
 }
 .price { 
   color: #0466cf; 
