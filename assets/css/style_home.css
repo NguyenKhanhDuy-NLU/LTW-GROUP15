@@ -391,6 +391,12 @@ p {
     gap: 24px;
 }
 
+.destination-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .destination-card {
     background: var(--background-color);
     border-radius: var(--card-border-radius);
@@ -399,7 +405,7 @@ p {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.destination-card:hover {
+.destination-card-link:hover .destination-card {
     transform: translateY(-5px);
     box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.1);
 }
@@ -445,7 +451,7 @@ p {
     color: var(--dark-blue);
     font-weight: 700;
     margin-bottom: 32px;
-    text-align: left;
+    text-align: center;
 }
 
 .promo-grid {
@@ -455,7 +461,7 @@ p {
 }
 
 .feature-card {
-    background: var(--background-color);
+    background: #F4F8FF;
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 24px;
@@ -466,6 +472,7 @@ p {
 .feature-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--box-shadow);
+    border-color: var(--primary-color);
 }
 
 .feature-card h3 {
@@ -485,8 +492,14 @@ p {
 
 .sights-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     gap: 24px;
+}
+
+.sight-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
 .sight-card {
@@ -495,21 +508,22 @@ p {
     overflow: hidden;
     box-shadow: var(--box-shadow);
     transition: all 0.3s ease;
+    height: 100%;
 }
 
-.sight-card:hover {
+.sight-card-link:hover .sight-card {
     transform: translateY(-5px);
     box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.1);
 }
 
-.sight-card.span-3 {
+.sight-card-link.span-3 {
     grid-column: span 3;
-    height: 280px;
+    height: 300px;
 }
 
-.sight-card.span-2 {
+.sight-card-link.span-2 {
     grid-column: span 2;
-    height: 320px;
+    height: 300px;
 }
 
 .sight-card img {
@@ -520,7 +534,7 @@ p {
     transition: transform 0.4s ease;
 }
 
-.sight-card:hover img {
+.sight-card-link:hover .sight-card img {
     transform: scale(1.05);
 }
 
@@ -854,9 +868,10 @@ p {
         grid-template-columns: 1fr 1fr;
     }
 
-    .sight-card.span-3,
-    .sight-card.span-2 {
+    .sight-card-link.span-3,
+    .sight-card-link.span-2 {
         grid-column: span 1;
+        height: 280px;
     }
 
     .footer-main {
@@ -932,8 +947,8 @@ p {
         grid-template-columns: 1fr;
     }
 
-    .sight-card.span-3,
-    .sight-card.span-2 {
+    .sight-card-link.span-3,
+    .sight-card-link.span-2 {
         grid-column: span 1;
         height: 250px;
     }

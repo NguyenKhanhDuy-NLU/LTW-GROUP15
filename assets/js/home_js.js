@@ -7,22 +7,20 @@ const allForms = document.querySelectorAll('.modal-form');
 loginButton.addEventListener('click', function(event) {
     event.preventDefault();
     modalOverlay.classList.remove('hidden');
-
     showForm('login-form');
 });
 
 modalCloseBtn.addEventListener('click', function() {
     modalOverlay.classList.add('hidden');
 });
-modalOverlay.addEventListener('click', function(event) {
 
+modalOverlay.addEventListener('click', function(event) {
     if (event.target === modalOverlay) {
         modalOverlay.classList.add('hidden');
     }
 });
 
 function showForm(formId) {
-
     allForms.forEach(form => {
         form.classList.add('hidden');
     });
@@ -32,6 +30,7 @@ function showForm(formId) {
         formToShow.classList.remove('hidden');
     }
 }
+
 toggleLinks.forEach(link => {
     link.addEventListener('click', function(event) {
         event.preventDefault();
@@ -39,3 +38,22 @@ toggleLinks.forEach(link => {
         showForm(targetFormId);
     });
 });
+
+function setupActiveToggle(buttonSelector) {
+    const allButtons = document.querySelectorAll(buttonSelector);
+
+    allButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            allButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            this.classList.add('active');
+        });
+    });
+}
+
+setupActiveToggle('.search-tabs .tab-btn');
+setupActiveToggle('.destination-filters .filter-btn');
