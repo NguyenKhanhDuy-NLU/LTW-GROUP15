@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tripto - Đặt phòng khách sạn</title>
     <link rel="stylesheet" href="assets/css/style_home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/all.min.css">
 </head>
 <body>
 
@@ -12,7 +12,7 @@
     <div class="container">
         <nav class="navbar">
             <div class="logo">
-                <img src="assets/images/logo.jpg" alt="logo">
+                <img src="assets/images/logo.jpg" alt="logo Tripto">
             </div>
             <div class="nav-right">
                 <div class="language-currency">
@@ -20,13 +20,11 @@
                     <span>VND</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
-                <!--<img src="assets/images/Avatar.png" alt="avatar">-->
-                <a href="#" class="nav-login-btn">Login</a>
+                <a href="#" class="nav-login-btn">Đăng nhập</a>
             </div>
         </nav>
     </div>
 </header>
-<!-- login -->
 <div class="modal-overlay hidden">
     <div class="modal-content">
         <button class="modal-close-btn" aria-label="Đóng">&times;</button>
@@ -98,70 +96,70 @@
 </div>
 <section class="hero">
     <div class="hero-background">
-        <img src="assets/images/Hero%20Header.png" alt="hero header">
+        <img src="assets/images/Hero%20Header.png" alt="ảnh bìa chính">
     </div>
     <div class="container hero-content">
-        <h1>Your Trip Starts Here</h1>
-        <p>Find unique stays across hotels, villas, and more.</p>
+        <h1>Chuyến Đi Của Bạn Bắt Đầu Từ Đây</h1>
+        <p>Tìm kiếm chỗ ở độc đáo từ khách sạn, biệt thự, và hơn thế nữa.</p>
 
         <div class="search-container">
             <div class="search-tabs">
-                <button class="tab-btn active"><i class="fas fa-hotel"></i> Hotel</button>
-                <button class="tab-btn"><i class="fas fa-home"></i> House</button>
-                <button class="tab-btn"><i class="fas fa-user-friends"></i> Guest House</button>
-                <button class="tab-btn"><i class="fas fa-campground"></i> Cabins</button>
-                <button class="tab-btn"><i class="fas fa-tent"></i> Glamping</button>
-                <button class="tab-btn"><i class="fas fa-water"></i> Dams</button>
+                <button class="tab-btn active"><i class="fas fa-hotel"></i> Khách sạn</button>
+                <button class="tab-btn"><i class="fas fa-home"></i> Căn hộ</button>
+                <button class="tab-btn"><i class="fas fa-user-friends"></i> Nhà khách</button>
+                <button class="tab-btn"><i class="fas fa-campground"></i> Cabin</button>
+                <button class="tab-btn"><i class="fas fa-tent"></i> Cắm trại</button>
+                <button class="tab-btn"><i class="fas fa-water"></i> Resort</button>
             </div>
 
-            <div class="search-form">
+            <form class="search-form" action="search.html" method="GET">
 
                 <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" id="location" placeholder="Where are you going?">
+                    <label for="location">Địa điểm</label>
+                    <input type="text" id="location" name="location" placeholder="Bạn muốn đến đâu?">
                 </div>
                 <div class="form-group">
-                    <label for="checkin">Check In</label>
-                    <input type="text" id="checkin" placeholder="Add Dates">
+                    <label for="checkin">Ngày nhận</label>
+                    <input type="text" id="checkin" name="checkin" placeholder="Thêm ngày">
                 </div>
                 <div class="form-group">
-                    <label for="checkout">Check Out</label>
-                    <input type="text" id="checkout" placeholder="Add Dates">
+                    <label for="checkout">Ngày trả</label>
+                    <input type="text" id="checkout" name="checkout" placeholder="Thêm ngày">
                 </div>
                 <div class="form-group">
-                    <label for="guests">Rooms and Guests</label>
-                    <input type="text" id="guests" placeholder="1 rooms, 1 adults, 2 children">
+                    <label for="guests">Phòng và khách</label>
+                    <input type="text" id="guests" name="guests" placeholder="1 phòng, 1 người lớn, 2 trẻ em">
                 </div>
-                <button class="search-btn"><i class="fas fa-search"></i> Search</button>
-            </div>
+                <button type="submit" class="search-btn"><i class="fas fa-search"></i> Tìm kiếm</button>
+            </form>
         </div>
     </div>
 </section>
 
 <section class="features">
     <div class="container">
-        <h2>Why Travellers Trust Tripto</h2>
+        <h2>Vì Sao Khách Hàng Tin Tưởng Tripto</h2>
         <div class="features-grid">
             <div class="feature-item">
                 <div class="icon-wrapper blue">
                     <i class="fas fa-dollar-sign"></i>
                 </div>
-                <h3>No hidden fees</h3>
-                <p>Transparent pricing with no hidden fees.</p>
+                <h3>Không có phí ẩn</h3>
+                <p>Giá cả minh bạch, không có chi phí ẩn.</p>
             </div>
             <div class="feature-item">
                 <div class="icon-wrapper blue">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h3>Instant booking</h3>
-                <p>Get confirmation right after you reserve.</p>
+                <h3>Đặt phòng tức thì</h3>
+                <p>Nhận xác nhận ngay sau khi bạn đặt.</p>
             </div>
             <div class="feature-item">
                 <div class="icon-wrapper blue">
                     <i class="fas fa-file-alt"></i>
                 </div>
-                <h3>Flexibility</h3>
-                <p>Flexible options with free cancellation on many listings.</p>
+                <h3>Linh hoạt</h3>
+                <p>Nhiều lựa chọn linh hoạt với chính sách hủy phòng miễn phí.</p>
             </div>
         </div>
     </div>
@@ -169,111 +167,133 @@
 
 <section class="destinations">
     <div class="container">
-        <h2>Trending Destinations</h2>
+        <h2>Các Điểm Đến Nổi Bật</h2>
         <div class="destination-filters">
-            <button class="filter-btn active"><i class="fas fa-leaf"></i> Spring Picks</button>
-            <button class="filter-btn"><i class="fas fa-sun"></i> Summer Hotspot</button>
-            <button class="filter-btn"><i class="fas fa-canadian-maple-leaf"></i> Autumn Escape</button>
-            <button class="filter-btn"><i class="fas fa-snowflake"></i> Winter Getaway</button>
+            <button class="filter-btn active"><i class="fas fa-leaf"></i> Lựa chọn mùa xuân</button>
+            <button class="filter-btn"><i class="fas fa-sun"></i> Điểm nóng mùa hè</button>
+            <button class="filter-btn"><i class="fas fa-canadian-maple-leaf"></i> Khám phá mùa thu</button>
+            <button class="filter-btn"><i class="fas fa-snowflake"></i> Chốn nghỉ mùa đông</button>
         </div>
         <div class="destination-grid">
-            <div class="destination-card">
-                <img src="https://images.unsplash.com/photo-1502602898657-3e91760c0341?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDEwfHxwYXJpc3xlbnwwfHx8fDE3MzAwMzg5OTV8MA&ixlib=rb-4.0.3&q=80&w=400" alt="Paris, France">
-                <div class="card-content">
-                    <h3>Paris, France</h3>
-                    <p class="price">From <span>$150/night</span></p>
-                    <p class="description">Romantic escapes, art, and cafes.</p>
+
+            <a href="product-detail.html" class="destination-card-link">
+                <div class="destination-card">
+                    <img src="assets/images/img1.png" alt="Paris, Pháp">
+                    <div class="card-content">
+                        <h3>Paris, Pháp</h3>
+                        <p class="price">Từ <span>$150/đêm</span></p>
+                        <p class="description">Lãng mạn, nghệ thuật, và cà phê.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="destination-card">
-                <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDN8fHNhbnRvcmluaSUyMGdyZWVjZXxlbnwwfHx8fDE3MzAwMzkxNDJ8MA&ixlib=rb-4.0.3&q=80&w=400" alt="Santorini, Greece">
-                <div class="card-content">
-                    <h3>Santorini, Greece</h3>
-                    <p class="price">From <span>$225/night</span></p>
-                    <p class="description">Ocean views, sea, and serenity.</p>
+            </a>
+
+            <a href="product-detail.html" class="destination-card-link">
+                <div class="destination-card">
+                    <img src="assets/images/img2.png" alt="Santorini, Hy Lạp">
+                    <div class="card-content">
+                        <h3>Santorini, Hy Lạp</h3>
+                        <p class="price">Từ <span>$225/đêm</span></p>
+                        <p class="description">Tầm nhìn ra biển, đại dương, và sự yên bình.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="destination-card">
-                <img src="https://images.unsplash.com/photo-1506747776200-b82522eb797f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDF8fGJhbGklMjBpbmRvbmVzaWF8ZW58MHx8fHwxNzMwMDM5MTc1fDA&ixlib=rb-4.0.3&q=80&w=400" alt="Bali, Indonesia">
-                <div class="card-content">
-                    <h3>Bali, Indonesia</h3>
-                    <p class="price">From <span>$80/night</span></p>
-                    <p class="description">Villas, nature, and calm vibes.</p>
+            </a>
+
+            <a href="product-detail.html" class="destination-card-link">
+                <div class="destination-card">
+                    <img src="assets/images/img3.png" alt="Bali, Indonesia">
+                    <div class="card-content">
+                        <h3>Bali, Indonesia</h3>
+                        <p class="price">Từ <span>$80/đêm</span></p>
+                        <p class="description">Biệt thự, thiên nhiên, và không khí an nhiên.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="destination-card">
-                <img src="https://images.unsplash.com/photo-1540998145393-e9e591737f46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTAwNXwwfDF8c2VhcmNofDEwfHxreW90byUyMGphcGFufGVufDBfHx8fDE3MzAwMzkyMDM3ww&ixlib=rb-4.0.3&q=80&w=400" alt="Kyoto, Japan">
-                <div class="card-content">
-                    <h3>Kyoto, Japan</h3>
-                    <p class="price">From <span>$190/night</span></p>
-                    <p class="description">Cherry blossoms and temples.</p>
+            </a>
+
+            <a href="product-detail.html" class="destination-card-link">
+                <div class="destination-card">
+                    <img src="assets/images/img4.png" alt="Kyoto, Nhật Bản">
+                    <div class="card-content">
+                        <h3>Kyoto, Nhật Bản</h3>
+                        <p class="price">Từ <span>$190/đêm</span></p>
+                        <p class="description">Hoa anh đào và những ngôi đền.</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </section>
 <section class="content-section">
     <div class="container">
-        <h2>Travel more, spend less</h2>
+        <h2>Du lịch nhiều hơn, chi tiêu ít hơn</h2>
         <div class="promo-grid">
             <div class="feature-card">
-                <h3>10% discounts on stays</h3>
-                <p>Enjoy discounts at participating properties wordwide crowd</p>
+                <h3>Giảm giá 10% khi lưu trú</h3>
+                <p>Tận hưởng giảm giá tại các cơ sở lưu trú tham gia trên toàn thế giới.</p>
             </div>
             <div class="feature-card">
-                <h3>Travel of season</h3>
-                <p>Avoid peak times ans enjoy lower and fever crowds</p>
+                <h3>Du lịch trái mùa</h3>
+                <p>Tránh giờ cao điểm và tận hưởng mức giá thấp hơn, ít đông đúc hơn.</p>
             </div>
             <div class="feature-card">
-                <h3>Exclusive deals</h3>
-                <p>Enjoy discounts at participating properties wordwide</p>
+                <h3>Ưu đãi độc quyền</h3>
+                <p>Tận hưởng giảm giá tại các cơ sở lưu trú tham gia trên toàn thế giới.</p>
             </div>
             <div class="feature-card">
-                <h3>Weekend Special</h3>
-                <p>Enjoy 12% off weekend stays</p>
+                <h3>Đặc biệt cuối tuần</h3>
+                <p>Tận hưởng giảm giá 12% cho các kỳ nghỉ cuối tuần.</p>
             </div>
         </div>
     </div>
 </section>
 <section class="content-section" style="background-color: #F9FAFB;">
     <div class="container">
-        <h2>Top Sights to See</h2>
+        <h2>Những Điểm Tham Quan Hàng Đầu</h2>
         <div class="sights-grid">
 
-            <div class="sight-card span-3">
-                <img src="https://placehold.co/600x400/5B9A62/FFFFFF" alt="Sassnitz">
-                <div class="sight-content">
-                    <h3>Sassnitz 🇫🇮</h3>
+            <a href="product-detail.html" class="sight-card-link span-3">
+                <div class="sight-card">
+                    <img src="assets/images/img5.png" alt="Vịnh Hạ Long, Việt Nam">
+                    <div class="sight-content">
+                        <h3>Vịnh Hạ Long 🇻🇳</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="sight-card span-3">
-                <img src="https://placehold.co/600x400/3A5B57/FFFFFF" alt="Binz">
-                <div class="sight-content">
-                    <h3>Binz 🇻🇳</h3>
+            <a href="product-detail.html" class="sight-card-link span-3">
+                <div class="sight-card">
+                    <img src="assets/images/img6.png" alt="Phú Quốc, Việt Nam">
+                    <div class="sight-content">
+                        <h3>Phú Quốc 🇻🇳</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="sight-card span-2">
-                <img src="https://placehold.co/400x600/CBA158/FFFFFF" alt="Sagard">
-                <div class="sight-content">
-                    <h3>Sagard 🇫🇷</h3>
+            <a href="product-detail.html" class="sight-card-link span-2">
+                <div class="sight-card">
+                    <img src="assets/images/img7.png" alt="Hội An, Việt Nam">
+                    <div class="sight-content">
+                        <h3>Hội An 🇻🇳</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="sight-card span-2">
-                <img src="https://placehold.co/400x600/574C7A/FFFFFF" alt="Bergen">
-                <div class="sight-content">
-                    <h3>Bergen 🇬🇧</h3>
+            <a href="product-detail.html" class="sight-card-link span-2">
+                <div class="sight-card">
+                    <img src="assets/images/img8.png" alt="Sapa, Việt Nam">
+                    <div class="sight-content">
+                        <h3>Sapa 🇻🇳</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="sight-card span-2">
-                <img src="https://placehold.co/400x600/6DA4CC/FFFFFF" alt="Freedom">
-                <div class="sight-content">
-                    <h3>Freedom 🇲🇾</h3>
+            <a href="product-detail.html" class="sight-card-link span-2">
+                <div class="sight-card">
+                    <img src="assets/images/img9.png" alt="Đà Lạt, Việt Nam">
+                    <div class="sight-content">
+                        <h3>Đà Lạt 🇻🇳</h3>
+                    </div>
                 </div>
-            </div>
+            </a>
 
         </div>
     </div>
@@ -285,8 +305,8 @@
                 <div class="logo">
                     <img src="assets/images/logo.jpg" alt="logo">
                 </div>
-                <p>We help you find and book the perfect stay from cozy guesthouses to top hotels-with ease, trust, and the best deals.</p>
-                <h3>Download Our App</h3>
+                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo - từ nhà khách ấm cúng đến khách sạn hàng đầu - một cách dễ dàng, tin cậy với ưu đãi tốt nhất.</p>
+                <h3>Tải Ứng Dụng Của Chúng Tôi</h3>
                 <div class="app-buttons">
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=App+Store" alt="App Store"></a>
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=Google+Play" alt="Google Play"></a>
@@ -294,40 +314,40 @@
             </div>
 
             <div class="footer-col links">
-                <h3>Explore</h3>
+                <h3>Khám phá</h3>
                 <ul>
-                    <li><a href="#">Trending Destinations</a></li>
-                    <li><a href="#">Summer Hotspots</a></li>
-                    <li><a href="#">Winter Getaways</a></li>
-                    <li><a href="#">Weekend Deals</a></li>
-                    <li><a href="#">Family-Friendly Stays</a></li>
+                    <li><a href="#">Điểm đến nổi bật</a></li>
+                    <li><a href="#">Điểm nóng mùa hè</a></li>
+                    <li><a href="#">Chốn nghỉ mùa đông</a></li>
+                    <li><a href="#">Ưu đãi cuối tuần</a></li>
+                    <li><a href="#">Chỗ ở cho gia đình</a></li>
                 </ul>
             </div>
 
             <div class="footer-col links">
-                <h3>Property Types</h3>
+                <h3>Loại hình chỗ ở</h3>
                 <ul>
-                    <li><a href="#">Hotels</a></li>
-                    <li><a href="#">Apartments</a></li>
-                    <li><a href="#">Villas</a></li>
-                    <li><a href="#">Cabins</a></li>
-                    <li><a href="#">Glamping</a></li>
-                    <li><a href="#">Domes</a></li>
+                    <li><a href="#">Khách sạn</a></li>
+                    <li><a href="#">Căn hộ</a></li>
+                    <li><a href="#">Biệt thự</a></li>
+                    <li><a href="#">Cabin</a></li>
+                    <li><a href="#">Cắm trại cao cấp</a></li>
+                    <li><a href="#">Nhà vòm</a></li>
                 </ul>
             </div>
 
             <div class="footer-col links">
-                <h3>Support</h3>
+                <h3>Hỗ trợ</h3>
                 <ul>
-                    <li><a href="#">Help Centre</a></li>
-                    <li><a href="#">Live Chat Support</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Hỗ trợ trò chuyện trực tiếp</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Liên hệ</a></li>
                 </ul>
             </div>
 
             <div class="footer-col contact">
-                <h3>Get In Touch</h3>
+                <h3>Liên lạc</h3>
                 <p>+1 (800) 123 456</p>
                 <p>support@tripto.com</p>
                 <div class="social-icons">
@@ -342,7 +362,7 @@
         <hr class="footer-divider">
 
         <div class="footer-bottom">
-            <p class="copyright">© 2025 Tripto. All rights reserved.</p>
+            <p class="copyright">© 2025 Tripto. Đã đăng ký bản quyền.</p>
             <div class="payment-icons">
                 <img src="https://placehold.co/40x25/FFFFFF/000000?text=Visa" alt="Visa">
                 <img src="https://placehold.co/40x25/FFFFFF/000000?text=MC" alt="Mastercard">
