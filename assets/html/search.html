@@ -4,11 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Search</title>
-  <link rel="stylesheet" href="search.css">
-
- 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
-  <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script>
+  <link rel="stylesheet" href="assets/css/search.css">
   <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -19,16 +15,17 @@
   <header >
     <div class="header">
       <div class="header-left">
-        <img src="assets/images/logo.png" alt="Tripto" class="logo">
-      </div>
+  <img src="assets/images/logo.png" alt="Tripto" class="logo" onclick="window.location.href='index.html'">
+</div>
+
       <div class="header-center">
         <div class="search-bar">
           <input id="q" placeholder="Nơi bạn muốn đến?" />
-          <input id="dateRange" placeholder="Select date range" readonly />
+          <input id="dateRange" placeholder="Nhập ngày" />
 
           <div class="guest-input" aria-label="Guests">
             <button id="minusGuest" class="guest-btn" aria-label="Decrease guests">−</button>
-            <div id="guests" class="guest-display" aria-live="polite">1 guests</div>
+            <div id="guests" class="guest-display" aria-live="polite">2 Khách</div>
             <button id="plusGuest" class="guest-btn" aria-label="Increase guests">+</button>
           </div>
 
@@ -39,9 +36,8 @@
         <div class="country">
          <img src="https://flagcdn.com/w20/vn.png" alt="VN"> VND
         </div>
-        <div class="support">💬 Support</div>
         <div class="user">
-          <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="user">
+          <img src="https://ui-avatars.com/api/?name=D&background=4285F4&color=fff&size=128" alt="user">
         </div>
       </div>
     </div>
@@ -107,7 +103,8 @@
  data-rate="5" 
  data-price="2500000" 
  data-discount="40" 
- data-amenities="Wi-Fi,Pool,Free breakfast">
+ data-amenities="Wi-Fi,Pool,Free breakfast"
+ onclick="window.location.href='assets/html/hotel-detail1.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img1.png" alt=""></div>
     <div class="card-info">
@@ -136,7 +133,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="2500000" 
 data-discount="10" 
-data-amenities="Wi-Fi,Pool,Free breakfast">
+data-amenities="Wi-Fi,Pool,Free breakfast"
+onclick="window.location.href='assets/html/hotel-detail1.html'">
   <div class="card-imgg"><img src="assets/images/img1.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -167,7 +165,8 @@ data-amenities="Wi-Fi,Pool,Free breakfast">
  data-rate="5" 
  data-price="14500000" 
  data-discount="0" 
- data-amenities="Wi-Fi,Pool,Parking">
+ data-amenities="Wi-Fi,Pool,Parking"
+ onclick="window.location.href='assets/html/hotel-detail2.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img2.png" alt=""></div>
     <div class="card-info">
@@ -196,7 +195,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="14500000" 
 data-discount="0" 
-data-amenities="Wi-Fi,Pool,Parking">
+data-amenities="Wi-Fi,Pool,Parking"
+onclick="window.location.href='assets/html/hotel-detail2.html'">
   <div class="card-imgg"><img src="assets/images/img2.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -226,7 +226,8 @@ data-amenities="Wi-Fi,Pool,Parking">
  data-rate="5" 
  data-price="20000000" 
  data-discount="0" 
- data-amenities="Wi-Fi,Pool,Gym">
+ data-amenities="Wi-Fi,Pool,Gym"
+ onclick="window.location.href='assets/html/hotel-detail3.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img3.png" alt=""></div>
     <div class="card-info">
@@ -255,7 +256,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="20000000" 
 data-discount="0" 
-data-amenities="Wi-Fi,Pool,Gym">
+data-amenities="Wi-Fi,Pool,Gym"
+onclick="window.location.href='assets/html/hotel-detail3.html'">
   <div class="card-imgg"><img src="assets/images/img3.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -285,7 +287,8 @@ data-amenities="Wi-Fi,Pool,Gym">
  data-rate="5" 
  data-price="66000000" 
  data-discount="80" 
- data-amenities="Wi-Fi,Pool,Free breakfast">
+ data-amenities="Wi-Fi,Pool,Free breakfast"
+ onclick="window.location.href='assets/html/hotel-detail4.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img4.png" alt=""></div>
     <div class="card-info">
@@ -314,7 +317,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="66000000" 
 data-discount="80" 
-data-amenities="Wi-Fi,Pool,Free breakfast">
+data-amenities="Wi-Fi,Pool,Free breakfast"
+onclick="window.location.href='assets/html/hotel-detail4.html'">
   <div class="card-imgg"><img src="assets/images/img4.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -344,7 +348,8 @@ data-amenities="Wi-Fi,Pool,Free breakfast">
  data-rate="5" 
  data-price="17500000" 
  data-discount="0" 
- data-amenities="Wi-Fi,Pool,Free breakfast,Spa">
+ data-amenities="Wi-Fi,Pool,Free breakfast,Spa"
+ onclick="window.location.href='assets/html/hotel-detail5.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img5.png" alt=""></div>
     <div class="card-info">
@@ -374,7 +379,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="17500000" 
 data-discount="0" 
-data-amenities="Wi-Fi,Pool,Free breakfast,Spa">
+data-amenities="Wi-Fi,Pool,Free breakfast,Spa"
+onclick="window.location.href='assets/html/5.html'">
   <div class="card-imgg"><img src="assets/images/img5.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -3209,6 +3215,6 @@ data-amenities="Wi-Fi,Pool,Free breakfast,Spa">
         </div>
     </div>
 </footer>
-  <script src="search.js"></script>
+  <script src="assets/js/search.js"></script>
 </body>
 </html>
