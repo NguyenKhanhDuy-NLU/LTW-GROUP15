@@ -3,12 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tripto — Find Hotels</title>
-  <link rel="stylesheet" href="search.css">
-
- 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
-  <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script>
+  <title>Search</title>
+  <link rel="stylesheet" href="assets/css/search.css">
   <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -19,16 +15,17 @@
   <header >
     <div class="header">
       <div class="header-left">
-        <img src="assets/images/logo.png" alt="Tripto" class="logo">
-      </div>
+  <img src="assets/images/logo.png" alt="Tripto" class="logo" onclick="window.location.href='index.html'">
+</div>
+
       <div class="header-center">
         <div class="search-bar">
-          <input id="q" placeholder="Hotel name or province?" />
-          <input id="dateRange" placeholder="Select date range" readonly />
+          <input id="q" placeholder="Nơi bạn muốn đến?" />
+          <input id="dateRange" placeholder="Nhập ngày" />
 
           <div class="guest-input" aria-label="Guests">
             <button id="minusGuest" class="guest-btn" aria-label="Decrease guests">−</button>
-            <div id="guests" class="guest-display" aria-live="polite">2 guests</div>
+            <div id="guests" class="guest-display" aria-live="polite">2 Khách</div>
             <button id="plusGuest" class="guest-btn" aria-label="Increase guests">+</button>
           </div>
 
@@ -39,9 +36,8 @@
         <div class="country">
          <img src="https://flagcdn.com/w20/vn.png" alt="VN"> VND
         </div>
-        <div class="support">💬 Support</div>
         <div class="user">
-          <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="user">
+          <img src="https://ui-avatars.com/api/?name=D&background=4285F4&color=fff&size=128" alt="user">
         </div>
       </div>
     </div>
@@ -107,7 +103,8 @@
  data-rate="5" 
  data-price="2500000" 
  data-discount="40" 
- data-amenities="Wi-Fi,Pool,Free breakfast">
+ data-amenities="Wi-Fi,Pool,Free breakfast"
+ onclick="window.location.href='assets/html/hotel-detail1.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img1.png" alt=""></div>
     <div class="card-info">
@@ -143,7 +140,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="2500000" 
 data-discount="10" 
-data-amenities="Wi-Fi,Pool,Free breakfast">
+data-amenities="Wi-Fi,Pool,Free breakfast"
+onclick="window.location.href='assets/html/hotel-detail1.html'">
   <div class="card-imgg"><img src="assets/images/img1.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -181,7 +179,8 @@ data-amenities="Wi-Fi,Pool,Free breakfast">
  data-rate="5" 
  data-price="14500000" 
  data-discount="0" 
- data-amenities="Wi-Fi,Pool,Parking">
+ data-amenities="Wi-Fi,Pool,Parking"
+ onclick="window.location.href='assets/html/hotel-detail2.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img2.png" alt=""></div>
     <div class="card-info">
@@ -217,7 +216,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="14500000" 
 data-discount="0" 
-data-amenities="Wi-Fi,Pool,Parking">
+data-amenities="Wi-Fi,Pool,Parking"
+onclick="window.location.href='assets/html/hotel-detail2.html'">
   <div class="card-imgg"><img src="assets/images/img2.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -254,7 +254,8 @@ data-amenities="Wi-Fi,Pool,Parking">
  data-rate="5" 
  data-price="20000000" 
  data-discount="0" 
- data-amenities="Wi-Fi,Pool,Gym">
+ data-amenities="Wi-Fi,Pool,Gym"
+ onclick="window.location.href='assets/html/hotel-detail3.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img3.png" alt=""></div>
     <div class="card-info">
@@ -290,7 +291,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="20000000" 
 data-discount="0" 
-data-amenities="Wi-Fi,Pool,Gym">
+data-amenities="Wi-Fi,Pool,Gym"
+onclick="window.location.href='assets/html/hotel-detail3.html'">
   <div class="card-imgg"><img src="assets/images/img3.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -327,7 +329,8 @@ data-amenities="Wi-Fi,Pool,Gym">
  data-rate="5" 
  data-price="66000000" 
  data-discount="80" 
- data-amenities="Wi-Fi,Pool,Free breakfast">
+ data-amenities="Wi-Fi,Pool,Free breakfast"
+ onclick="window.location.href='assets/html/hotel-detail4.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img4.png" alt=""></div>
     <div class="card-info">
@@ -363,7 +366,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="66000000" 
 data-discount="80" 
-data-amenities="Wi-Fi,Pool,Free breakfast">
+data-amenities="Wi-Fi,Pool,Free breakfast"
+onclick="window.location.href='assets/html/hotel-detail4.html'">
   <div class="card-imgg"><img src="assets/images/img4.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -400,7 +404,8 @@ data-amenities="Wi-Fi,Pool,Free breakfast">
  data-rate="5" 
  data-price="17500000" 
  data-discount="0" 
- data-amenities="Wi-Fi,Pool,Free breakfast,Spa">
+ data-amenities="Wi-Fi,Pool,Free breakfast,Spa"
+ onclick="window.location.href='assets/html/hotel-detail5.html'">
   <div class="card-left">
     <div class="card-imgg"><img src="assets/images/img5.png" alt=""></div>
     <div class="card-info">
@@ -437,7 +442,8 @@ data-type="Hotel"
 data-rate="5" 
 data-price="17500000" 
 data-discount="0" 
-data-amenities="Wi-Fi,Pool,Free breakfast,Spa">
+data-amenities="Wi-Fi,Pool,Free breakfast,Spa"
+onclick="window.location.href='assets/html/5.html'">
   <div class="card-imgg"><img src="assets/images/img5.png" alt=""></div>
   <div class="card-body">
     <div>
@@ -3847,7 +3853,82 @@ data-amenities="Wi-Fi,Pool,Free breakfast,Spa">
 
 </section>
   </main>
-  <footer class="site-footer">© 2025 Tripto — Prototype</footer>
-  <script src="search.js"></script>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-main">
+            <div class="footer-col about">
+                <div class="logo">
+                    <img src="assets/images/logo.jpg" alt="Tripto Logo">
+                </div>
+                <p>We help you find and book the perfect stay from cozy guesthouses to top hotels — with ease, trust, and the best deals.</p>
+                <h3>Download Our App</h3>
+                <div class="app-buttons">
+                    <a href="#"><img src="https://placehold.co/135x40/1A1A1A/FFFFFF?text=App+Store&font=roboto" alt="App Store"></a>
+                    <a href="#"><img src="https://placehold.co/135x40/1A1A1A/FFFFFF?text=Google+Play&font=roboto" alt="Google Play"></a>
+                </div>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="#">Trending Destinations</a></li>
+                    <li><a href="#">Summer Hotspots</a></li>
+                    <li><a href="#">Winter Getaways</a></li>
+                    <li><a href="#">Weekend Deals</a></li>
+                    <li><a href="#">Family-Friendly Stays</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Property Types</h3>
+                <ul>
+                    <li><a href="#">Hotels</a></li>
+                    <li><a href="#">Apartments</a></li>
+                    <li><a href="#">Villas</a></li>
+                    <li><a href="#">Cabins</a></li>
+                    <li><a href="#">Glamping</a></li>
+                    <li><a href="#">Domes</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Centre</a></li>
+                    <li><a href="#">Live Chat Support</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col contact">
+                <h3>Get In Touch</h3>
+                <p>+1 (800) 123 456</p>
+                <p>support@tripto.com</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 Tripto. All rights reserved.</p>
+            <div class="payment-icons">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Visa" alt="Visa">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=MC" alt="Mastercard">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=AE" alt="American Express">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Disc" alt="Discover">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=GPay" alt="Google Pay">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=APay" alt="Apple Pay">
+            </div>
+        </div>
+    </div>
+</footer>
+  <script src="assets/js/search.js"></script>
 </body>
 </html>
