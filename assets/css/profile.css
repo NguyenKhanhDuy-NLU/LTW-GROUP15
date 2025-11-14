@@ -1,0 +1,128 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f9f9fb;
+    color: #333;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+/* HEADER */
+.header {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.language-currency {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+}
+
+.language-currency img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #eee;
+}
+
+/* TITLE */
+.booking h1 {
+    margin-top: 20px;
+    font-size: 26px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* FORM BOX */
+.form-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    margin: 25px auto;
+}
+
+label {
+    display: block;
+    margin: 12px 0 4px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* BUTTON */
+.btn-confirm {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 16px;
+    background: #00bfa5;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-confirm:hover {
+    background: #009e8a;
+}
+
+/* FOOTER */
+footer {
+    background: #333;
+    color: #fff;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 14px;
+}
