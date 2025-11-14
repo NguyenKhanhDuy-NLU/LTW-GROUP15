@@ -174,9 +174,10 @@
 <!-- FOOTER -->
 <footer>
     <div class="container">
-        <p>© NHOM15 - Nền tảng đặt phòng trực tuyến.</p>
+        <p>NHOM15 - Nền tảng đặt phòng trực tuyến.</p>
     </div>
 </footer>
+<script src="hotel-detail.js"></script>
 
 </body>
 </html>
