@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thanh toán — YourBooking</title>
+  <link rel="stylesheet" href="../css/payment.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="../images/logo.png" alt="Tripto" class="logo" onclick="window.location.href='../../index.html'">
+      </div>
+      <nav class="booking-steps">
+        <div class="step done">
+          <div class="circle">✓</div>
+          <span>Chọn phòng</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step active">
+          <div class="circle">✓</div>
+          <span>Thông tin của bạn</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="step">
+          <div class="circle">3</div>
+          <span>Hoàn tất đặt phòng</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page">
+    <section class="main-col">
+
+      <div class="card payment-card">
+        <h2 class="title">Thanh toán</h2>
+        <p class="subtitle">Hãy hoàn tất thanh toán để giữ chỗ. Dữ liệu thẻ được mã hóa an toàn.</p>
+
+        
+        <div class="section">
+          <h3 class="section-title">Chọn phương thức thanh toán</h3>
+          <div class="pay-methods">
+            <label class="pm">
+              <input type="radio" name="pm" checked>
+              <div class="pm-body">
+                <div class="pm-left">
+                  <img src="../images/visa.png" alt="" class="pm-icon">
+                  <span>Thẻ tín dụng / thẻ ghi nợ</span>
+                </div>
+              </div>
+            </label>
+
+            <label class="pm">
+              <input type="radio" name="pm">
+              <div class="pm-body">
+                <div class="pm-left">
+                  <img src="../images/atm.png" alt="" class="pm-icon">
+                  <span>Chuyển khoản ngân hàng</span>
+                </div>
+              </div>
+            </label>
+
+            <label class="pm">
+              <input type="radio" name="pm">
+              <div class="pm-body">
+                <div class="pm-left">
+                  <img src="../images/fpx.png" alt="" class="pm-icon">
+                  <span>Ví điện tử</span>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+         
+        <form id="paymentForm" class="section">
+          <h3 class="section-title">Thông tin thẻ</h3>
+          <div class ="field-row">
+            <label class="field">
+              <span class="label required">Tên trên thẻ</span>
+              <input type="text" id="cardname" placeholder="NGUYEN VAN A" required>
+            </label>
+            <label class="field">
+              <span class="label required">Số thẻ</span>
+              <input type="text" id="cardnumber" inputmode="numeric" placeholder="1234 5678 9012 3456" required>
+            </label>
+          </div>
+
+          <div class="field-row">
+            <label class="field small">
+              <span class="label required">Ngày hết hạn</span>
+              <input type="text" id="exp" placeholder="MM/YYYY" required>
+            </label>
+            <label class="field small">
+              <span class="label">Ghi nhớ thẻ</span>
+              <select id="remember">
+                <option value="no">Không</option>
+                <option value="yes">Có</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="footer-actions">
+            <div class="terms">
+              <label class="required">
+                <input type="checkbox" id="terms" required>
+                Tôi đồng ý với các <a href="#">điều khoản, chính sách</a> của khách sạn.
+              </label>
+            </div>
+            <div class="pay-action">
+              <button type="submit" class="btn-pay" onclick="window.location.href='booking-success-hcm3.html'">Hoàn tất đặt phòng</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+<div class="card card-grid" 
+ id="grid-card-hcm-h3" 
+ data-id="hcm-h3" 
+ data-city="Ho Chi Minh City" 
+ data-type="Hotel" 
+ data-rate="5" 
+ data-price="9000000" 
+ data-discount="0" 
+ data-amenities="Wi-Fi,Spa,Gym">
+  <div class="card-imgg"><img src="../images/img8.png" alt=""></div>
+  <div class="card-body">
+    <div>
+      <div class="card-title"><h4>Park Hyatt Saigon</h4><div class="stars">★★★★★</div></div>
+      <div class="card-meta">
+        <div class="meta-chip">Quận 1, TP.HCM</div>
+        <div class="meta-chip">Wi-Fi</div>
+        <div class="meta-chip">Spa</div>
+        <div class="meta-chip">Gym</div>
+      </div>
+    </div>
+    <div class="card-right-grid">
+      <div class="price-box">
+        <div class="price">9.000.000VND</div>
+      </div>
+    </div>
+  </div>
+      
+      <div class="coupon">
+        <input type="text" placeholder="Nhập mã giảm giá">
+        <button class="apply">Áp dụng</button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      © 2025 Tripto. All rights reserved.
+    </div>
+  </footer>
+  <script src="../js/payment.js"></script>
+</body>
+</html>
