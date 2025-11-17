@@ -13,6 +13,57 @@ body {
 .main-container{
   display: flex;
 }
+header {
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.header {
+    margin: 0 auto;
+    height: 70px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header-left{
+    margin-left: 70px;
+}
+.header-left img {
+    height: 60px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.header-left img:hover {
+    transform: scale(1.05);
+}
+
+.header-center {
+    flex: 1;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding-right: 60px;
+}
+
+.country {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+.user img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .success-header {
   text-align: center;
   background-color: #E2F1FF;
