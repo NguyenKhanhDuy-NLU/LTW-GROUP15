@@ -73,7 +73,6 @@ const searchInput = document.getElementById("q");
 const searchBtn = document.getElementById("searchBtn");
 const mapBtn = document.querySelector(".map-icon");
 
-// === TÌM KIẾM ===
 searchBtn.addEventListener("click", handleSearch);
 searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") handleSearch();
@@ -166,4 +165,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   resetMapLink();
   updateMapLink("Hà Nội");
+
 });
