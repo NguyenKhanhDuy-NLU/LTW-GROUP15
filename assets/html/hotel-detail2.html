@@ -3,40 +3,36 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home-Detail</title>
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <title>JW Marriot Hotel Hanoi</title>
+    <link rel="stylesheet" href="../css/all.min.css">
     <link rel="stylesheet" href="../css/hotel-detail.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header">
-    <div class="container">
-        <nav class="navbar">
-            <div class="logo">
-                <img src="../images/logo.jpg" alt="logo">
+<header >
+    <div class="header">
+        <div class="header-left">
+            <img src="../images/logo.png" alt="Tripto" class="logo" onclick="window.location.href='../../index.html'">
+        </div>
+
+        <div class="header-center">
+        </div>
+        <div class="header-right">
+            <div class="country">
+                <img src="https://flagcdn.com/w20/vn.png" alt="VN"> VND
             </div>
-            <div class="nav-right">
-                <div class="language-currency">
-                    <img src="../images/Anh_VN.webp" alt="Việt Nam">
-                    <span>VND</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <img src="../images/Avatar.png" alt="avatar" class="avatar">
+            <div class="user">
+                <img src="https://ui-avatars.com/api/?name=D&background=4285F4&color=fff&size=128" alt="user">
             </div>
-        </nav>
+        </div>
     </div>
 </header>
 
-<!-- THÔNG TIN KHÁCH SẠN -->
 <section class="hotel-header container">
     <div class="hotel-info">
         <h1>JW Marriot Hotel Hanoi</h1>
         <div class="hotel-sub">
-            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <div class="stars">★★★★★</div>
             <p>Số 8, Đường Đỗ Đức Dục, Phường Từ Liêm, Nam Từ Liêm, Hà Nội</p>
         </div>
     </div>
@@ -46,20 +42,18 @@
     </div>
 </section>
 
-<!-- GALLERY -->
 <section class="gallery">
     <div class="gallery-main">
         <img src="../images/kshn2.1.jpg" alt="Ảnh KS1" />
     </div>
     <div class="gallery-side">
-        <img src="../images/kshn2.2.jpg" alt="Ảnh KS2" />
+        <img src="../images/img2" alt="Ảnh KS2" />
         <img src="../images/kshn2.3.jpg" alt="Ảnh KS3" />
-        <img src="../images/kshn2.4.jpg" alt="Ảnh KS4" />
+        <img src="../images/img2.png" alt="Ảnh KS4" />
         <img src="../images/kshn2.5.jpg" alt="Ảnh KS5" />
     </div>
 </section>
 
-<!-- GIỚI THIỆU -->
 <section class="description container">
     <h2>Giới thiệu</h2>
     <p>
@@ -74,7 +68,6 @@
     </p>
 </section>
 
-<!-- TIỆN NGHI -->
 <section class="amenities container">
     <h2>Tiện nghi</h2>
     <ul>
@@ -84,7 +77,6 @@
     </ul>
 </section>
 
-<!-- ẢNH VỊ TRÍ -->
 <section class="location container">
     <h2>Vị trí</h2>
     <img
@@ -94,12 +86,11 @@
     />
 </section>
 
-<!-- PHÒNG -->
 <section class="rooms container">
     <h2>Danh Sách Phòng</h2>
 
     <div class="room">
-        <img src="../images/pkshn1.1.jpg" alt="Phòng 1" />
+        <img src="../images/img2.png" alt="Phòng 1" />
         <div class="room-info">
             <h3>Phòng Suite Deluxeg</h3>
             <p>1 giường | 30m² | Nhìn ra biển</p>
@@ -123,26 +114,28 @@
         <div class="room-info">
             <h3>Phòng Executive</h3>
             <p>2 giường cỡ king | 60m² | Phòng khách riêng</p>
-            <div class="price">7.500.000đ / đêm</div>
+            <div class="price">14.500.000đ / đêm</div>
             <button class="btn">Đặt ngay</button>
         </div>
     </div>
 </section>
 
-<!-- ĐÁNH GIÁ -->
 <section class="reviews container">
     <h2>Đánh giá của khách</h2>
     <div class="review">
         <p>“Dịch vụ tuyệt vời, Tôi sẽ quay lại!”</p>
-        <span>- Anh Tuấn ⭐⭐⭐⭐</span>
+        <div class="review-user">
+            - Anh Tuấn <span class="rating">★★★★★</span>
+        </div>
     </div>
     <div class="review">
         <p>“Tiện nghi, đầy đủ, dịch vụ tốt. Rất hài lòng.”</p>
-        <span>- Thu Trang ⭐⭐⭐⭐⭐</span>
+        <div class="review-user">
+            - Thu Trang <span class="rating">★★★★★</span>
+        </div>
     </div>
 </section>
 
-<!-- KHÁCH SẠN TƯƠNG TỰ -->
 <section class="similar container">
     <h2>Khách sạn tương tự</h2>
     <div class="similar-list">
@@ -161,7 +154,6 @@
     </div>
 </section>
 
-<!-- CHÍNH SÁCH -->
 <section class="policy container">
     <h2>Chính sách khách sạn</h2>
     <ul>
@@ -173,10 +165,80 @@
     </ul>
 </section>
 
-<!-- FOOTER -->
-<footer>
+<footer class="footer">
     <div class="container">
-        <p>NHOM15 - Nền tảng đặt phòng trực tuyến.</p>
+        <div class="footer-main">
+            <div class="footer-col about">
+                <div class="logo">
+                    <img src="../images/logo.jpg" alt="logo">
+                </div>
+                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo - từ nhà khách ấm cúng đến khách sạn hàng đầu - một cách dễ dàng, tin cậy với ưu đãi tốt nhất.</p>
+                <h3>Tải Ứng Dụng Của Chúng Tôi</h3>
+                <div class="app-buttons">
+                    <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=App+Store" alt="App Store"></a>
+                    <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=Google+Play" alt="Google Play"></a>
+                </div>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Khám phá</h3>
+                <ul>
+                    <li><a href="#">Điểm đến nổi bật</a></li>
+                    <li><a href="#">Điểm nóng mùa hè</a></li>
+                    <li><a href="#">Chốn nghỉ mùa đông</a></li>
+                    <li><a href="#">Ưu đãi cuối tuần</a></li>
+                    <li><a href="#">Chỗ ở cho gia đình</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Loại hình chỗ ở</h3>
+                <ul>
+                    <li><a href="#">Khách sạn</a></li>
+                    <li><a href="#">Căn hộ</a></li>
+                    <li><a href="#">Biệt thự</a></li>
+                    <li><a href="#">Cabin</a></li>
+                    <li><a href="#">Cắm trại cao cấp</a></li>
+                    <li><a href="#">Nhà vòm</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h3>Hỗ trợ</h3>
+                <ul>
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Hỗ trợ trò chuyện trực tiếp</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col contact">
+                <h3>Liên lạc</h3>
+                <p>+1 (800) 123 456</p>
+                <p>support@group15.com</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 Group15. Đã đăng ký bản quyền.</p>
+            <div class="payment-icons">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Visa" alt="Visa">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=MC" alt="Mastercard">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=AE" alt="American Express">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Disc" alt="Discover">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=GPay" alt="Google Pay">
+                <img src="https://placehold.co/40x25/FFFFFF/000000?text=APay" alt="Apple Pay">
+            </div>
+        </div>
     </div>
 </footer>
 <script src="../js/hotel-detail.js"></script>
