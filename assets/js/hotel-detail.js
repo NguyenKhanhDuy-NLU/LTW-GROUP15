@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("selectedRoomPrice", roomPrice);
             localStorage.setItem("selectedRoomImg", roomImg);
 
-            window.location.href = "profile.html";
+            window.location.href = "../html/profile.html";
         });
     });
 });
