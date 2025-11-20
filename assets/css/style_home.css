@@ -722,6 +722,18 @@ p {
     width: 90%;
     position: relative;
     box-sizing: border-box;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .modal-close-btn {
@@ -734,6 +746,19 @@ p {
     color: var(--text-light);
     cursor: pointer;
     line-height: 1;
+    transition: color 0.2s ease, transform 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.modal-close-btn:hover {
+    color: var(--dark-blue);
+    background-color: #F3F4F6;
+    transform: rotate(90deg);
 }
 
 .modal-form {
@@ -752,6 +777,21 @@ p {
     margin-top: 0;
     margin-bottom: 12px;
     font-size: 1.8rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.modal-form h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), #0048CC);
+    border-radius: 2px;
 }
 
 .modal-form .form-group {
@@ -776,6 +816,7 @@ p {
     border-radius: 8px;
     font-size: 0.95rem;
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 .modal-form .form-group input::placeholder {
@@ -797,12 +838,20 @@ p {
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     margin-top: 8px;
+    box-shadow: 0 2px 8px rgba(0, 87, 255, 0.2);
 }
 
 .form-submit-btn:hover {
     background-color: #0048CC;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 87, 255, 0.3);
+}
+
+.form-submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 87, 255, 0.2);
 }
 
 .form-link-row {
@@ -991,4 +1040,11 @@ p {
     .footer-col.contact {
         grid-column: span 1;
     }
+}
+#forgot-password-form p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.5;
 }

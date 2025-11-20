@@ -57,3 +57,24 @@ function setupActiveToggle(buttonSelector) {
 
 setupActiveToggle('.search-tabs .tab-btn');
 setupActiveToggle('.destination-filters .filter-btn');
+
+// quen mk
+const sendResetBtn = document.getElementById('btn-send-reset');
+
+if (sendResetBtn) {
+    sendResetBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const forgotInput = document.getElementById('forgot-email');
+        const inputValue = forgotInput.value.trim();
+
+        if (!inputValue) {
+            alert("Vui lòng nhập Email hoặc Số điện thoại!");
+            forgotInput.focus();
+            return;
+        }
+
+        alert(`Mã xác thực đã được gửi tới: ${inputValue}\nVui lòng kiểm tra hòm thư/tin nhắn.`);
+        showForm('login-form');
+    });
+}
