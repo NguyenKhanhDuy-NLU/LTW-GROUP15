@@ -38,7 +38,34 @@ header {
     align-items: center;
     gap: 50px;
 }
+.map-banner {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-width: 400px;
+}
 
+.map-banner h3 {
+  margin: 0;
+  font-size: 15px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.map-banner p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
 .country {
     display: flex;
     align-items: center;
