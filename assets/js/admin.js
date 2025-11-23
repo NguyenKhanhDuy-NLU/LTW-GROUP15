@@ -1,4 +1,5 @@
-function getCurrentHotel() {
+
+    function getCurrentHotel() {
         if (document.getElementById("hotel1").checked) return 1;
         if (document.getElementById("hotel2").checked) return 2;
         return 3;
@@ -8,8 +9,7 @@ function getCurrentHotel() {
         "Dashboard": "dashboard",
         "Đặt phòng": "bookings",
         "Phòng": "rooms",
-        "Doanh thu": "revenue",
-        "Cài đặt": "settings"
+        "Thông tin khách sạn": "informations"
     };
 
     function showSection(menuText) {
