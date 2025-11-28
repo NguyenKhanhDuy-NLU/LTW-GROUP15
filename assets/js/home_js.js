@@ -3,11 +3,16 @@ const modalOverlay = document.querySelector('.modal-overlay');
 const modalCloseBtn = document.querySelector('.modal-close-btn');
 const toggleLinks = document.querySelectorAll('.form-toggle-link');
 const allForms = document.querySelectorAll('.modal-form');
+const loginSubmitBtn = document.getElementById('btn-login-submit');
+const loginEmail = document.getElementById('login-email');
+const loginPass = document.getElementById('login-pass');
+const loginError = document.getElementById('login-error');
 
 loginButton.addEventListener('click', function(event) {
     event.preventDefault();
     modalOverlay.classList.remove('hidden');
     showForm('login-form');
+    loginError.style.display = 'none';
 });
 
 modalCloseBtn.addEventListener('click', function() {
@@ -36,6 +41,7 @@ toggleLinks.forEach(link => {
         event.preventDefault();
         const targetFormId = this.getAttribute('data-target');
         showForm(targetFormId);
+        loginError.style.display = 'none';
     });
 });
 
@@ -58,7 +64,6 @@ function setupActiveToggle(buttonSelector) {
 setupActiveToggle('.search-tabs .tab-btn');
 setupActiveToggle('.destination-filters .filter-btn');
 
-// quen mk
 const sendResetBtn = document.getElementById('btn-send-reset');
 
 if (sendResetBtn) {
@@ -76,5 +81,20 @@ if (sendResetBtn) {
 
         alert(`Mã xác thực đã được gửi tới: ${inputValue}\nVui lòng kiểm tra hòm thư/tin nhắn.`);
         showForm('login-form');
+    });
+}
+
+if (loginSubmitBtn) {
+    loginSubmitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const emailVal = loginEmail.value.trim();
+        const passVal = loginPass.value.trim();
+
+        if (!emailVal || !passVal) {
+            loginError.style.display = 'block';
+        } else {
+            loginError.style.display = 'none';
+            window.location.href = 'assets/html/index_user.html';
+        }
     });
 }
