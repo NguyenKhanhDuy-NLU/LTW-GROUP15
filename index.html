@@ -2,9 +2,18 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Tripto - Đặt phòng khách sạn</title>
-    <link rel="stylesheet" href="assets/css/style_home.css">
-    <link rel="stylesheet" href="assets/css/all.min.css">
+    <title>Group15 - Đặt phòng khách sạn</title>
+    <link rel="stylesheet" href="src/css/style_home.css">
+    <link rel="stylesheet" href="src/css/all.min.css">
+    <style>
+        .error-msg {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
@@ -12,11 +21,11 @@
     <div class="container">
         <nav class="navbar">
             <div class="logo">
-                <img src="assets/images/logo.jpg" alt="logo Tripto">
+                <a href="#"><img src="src/images/logo.jpg" alt="logo GROUP15"></a>
             </div>
             <div class="nav-right">
                 <div class="language-currency">
-                    <img src="assets/images/Anh_VN.webp" alt="Việt Nam">
+                    <img src="src/images/Anh_VN.webp" alt="Việt Nam">
                     <span>VND</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
@@ -39,11 +48,25 @@
                 <label for="login-pass">Mật khẩu</label>
                 <input type="password" id="login-pass" placeholder="Nhập mật khẩu">
             </div>
-            <button class="form-submit-btn">Đăng nhập</button>
+
+            <p id="login-error" class="error-msg">Hãy nhập tên đăng nhập/mật khẩu</p>
+
+            <button class="form-submit-btn" id="btn-login-submit">Đăng nhập</button>
             <div class="form-link-row">
-                <a href="#" class="form-link">Quên mật khẩu?</a>
+                <a href="#" class="form-toggle-link" data-target="forgot-password-form">Quên mật khẩu?</a>
                 <a href="#" class="form-toggle-link" data-target="signup-email-form">Đăng ký</a>
             </div>
+        </div>
+
+        <div id="forgot-password-form" class="modal-form hidden">
+            <h3>Quên mật khẩu</h3>
+            <p>Vui lòng nhập email hoặc số điện thoại bạn đã đăng ký. Chúng tôi sẽ gửi mã xác thực để đặt lại mật khẩu.</p>
+            <div class="form-group">
+                <label for="forgot-email">Gmail/SĐT</label>
+                <input type="text" id="forgot-email" placeholder="Nhập gmail hoặc SĐT">
+            </div>
+            <button class="form-submit-btn" id="btn-send-reset">Gửi yêu cầu</button>
+            <a href="#" class="form-toggle-link" data-target="login-form">Quay lại Đăng nhập</a>
         </div>
 
         <div id="signup-email-form" class="modal-form hidden">
@@ -96,7 +119,7 @@
 </div>
 <section class="hero">
     <div class="hero-background">
-        <img src="assets/images/Hero%20Header.png" alt="ảnh bìa chính">
+        <img src="src/images/Hero%20Header.png" alt="ảnh bìa chính">
     </div>
     <div class="container hero-content">
         <h1>Chuyến Đi Của Bạn Bắt Đầu Từ Đây</h1>
@@ -112,7 +135,7 @@
                 <button class="tab-btn"><i class="fas fa-water"></i> Resort</button>
             </div>
 
-            <form class="search-form" action="assets/html/search.html" method="GET">
+            <form class="search-form" action="src/html/search.html" method="GET">
 
                 <div class="form-group">
                     <label for="location">Địa điểm</label>
@@ -138,7 +161,7 @@
 
 <section class="features">
     <div class="container">
-        <h2>Vì Sao Khách Hàng Tin Tưởng Tripto</h2>
+        <h2>Vì Sao Khách Hàng Tin Tưởng GROUP15</h2>
         <div class="features-grid">
             <div class="feature-item">
                 <div class="icon-wrapper blue">
@@ -176,46 +199,46 @@
         </div>
         <div class="destination-grid">
 
-            <a href="product-detail.html" class="destination-card-link">
+            <a href="src/html/hotel-detail1.html" class="destination-card-link">
                 <div class="destination-card">
-                    <img src="assets/images/img1.png" alt="Paris, Pháp">
+                    <img src="src/images/img1.png" alt="Hà Nội">
                     <div class="card-content">
-                        <h3>Paris, Pháp</h3>
-                        <p class="price">Từ <span>$150/đêm</span></p>
-                        <p class="description">Lãng mạn, nghệ thuật, và cà phê.</p>
+                        <h3>Hà Nội</h3>
+                        <p class="price">Từ <span>2,000,000/đêm</span></p>
+                        <p class="description">Lãng mạn, nghệ thuật, và cà phê nằm ngay trung tâm thủ đô.</p>
                     </div>
                 </div>
             </a>
 
-            <a href="product-detail.html" class="destination-card-link">
+            <a href="src/html/hotel-detail11.html" class="destination-card-link">
                 <div class="destination-card">
-                    <img src="assets/images/img2.png" alt="Santorini, Hy Lạp">
+                    <img src="src/images/img2.png" alt="Vịnh Hạ Long">
                     <div class="card-content">
-                        <h3>Santorini, Hy Lạp</h3>
-                        <p class="price">Từ <span>$225/đêm</span></p>
+                        <h3>Vịnh Hạ Long</h3>
+                        <p class="price">Từ <span>2,500,000/đêm</span></p>
                         <p class="description">Tầm nhìn ra biển, đại dương, và sự yên bình.</p>
                     </div>
                 </div>
             </a>
 
-            <a href="product-detail.html" class="destination-card-link">
+            <a href="src/html/hotel-detail13.html" class="destination-card-link">
                 <div class="destination-card">
-                    <img src="assets/images/img3.png" alt="Bali, Indonesia">
+                    <img src="src/images/img3.png" alt="Nha Trang">
                     <div class="card-content">
-                        <h3>Bali, Indonesia</h3>
-                        <p class="price">Từ <span>$80/đêm</span></p>
+                        <h3>Nha Trang</h3>
+                        <p class="price">Từ <span>500,000/đêm</span></p>
                         <p class="description">Biệt thự, thiên nhiên, và không khí an nhiên.</p>
                     </div>
                 </div>
             </a>
 
-            <a href="product-detail.html" class="destination-card-link">
+            <a href="src/html/hotel-detail16.html" class="destination-card-link">
                 <div class="destination-card">
-                    <img src="assets/images/img4.png" alt="Kyoto, Nhật Bản">
+                    <img src="src/images/img4.png" alt="Huế">
                     <div class="card-content">
-                        <h3>Kyoto, Nhật Bản</h3>
-                        <p class="price">Từ <span>$190/đêm</span></p>
-                        <p class="description">Hoa anh đào và những ngôi đền.</p>
+                        <h3>Huế</h3>
+                        <p class="price">Từ <span>900,000/đêm</span></p>
+                        <p class="description">Phố cổ Hội An và nhiều khu văn hóa đa dạng khác.</p>
                     </div>
                 </div>
             </a>
@@ -250,51 +273,50 @@
         <h2>Những Điểm Tham Quan Hàng Đầu</h2>
         <div class="sights-grid">
 
-            <a href="assets/html/hotel-detail1.html" class="sight-card-link span-3">
+            <a href="src/html/hotel-detail11.html" class="sight-card-link span-3">
                 <div class="sight-card">
-                    <img src="assets/images/img5.png" alt="Vịnh Hạ Long, Việt Nam">
+                    <img src="src/images/img5.png" alt="Vịnh Hạ Long">
                     <div class="sight-content">
-                        <h3>Vịnh Hạ Long 🇻🇳</h3>
+                        <h3>Vịnh Hạ Long</h3>
                     </div>
                 </div>
             </a>
 
-            <a href="assets/html/hotel-detail1.html" class="sight-card-link span-3">
+            <a href="src/html/hotel-detail12.html" class="sight-card-link span-3">
                 <div class="sight-card">
-                    <img src="assets/images/img6.png" alt="Phú Quốc, Việt Nam">
+                    <img src="src/images/img6.png" alt="Hội An">
                     <div class="sight-content">
-                        <h3>Phú Quốc 🇻🇳</h3>
+                        <h3>Hội An</h3>
                     </div>
                 </div>
             </a>
 
-            <a href="assets/html/hotel-detail1.html" class="sight-card-link span-2">
+            <a href="src/html/hotel-detail13.html" class="sight-card-link span-2">
                 <div class="sight-card">
-                    <img src="assets/images/img7.png" alt="Hội An, Việt Nam">
+                    <img src="src/images/img7.png" alt="Nha Trang">
                     <div class="sight-content">
-                        <h3>Hội An 🇻🇳</h3>
+                        <h3>Nha Trang</h3>
                     </div>
                 </div>
             </a>
 
-            <a href="assets/html/hotel-detail1.html" class="sight-card-link span-2">
+            <a href="src/html/hotel-detail14.html" class="sight-card-link span-2">
                 <div class="sight-card">
-                    <img src="assets/images/img8.png" alt="Sapa, Việt Nam">
+                    <img src="src/images/img8.png" alt="Phú Quốc">
                     <div class="sight-content">
-                        <h3>Sapa 🇻🇳</h3>
+                        <h3>Phú Quốc</h3>
                     </div>
                 </div>
             </a>
 
-            <a href="assets/html/hotel-detail1.html" class="sight-card-link span-2">
+            <a href="src/html/hotel-detail16.html" class="sight-card-link span-2">
                 <div class="sight-card">
-                    <img src="assets/images/img9.png" alt="Đà Lạt, Việt Nam">
+                    <img src="src/images/img9.png" alt="Huế">
                     <div class="sight-content">
-                        <h3>Đà Lạt 🇻🇳</h3>
+                        <h3>Huế</h3>
                     </div>
                 </div>
             </a>
-
         </div>
     </div>
 </section>
@@ -303,7 +325,7 @@
         <div class="footer-main">
             <div class="footer-col about">
                 <div class="logo">
-                    <img src="assets/images/logo.jpg" alt="logo">
+                    <img src="src/images/logo.jpg" alt="logo">
                 </div>
                 <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo - từ nhà khách ấm cúng đến khách sạn hàng đầu - một cách dễ dàng, tin cậy với ưu đãi tốt nhất.</p>
                 <h3>Tải Ứng Dụng Của Chúng Tôi</h3>
@@ -316,23 +338,23 @@
             <div class="footer-col links">
                 <h3>Khám phá</h3>
                 <ul>
-                    <li><a href="#">Điểm đến nổi bật</a></li>
-                    <li><a href="#">Điểm nóng mùa hè</a></li>
-                    <li><a href="#">Chốn nghỉ mùa đông</a></li>
-                    <li><a href="#">Ưu đãi cuối tuần</a></li>
-                    <li><a href="#">Chỗ ở cho gia đình</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Điểm đến nổi bật</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Điểm nóng mùa hè</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Chốn nghỉ mùa đông</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Ưu đãi cuối tuần</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Chỗ ở cho gia đình</a></li>
                 </ul>
             </div>
 
             <div class="footer-col links">
                 <h3>Loại hình chỗ ở</h3>
                 <ul>
-                    <li><a href="#">Khách sạn</a></li>
-                    <li><a href="#">Căn hộ</a></li>
-                    <li><a href="#">Biệt thự</a></li>
-                    <li><a href="#">Cabin</a></li>
-                    <li><a href="#">Cắm trại cao cấp</a></li>
-                    <li><a href="#">Nhà vòm</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Khách sạn</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Căn hộ</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Biệt thự</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Cabin</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Cắm trại cao cấp</a></li>
+                    <li><a href="src/html/hotel-detail1.html">Nhà vòm</a></li>
                 </ul>
             </div>
 
@@ -349,7 +371,7 @@
             <div class="footer-col contact">
                 <h3>Liên lạc</h3>
                 <p>+1 (800) 123 456</p>
-                <p>support@tripto.com</p>
+                <p>support@group15.com</p>
                 <div class="social-icons">
                     <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -376,5 +398,5 @@
 </footer>
 
 </body>
-<script src="assets/js/home_js.js"></script>
+<script src="src/js/home_js.js"></script>
 </html>
