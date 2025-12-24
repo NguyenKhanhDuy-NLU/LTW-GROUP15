@@ -1122,7 +1122,6 @@ p {
     width: 20px;
 }
 
-/* Arrow for dropdown */
 .user-dropdown::before {
     content: '';
     position: absolute;

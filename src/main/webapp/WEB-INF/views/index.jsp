@@ -1,9 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="vn.edu.nlu.fit.demo1.model.User" %>
 <%
-    User currentUser = (User) session.getAttribute("user");
-    boolean isLoggedIn = (currentUser != null);
-    String displayName = isLoggedIn ? (currentUser.getFullName() != null ? currentUser.getFullName() : currentUser.getUsername()) : "";
+    Object user = session.getAttribute("user");
+    boolean isLoggedIn = (user != null);
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -14,11 +12,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/all.min.css">
 </head>
 <body>
+
 <header class="header">
     <div class="container">
         <nav class="navbar">
             <div class="logo">
-                <a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo GROUP15"></a>
+                <a href="#"><img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo GROUP15"></a>
             </div>
             <div class="nav-right">
                 <div class="language-currency">
@@ -28,19 +27,11 @@
                 </div>
 
                 <% if (isLoggedIn) { %>
-                <!-- Hiển thị khi đã đăng nhập -->
-                <div class="user-menu">
-                    <a href="${pageContext.request.contextPath}/user" class="nav-user-icon" title="<%= displayName %>">
-                        <i class="fas fa-user"></i>
-                    </a>
-                    <div class="user-dropdown">
-                        <a href="${pageContext.request.contextPath}/user"><i class="fas fa-user-circle"></i> Tài khoản</a>
-                        <a href="${pageContext.request.contextPath}/history"><i class="fas fa-history"></i> Lịch sử đặt phòng</a>
-                        <a href="${pageContext.request.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                    </div>
-                </div>
+                <a href="${pageContext.request.contextPath}/assets/html/user.html" class="nav-user-icon">
+                    <i class="fas fa-user"></i>
+                </a>
                 <% } else { %>
-                <a href="${pageContext.request.contextPath}/login" class="nav-login-btn">Đăng nhập</a>
+                <a href="#" class="nav-login-btn">Đăng nhập</a>
                 <% } %>
             </div>
         </nav>
@@ -52,11 +43,7 @@
         <img src="${pageContext.request.contextPath}/assets/images/Hero%20Header.png" alt="ảnh bìa chính">
     </div>
     <div class="container hero-content">
-        <% if (isLoggedIn) { %>
-        <h1>Chào mừng <%= displayName %> trở lại!</h1>
-        <% } else { %>
         <h1>Chuyến Đi Của Bạn Bắt Đầu Từ Đây</h1>
-        <% } %>
         <p>Tìm kiếm chỗ ở độc đáo từ khách sạn, biệt thự, và hơn thế nữa.</p>
 
         <div class="search-container">
@@ -69,7 +56,7 @@
                 <button class="tab-btn"><i class="fas fa-water"></i> Resort</button>
             </div>
 
-            <form class="search-form" action="${pageContext.request.contextPath}/search" method="GET">
+            <form class="search-form" action="${pageContext.request.contextPath}/assets/html/search.html" method="GET">
                 <div class="form-group">
                     <label for="location">Địa điểm</label>
                     <input type="text" id="location" name="location" placeholder="Bạn muốn đến đâu?">
@@ -131,7 +118,8 @@
             <button class="filter-btn"><i class="fas fa-snowflake"></i> Chốn nghỉ mùa đông</button>
         </div>
         <div class="destination-grid">
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=1" class="destination-card-link">
+
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail1.html" class="destination-card-link">
                 <div class="destination-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img1.png" alt="Hà Nội">
                     <div class="card-content">
@@ -142,7 +130,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=2" class="destination-card-link">
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail11.html" class="destination-card-link">
                 <div class="destination-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img2.png" alt="Vịnh Hạ Long">
                     <div class="card-content">
@@ -153,7 +141,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=3" class="destination-card-link">
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail13.html" class="destination-card-link">
                 <div class="destination-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img3.png" alt="Nha Trang">
                     <div class="card-content">
@@ -164,7 +152,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=4" class="destination-card-link">
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail16.html" class="destination-card-link">
                 <div class="destination-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img4.png" alt="Huế">
                     <div class="card-content">
@@ -206,7 +194,8 @@
     <div class="container">
         <h2>Những Điểm Tham Quan Hàng Đầu</h2>
         <div class="sights-grid">
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=11" class="sight-card-link span-3">
+
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail11.html" class="sight-card-link span-3">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img5.png" alt="Vịnh Hạ Long">
                     <div class="sight-content">
@@ -215,7 +204,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=12" class="sight-card-link span-3">
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail12.html" class="sight-card-link span-3">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img6.png" alt="Hội An">
                     <div class="sight-content">
@@ -224,7 +213,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=13" class="sight-card-link span-2">
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail13.html" class="sight-card-link span-2">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img7.png" alt="Nha Trang">
                     <div class="sight-content">
@@ -233,7 +222,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=14" class="sight-card-link span-2">
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail14.html" class="sight-card-link span-2">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img8.png" alt="Phú Quốc">
                     <div class="sight-content">
@@ -242,7 +231,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/hotel-detail?id=16" class="sight-card-link span-2">
+            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail16.html" class="sight-card-link span-2">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img9.png" alt="Huế">
                     <div class="sight-content">
@@ -272,7 +261,7 @@
             <div class="footer-col links">
                 <h3>Khám phá</h3>
                 <ul>
-                    <li><a href="#">Điểm đến nổi bật</a></li>
+                    <li><a href="${pageContext.request.contextPath}/assets/html/hotel-detail1.html">Điểm đến nổi bật</a></li>
                     <li><a href="#">Điểm nóng mùa hè</a></li>
                     <li><a href="#">Chốn nghỉ mùa đông</a></li>
                     <li><a href="#">Ưu đãi cuối tuần</a></li>
