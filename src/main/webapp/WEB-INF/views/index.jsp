@@ -17,7 +17,7 @@
     <div class="container">
         <nav class="navbar">
             <div class="logo">
-                <a href="#"><img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo GROUP15"></a>
+                <a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo GROUP15"></a>
             </div>
             <div class="nav-right">
                 <div class="language-currency">
@@ -104,64 +104,6 @@
                 <h3>Linh hoạt</h3>
                 <p>Nhiều lựa chọn linh hoạt với chính sách hủy phòng miễn phí.</p>
             </div>
-        </div>
-    </div>
-</section>
-
-<section class="destinations">
-    <div class="container">
-        <h2>Các Điểm Đến Nổi Bật</h2>
-        <div class="destination-filters">
-            <button class="filter-btn active"><i class="fas fa-leaf"></i> Lựa chọn mùa xuân</button>
-            <button class="filter-btn"><i class="fas fa-sun"></i> Điểm nóng mùa hè</button>
-            <button class="filter-btn"><i class="fas fa-canadian-maple-leaf"></i> Khám phá mùa thu</button>
-            <button class="filter-btn"><i class="fas fa-snowflake"></i> Chốn nghỉ mùa đông</button>
-        </div>
-        <div class="destination-grid">
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail1.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img1.png" alt="Hà Nội">
-                    <div class="card-content">
-                        <h3>Hà Nội</h3>
-                        <p class="price">Từ <span>2,000,000/đêm</span></p>
-                        <p class="description">Lãng mạn, nghệ thuật, và cà phê nằm ngay trung tâm thủ đô.</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail11.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img2.png" alt="Vịnh Hạ Long">
-                    <div class="card-content">
-                        <h3>Vịnh Hạ Long</h3>
-                        <p class="price">Từ <span>2,500,000/đêm</span></p>
-                        <p class="description">Tầm nhìn ra biển, đại dương, và sự yên bình.</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail13.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img3.png" alt="Nha Trang">
-                    <div class="card-content">
-                        <h3>Nha Trang</h3>
-                        <p class="price">Từ <span>500,000/đêm</span></p>
-                        <p class="description">Biệt thự, thiên nhiên, và không khí an nhiên.</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail16.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img4.png" alt="Huế">
-                    <div class="card-content">
-                        <h3>Huế</h3>
-                        <p class="price">Từ <span>900,000/đêm</span></p>
-                        <p class="description">Phố cổ Hội An và nhiều khu văn hóa đa dạng khác.</p>
-                    </div>
-                </div>
-            </a>
         </div>
     </div>
 </section>
@@ -261,7 +203,7 @@
             <div class="footer-col links">
                 <h3>Khám phá</h3>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/assets/html/hotel-detail1.html">Điểm đến nổi bật</a></li>
+                    <li><a href="#">Điểm đến nổi bật</a></li>
                     <li><a href="#">Điểm nóng mùa hè</a></li>
                     <li><a href="#">Chốn nghỉ mùa đông</a></li>
                     <li><a href="#">Ưu đãi cuối tuần</a></li>
