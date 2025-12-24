@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>Đăng nhập - Group15</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -17,14 +16,15 @@
         <div class="modal-form">
             <h3>Đăng nhập</h3>
 
-            <form method="post" action="login">
+            <form method="post" action="${pageContext.request.contextPath}/login">
+
                 <div class="form-group">
-                    <label for="login-email">Gmail/SĐT</label>
+                    <label for="login-email">Tên đăng nhập</label>
                     <input
                             type="text"
                             id="login-email"
                             name="username"
-                            placeholder="Nhập gmail hoặc SĐT của bạn"
+                            placeholder="Nhập tên đăng nhập (ví dụ: admin)"
                             value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>"
                             required
                             autofocus>
@@ -40,8 +40,8 @@
                             required>
                 </div>
 
-                <p class="error-msg <%= request.getAttribute("errorMessage") != null ? "show" : "" %>">
-                    <%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "Hãy nhập tên đăng nhập/mật khẩu" %>
+                <p class="error-msg" style="<%= request.getAttribute("errorMessage") != null ? "display:block; color:red; text-align:center; margin-bottom:10px;" : "display:none;" %>">
+                    <%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %>
                 </p>
 
                 <button type="submit" class="form-submit-btn">Đăng nhập</button>

@@ -1030,3 +1030,18 @@ p {
         grid-column: span 1;
     }
 }
+.nav-login-btn {
+    text-decoration: none;
+    color: #0057FF;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid #0057FF;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.nav-login-btn:hover {
+    background-color: #0057FF;
+    color: #fff;
+}

@@ -31,6 +31,7 @@ public class LoginController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/");
             return;
         }
+
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
     }
 
@@ -44,7 +45,6 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Validate input
         if (username == null || username.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin đăng nhập");

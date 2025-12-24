@@ -1,15 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    Object user = session.getAttribute("user");
-    boolean isLoggedIn = (user != null);
-%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Group15 - Đặt phòng khách sạn</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style_home.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo.jpg">
 </head>
 <body>
 
@@ -17,7 +14,7 @@
     <div class="container">
         <nav class="navbar">
             <div class="logo">
-                <a href="#"><img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo GROUP15"></a>
+                <a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo GROUP15"></a>
             </div>
             <div class="nav-right">
                 <div class="language-currency">
@@ -26,12 +23,23 @@
                     <i class="fas fa-chevron-down"></i>
                 </div>
 
-                <% if (isLoggedIn) { %>
-                <a href="${pageContext.request.contextPath}/assets/html/user.html" class="nav-user-icon">
-                    <i class="fas fa-user"></i>
-                </a>
+                <%-- ĐÃ SỬA: Kiểm tra trực tiếp session để tránh lỗi trùng biến --%>
+                <% if (session.getAttribute("user") != null) { %>
+
+                <div class="user-menu">
+                    <a href="${pageContext.request.contextPath}/user" class="nav-user-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="user-dropdown">
+                        <a href="${pageContext.request.contextPath}/user"><i class="fas fa-user"></i> Hồ sơ</a>
+                        <a href="${pageContext.request.contextPath}/bookings"><i class="fas fa-calendar-check"></i> Đặt phòng của tôi</a>
+                        <a href="${pageContext.request.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                    </div>
+                </div>
+
                 <% } else { %>
-                <a href="#" class="nav-login-btn">Đăng nhập</a>
+                <a href="${pageContext.request.contextPath}/login" class="nav-login-btn">Đăng nhập</a>
+
                 <% } %>
             </div>
         </nav>
@@ -104,64 +112,6 @@
                 <h3>Linh hoạt</h3>
                 <p>Nhiều lựa chọn linh hoạt với chính sách hủy phòng miễn phí.</p>
             </div>
-        </div>
-    </div>
-</section>
-
-<section class="destinations">
-    <div class="container">
-        <h2>Các Điểm Đến Nổi Bật</h2>
-        <div class="destination-filters">
-            <button class="filter-btn active"><i class="fas fa-leaf"></i> Lựa chọn mùa xuân</button>
-            <button class="filter-btn"><i class="fas fa-sun"></i> Điểm nóng mùa hè</button>
-            <button class="filter-btn"><i class="fas fa-canadian-maple-leaf"></i> Khám phá mùa thu</button>
-            <button class="filter-btn"><i class="fas fa-snowflake"></i> Chốn nghỉ mùa đông</button>
-        </div>
-        <div class="destination-grid">
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail1.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img1.png" alt="Hà Nội">
-                    <div class="card-content">
-                        <h3>Hà Nội</h3>
-                        <p class="price">Từ <span>2,000,000/đêm</span></p>
-                        <p class="description">Lãng mạn, nghệ thuật, và cà phê nằm ngay trung tâm thủ đô.</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail11.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img2.png" alt="Vịnh Hạ Long">
-                    <div class="card-content">
-                        <h3>Vịnh Hạ Long</h3>
-                        <p class="price">Từ <span>2,500,000/đêm</span></p>
-                        <p class="description">Tầm nhìn ra biển, đại dương, và sự yên bình.</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail13.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img3.png" alt="Nha Trang">
-                    <div class="card-content">
-                        <h3>Nha Trang</h3>
-                        <p class="price">Từ <span>500,000/đêm</span></p>
-                        <p class="description">Biệt thự, thiên nhiên, và không khí an nhiên.</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail16.html" class="destination-card-link">
-                <div class="destination-card">
-                    <img src="${pageContext.request.contextPath}/assets/images/img4.png" alt="Huế">
-                    <div class="card-content">
-                        <h3>Huế</h3>
-                        <p class="price">Từ <span>900,000/đêm</span></p>
-                        <p class="description">Phố cổ Hội An và nhiều khu văn hóa đa dạng khác.</p>
-                    </div>
-                </div>
-            </a>
         </div>
     </div>
 </section>
@@ -250,8 +200,8 @@
                 <div class="logo">
                     <img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo">
                 </div>
-                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo - từ nhà khách ấm cúng đến khách sạn hàng đầu - một cách dễ dàng, tin cậy với ưu đãi tốt nhất.</p>
-                <h3>Tải Ứng Dụng Của Chúng Tôi</h3>
+                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo.</p>
+                <h3>Tải Ứng Dụng</h3>
                 <div class="app-buttons">
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=App+Store" alt="App Store"></a>
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=Google+Play" alt="Google Play"></a>
@@ -261,23 +211,8 @@
             <div class="footer-col links">
                 <h3>Khám phá</h3>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/assets/html/hotel-detail1.html">Điểm đến nổi bật</a></li>
-                    <li><a href="#">Điểm nóng mùa hè</a></li>
-                    <li><a href="#">Chốn nghỉ mùa đông</a></li>
+                    <li><a href="#">Điểm đến nổi bật</a></li>
                     <li><a href="#">Ưu đãi cuối tuần</a></li>
-                    <li><a href="#">Chỗ ở cho gia đình</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col links">
-                <h3>Loại hình chỗ ở</h3>
-                <ul>
-                    <li><a href="#">Khách sạn</a></li>
-                    <li><a href="#">Căn hộ</a></li>
-                    <li><a href="#">Biệt thự</a></li>
-                    <li><a href="#">Cabin</a></li>
-                    <li><a href="#">Cắm trại cao cấp</a></li>
-                    <li><a href="#">Nhà vòm</a></li>
                 </ul>
             </div>
 
@@ -285,21 +220,16 @@
                 <h3>Hỗ trợ</h3>
                 <ul>
                     <li><a href="#">Trung tâm trợ giúp</a></li>
-                    <li><a href="#">Hỗ trợ trò chuyện trực tiếp</a></li>
-                    <li><a href="#">Câu hỏi thường gặp</a></li>
                     <li><a href="#">Liên hệ</a></li>
                 </ul>
             </div>
 
             <div class="footer-col contact">
                 <h3>Liên lạc</h3>
-                <p>+1 (800) 123 456</p>
                 <p>support@group15.com</p>
                 <div class="social-icons">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
         </div>
@@ -308,14 +238,6 @@
 
         <div class="footer-bottom">
             <p class="copyright">© 2025 Group15. Đã đăng ký bản quyền.</p>
-            <div class="payment-icons">
-                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Visa" alt="Visa">
-                <img src="https://placehold.co/40x25/FFFFFF/000000?text=MC" alt="Mastercard">
-                <img src="https://placehold.co/40x25/FFFFFF/000000?text=AE" alt="American Express">
-                <img src="https://placehold.co/40x25/FFFFFF/000000?text=Disc" alt="Discover">
-                <img src="https://placehold.co/40x25/FFFFFF/000000?text=GPay" alt="Google Pay">
-                <img src="https://placehold.co/40x25/FFFFFF/000000?text=APay" alt="Apple Pay">
-            </div>
         </div>
     </div>
 </footer>
