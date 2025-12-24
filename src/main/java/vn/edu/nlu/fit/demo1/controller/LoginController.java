@@ -31,6 +31,7 @@ public class LoginController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/");
             return;
         }
+
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
     }
 
@@ -44,7 +45,6 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Validate input
         if (username == null || username.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin đăng nhập");
@@ -53,21 +53,17 @@ public class LoginController extends HttpServlet {
             return;
         }
 
-        // Authenticate user
         User user = userService.authenticate(username.trim(), password);
 
         if (user != null) {
-            // Đăng nhập thành công
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             session.setAttribute("username", user.getUsername());
             session.setAttribute("fullName", user.getFullName());
-            session.setMaxInactiveInterval(30 * 60); // Session timeout 30 phút
+            session.setMaxInactiveInterval(30 * 60);
 
-            // Redirect về trang chủ
             response.sendRedirect(request.getContextPath() + "/");
         } else {
-            // Đăng nhập thất bại
             request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng");
             request.setAttribute("username", username);
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
