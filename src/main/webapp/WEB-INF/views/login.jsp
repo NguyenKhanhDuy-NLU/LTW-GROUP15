@@ -3,55 +3,76 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập - Group15</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-
 <body>
-<div class="login-page-wrapper">
-    <div class="modal-content">
-        <a href="${pageContext.request.contextPath}/" class="modal-close-btn" aria-label="Đóng">&times;</a>
 
-        <div class="modal-form">
-            <h3>Đăng nhập</h3>
+<div class="login-container">
+    <div class="login-wrapper">
+        <a href="${pageContext.request.contextPath}/" class="close-btn" title="Về trang chủ">
+            <i class="fas fa-times"></i>
+        </a>
 
-            <form method="post" action="${pageContext.request.contextPath}/login">
+        <div class="login-header">
+            <h1>Chào mừng trở lại!</h1>
+            <p>Vui lòng đăng nhập để quản lý đặt phòng</p>
+        </div>
 
-                <div class="form-group">
-                    <label for="login-email">Tên đăng nhập</label>
+        <div class="alert-error" style="<%= request.getAttribute("errorMessage") != null ? "display:flex;" : "display:none;" %>">
+            <i class="fas fa-exclamation-circle"></i>
+            <span><%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %></span>
+        </div>
+
+        <form action="${pageContext.request.contextPath}/login" method="POST" class="login-form">
+
+            <div class="input-group">
+                <label for="username">Tên đăng nhập / Email</label>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
                     <input
                             type="text"
-                            id="login-email"
+                            id="username"
                             name="username"
-                            placeholder="Nhập tên đăng nhập (ví dụ: admin)"
+                            placeholder="Nhập tên đăng nhập"
                             value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>"
                             required
                             autofocus>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="login-pass">Mật khẩu</label>
+            <div class="input-group">
+                <label for="password">Mật khẩu</label>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
                     <input
                             type="password"
-                            id="login-pass"
+                            id="password"
                             name="password"
                             placeholder="Nhập mật khẩu"
                             required>
                 </div>
+            </div>
 
-                <p class="error-msg" style="<%= request.getAttribute("errorMessage") != null ? "display:block; color:red; text-align:center; margin-bottom:10px;" : "display:none;" %>">
-                    <%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %>
-                </p>
-
-                <button type="submit" class="form-submit-btn">Đăng nhập</button>
-
-                <div class="form-link-row">
-                    <a href="${pageContext.request.contextPath}/forgot-password" class="form-toggle-link">Quên mật khẩu?</a>
-                    <a href="${pageContext.request.contextPath}/register" class="form-toggle-link">Đăng ký</a>
+            <div class="form-actions">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Ghi nhớ tôi</label>
                 </div>
-            </form>
-        </div>
+                <a href="${pageContext.request.contextPath}/forgot-password" class="forgot-pass">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="btn-login">
+                Đăng Nhập <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <div class="register-link">
+                Bạn chưa có tài khoản?
+                <a href="${pageContext.request.contextPath}/register">Đăng ký ngay</a>
+            </div>
+        </form>
     </div>
 </div>
 
