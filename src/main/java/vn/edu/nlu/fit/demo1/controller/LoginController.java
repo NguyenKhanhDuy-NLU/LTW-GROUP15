@@ -1,11 +1,8 @@
 package vn.edu.nlu.fit.demo1.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import vn.edu.nlu.fit.demo1.model.User;
 import vn.edu.nlu.fit.demo1.service.UserService;
 

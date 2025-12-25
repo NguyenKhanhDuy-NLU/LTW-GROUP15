@@ -45,7 +45,7 @@
             </div>
 
             <button type="submit" class="btn-login">
-                Gửi Link Đặt Lại <i class="fas fa-paper-plane"></i>
+                Đặt Lại <i class="fas fa-paper-plane"></i>
             </button>
 
             <div class="register-link">
