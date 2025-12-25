@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin tài khoản - Group15</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/user.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo.jpg">
 </head>
 <body>

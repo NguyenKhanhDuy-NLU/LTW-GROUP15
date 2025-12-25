@@ -26,7 +26,7 @@
                 <% if (session.getAttribute("user") != null) { %>
 
                 <div class="user-menu">
-                    <a href="javascript:void(0)" class="nav-user-icon">
+                    <a href="${pageContext.request.contextPath}/user" class="nav-user-icon">
                         <i class="fas fa-user"></i>
                     </a>
                     <div class="user-dropdown">
