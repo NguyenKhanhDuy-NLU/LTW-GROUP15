@@ -30,14 +30,14 @@
         <form action="${pageContext.request.contextPath}/login" method="POST" class="login-form">
 
             <div class="input-group">
-                <label for="username">Số điện thoại / Email</label>
+                <label for="username">Tên đăng nhập / Email</label>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
                     <input
                             type="text"
                             id="username"
                             name="username"
-                            placeholder="Nhập tên sđt/email"
+                            placeholder="Nhập tên đăng nhập / email"
                             value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>"
                             required
                             autofocus>
