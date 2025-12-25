@@ -12,13 +12,9 @@ public class User implements Serializable {
     private String phone;
     private String address;
     private String gender;
+    private String avatar;
 
     public User() {
-    }
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
     }
 
     public User(String username, String password, String fullName, String email, String phone) {
@@ -86,6 +82,14 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -93,6 +97,8 @@ public class User implements Serializable {
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }
