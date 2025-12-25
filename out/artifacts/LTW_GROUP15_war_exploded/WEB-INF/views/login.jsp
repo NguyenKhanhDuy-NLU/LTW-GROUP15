@@ -7,6 +7,7 @@
     <title>Đăng nhập - Group15</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo.jpg">
 </head>
 <body>
 
@@ -29,14 +30,14 @@
         <form action="${pageContext.request.contextPath}/login" method="POST" class="login-form">
 
             <div class="input-group">
-                <label for="username">Tên đăng nhập / Email</label>
+                <label for="username">Số điện thoại / Email</label>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
                     <input
                             type="text"
                             id="username"
                             name="username"
-                            placeholder="Nhập tên đăng nhập"
+                            placeholder="Nhập tên sđt/email"
                             value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>"
                             required
                             autofocus>
