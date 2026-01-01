@@ -45,6 +45,70 @@ public class UserService {
     }
 
     public boolean isUsernameExists(String username) {
-        return userDatabase.containsKey(username);
+        return username != null && userDatabase.containsKey(username.trim());
+    }
+
+    public boolean isEmailExists(String email) {
+        if (email == null) {
+            return false;
+        }
+
+        String emailTrimmed = email.trim().toLowerCase();
+        return userDatabase.values().stream()
+                .anyMatch(user -> user.getEmail() != null &&
+                        user.getEmail().trim().toLowerCase().equals(emailTrimmed));
+    }
+
+    public User getUserByUsername(String username) {
+        if (username == null) {
+            return null;
+        }
+        return userDatabase.get(username.trim());
+    }
+
+    public User getUserByEmail(String email) {
+        if (email == null) {
+            return null;
+        }
+
+        String emailTrimmed = email.trim().toLowerCase();
+        return userDatabase.values().stream()
+                .filter(user -> user.getEmail() != null &&
+                        user.getEmail().trim().toLowerCase().equals(emailTrimmed))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean updateUser(User user) {
+        if (user == null || user.getUsername() == null) {
+            return false;
+        }
+
+        if (!userDatabase.containsKey(user.getUsername())) {
+            return false;
+        }
+
+        userDatabase.put(user.getUsername(), user);
+        return true;
+    }
+
+    public boolean changePassword(String username, String oldPassword, String newPassword) {
+        User user = authenticate(username, oldPassword);
+        if (user == null) {
+            return false;
+        }
+
+        user.setPassword(newPassword);
+        return updateUser(user);
+    }
+
+    public boolean resetPassword(String email, String newPassword) {
+        User user = getUserByEmail(email);
+        if (user == null) {
+            return false;
+        }
+
+        user.setPassword(newPassword);
+        return updateUser(user);
     }
 }

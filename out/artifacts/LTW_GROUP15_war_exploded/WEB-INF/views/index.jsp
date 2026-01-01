@@ -23,7 +23,6 @@
                     <i class="fas fa-chevron-down"></i>
                 </div>
 
-                <%-- ĐÃ SỬA: Kiểm tra trực tiếp session để tránh lỗi trùng biến --%>
                 <% if (session.getAttribute("user") != null) { %>
 
                 <div class="user-menu">
@@ -33,6 +32,7 @@
                     <div class="user-dropdown">
                         <a href="${pageContext.request.contextPath}/user"><i class="fas fa-user"></i> Hồ sơ</a>
                         <a href="${pageContext.request.contextPath}/bookings"><i class="fas fa-calendar-check"></i> Đặt phòng của tôi</a>
+                        <a href="${pageContext.request.contextPath}/change-password"><i class="fas fa-lock"></i> Đổi mật khẩu</a>
                         <a href="${pageContext.request.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                     </div>
                 </div>
