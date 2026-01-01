@@ -41,6 +41,8 @@ public class UserProfileController extends HttpServlet {
     }
 
     private String getUserDisplayName(User user) {
-
+        if (user == null) return "";
+        return (user.getFullName() != null && !user.getFullName().isEmpty())
+                ? user.getFullName() : user.getUsername();
     }
 }
