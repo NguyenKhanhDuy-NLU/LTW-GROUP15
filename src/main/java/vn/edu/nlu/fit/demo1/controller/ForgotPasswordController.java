@@ -3,7 +3,7 @@ package vn.edu.nlu.fit.demo1.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.nlu.fit.demo1.service.UserService;
+import vn.edu.nlu.fit.demo1.model.UserService;
 
 import java.io.IOException;
 

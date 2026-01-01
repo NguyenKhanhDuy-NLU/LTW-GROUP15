@@ -28,9 +28,6 @@ public class UserDAO {
         return null;
     }
 
-    /**
-     * Lấy thông tin user theo ID
-     */
     public User getUserById(int userId) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
@@ -51,9 +48,6 @@ public class UserDAO {
         return null;
     }
 
-    /**
-     * Lấy thông tin user theo username
-     */
     public User getUserByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
 
@@ -74,9 +68,6 @@ public class UserDAO {
         return null;
     }
 
-    /**
-     * Kiểm tra username đã tồn tại chưa
-     */
     public boolean isUsernameExists(String username) {
         String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
 
@@ -97,9 +88,6 @@ public class UserDAO {
         return false;
     }
 
-    /**
-     * Cập nhật thông tin user
-     */
     public boolean updateUser(User user) {
         String sql = "UPDATE users SET full_name = ?, email = ?, phone = ?, " +
                 "address = ?, gender = ?, avatar = ? WHERE id = ?";
@@ -123,9 +111,6 @@ public class UserDAO {
         }
     }
 
-    /**
-     * Đổi mật khẩu
-     */
     public boolean changePassword(int userId, String newPassword) {
         String sql = "UPDATE users SET password = ? WHERE id = ?";
 
@@ -143,9 +128,6 @@ public class UserDAO {
         }
     }
 
-    /**
-     * Đăng ký user mới
-     */
     public boolean registerUser(User user) {
         String sql = "INSERT INTO users (username, password, full_name, email, phone, address, gender) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -179,9 +161,6 @@ public class UserDAO {
         return false;
     }
 
-    /**
-     * Map ResultSet sang User object
-     */
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getInt("id"));
