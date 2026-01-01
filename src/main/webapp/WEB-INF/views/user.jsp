@@ -16,6 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin tài khoản - Group15</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style_home.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo.jpg">
@@ -34,17 +35,27 @@
                     <span>VND</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
-                <a href="${pageContext.request.contextPath}/user" class="nav-user-icon">
-                    <i class="fas fa-user"></i>
-                </a>
+
+                <div class="user-menu">
+                    <a href="${pageContext.request.contextPath}/user" class="nav-user-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="user-dropdown">
+                        <a href="${pageContext.request.contextPath}/user"><i class="fas fa-user"></i> Hồ sơ</a>
+                        <a href="${pageContext.request.contextPath}/bookings"><i class="fas fa-calendar-check"></i> Đặt phòng của tôi</a>
+                        <a href="${pageContext.request.contextPath}/change-password"><i class="fas fa-lock"></i> Đổi mật khẩu</a>
+                        <a href="${pageContext.request.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                    </div>
+                </div>
             </div>
         </nav>
     </div>
 </header>
 
-<main class="profile-main">
+<main class="profile-main" style="padding: 40px 0; background-color: #f9fafb;">
     <div class="container">
         <div class="profile-layout">
+
             <aside class="user-sidebar">
                 <div class="sidebar-header">
                     <div class="sidebar-avatar">
@@ -95,7 +106,7 @@
                     <div class="form-layout-grid">
                         <div class="form-group">
                             <label>Tên đăng nhập</label>
-                            <input type="text" value="<%= user.getUsername() %>" disabled>
+                            <input type="text" value="<%= user.getUsername() %>" disabled style="background-color: #e9ecef;">
                         </div>
                         <div class="form-group">
                             <label>Họ và tên</label>
@@ -108,7 +119,7 @@
                         <div class="form-group">
                             <label>
                                 Số điện thoại
-                                <span id="phone-error" class="error-text" style="display: none;">(Chỉ được nhập số)</span>
+                                <span id="phone-error" class="error-text" style="display: none; color: red; font-size: 12px; margin-left: 5px;">(Chỉ được nhập số)</span>
                             </label>
                             <input type="text" id="phone" name="phone" value="<%= user.getPhone() != null ? user.getPhone() : "" %>" disabled class="editable-input">
                         </div>
@@ -127,8 +138,8 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" id="btn-edit" class="u-btn u-btn-primary">Sửa</button>
-                        <button type="submit" id="btn-save" class="u-btn u-btn-success" disabled>Thay đổi</button>
+                        <button type="button" id="btn-edit" class="u-btn u-btn-primary">Sửa thông tin</button>
+                        <button type="submit" id="btn-save" class="u-btn u-btn-success" disabled>Lưu thay đổi</button>
                     </div>
                 </form>
             </section>
@@ -143,8 +154,8 @@
                 <div class="logo">
                     <img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo">
                 </div>
-                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo.</p>
-                <h3>Tải Ứng Dụng</h3>
+                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo - từ nhà khách ấm cúng đến khách sạn hàng đầu - một cách dễ dàng, tin cậy với ưu đãi tốt nhất.</p>
+                <h3>Tải Ứng Dụng Của Chúng Tôi</h3>
                 <div class="app-buttons">
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=App+Store" alt="App Store"></a>
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=Google+Play" alt="Google Play"></a>
@@ -194,40 +205,37 @@
         const phoneInput = document.getElementById('phone');
         const phoneError = document.getElementById('phone-error');
 
-        let isPhoneValid = true;
-
         if (btnEdit && btnSave) {
             btnEdit.addEventListener('click', function() {
+                // Bật chế độ sửa
                 editableInputs.forEach(input => {
                     input.removeAttribute('disabled');
+                    input.style.border = "1px solid #0057FF";
                 });
 
-                if(fileInput) {
-                    fileInput.removeAttribute('disabled');
-                }
+                if(fileInput) fileInput.removeAttribute('disabled');
 
                 btnSave.removeAttribute('disabled');
                 btnEdit.style.display = 'none';
 
+                // Focus vào ô đầu tiên
                 if(editableInputs.length > 0) editableInputs[0].focus();
             });
         }
 
+        // Validate số điện thoại
         if (phoneInput) {
             phoneInput.addEventListener('input', function() {
                 const value = this.value;
                 const hasNonNumber = /\D/.test(value);
 
                 if (hasNonNumber) {
-                    isPhoneValid = false;
                     phoneError.style.display = 'inline';
-                    this.classList.add('input-error');
+                    this.style.borderColor = 'red';
                     btnSave.setAttribute('disabled', true);
                 } else {
-                    isPhoneValid = true;
                     phoneError.style.display = 'none';
-                    this.classList.remove('input-error');
-
+                    this.style.borderColor = '#0057FF';
                     if (btnEdit.style.display === 'none') {
                         btnSave.removeAttribute('disabled');
                     }
