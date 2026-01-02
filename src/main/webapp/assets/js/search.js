@@ -1,169 +1,196 @@
-const listViewBtn = document.getElementById("listViewBtn");
-const gridViewBtn = document.getElementById("gridViewBtn");
-const gridContainer = document.getElementById("grid");
+document.addEventListener('DOMContentLoaded', function() {
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    const priceRangeText = document.getElementById('priceRangeText');
 
-listViewBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  gridContainer.classList.add("list-mode");
-  gridContainer.classList.remove("grid-mode");
-  listViewBtn.classList.add("active");
-  gridViewBtn.classList.remove("active");
+    if (minRange && maxRange && priceRangeText) {
+        function updatePriceDisplay() {
+            let minVal = parseInt(minRange.value);
+            let maxVal = parseInt(maxRange.value);
+
+            if (minVal > maxVal - 100000) {
+                minVal = maxVal - 100000;
+                minRange.value = minVal;
+            }
+
+            const maxText = maxVal >= 20000000 ? '20.000.000đ+' : formatPrice(maxVal) + 'đ';
+            priceRangeText.textContent = `${formatPrice(minVal)}đ - ${maxText}`;
+        }
+
+        minRange.addEventListener('input', updatePriceDisplay);
+        maxRange.addEventListener('input', updatePriceDisplay);
+        updatePriceDisplay();
+    }
+    const searchForm = document.getElementById('searchForm');
+    const filterForm = document.getElementById('filterForm');
+
+    if (searchForm && filterForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const existingHiddens = searchForm.querySelectorAll('input[type="hidden"]');
+            existingHiddens.forEach(input => {
+                if (input.name !== 'cityId') {
+                    input.remove();
+                }
+            });
+            const minPriceInput = filterForm.querySelector('input[name="minPrice"]');
+            if (minPriceInput && minPriceInput.value) {
+                const hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = 'minPrice';
+                hidden.value = minPriceInput.value;
+                searchForm.appendChild(hidden);
+            }
+            const maxPriceInput = filterForm.querySelector('input[name="maxPrice"]');
+            if (maxPriceInput && maxPriceInput.value) {
+                const hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = 'maxPrice';
+                hidden.value = maxPriceInput.value;
+                searchForm.appendChild(hidden);
+            }
+            const checkedBoxes = filterForm.querySelectorAll('input[type="checkbox"]:checked');
+            checkedBoxes.forEach(checkbox => {
+                const hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = checkbox.name;
+                hidden.value = checkbox.value;
+                searchForm.appendChild(hidden);
+            });
+
+            console.log('🚀 Submitting with filters:', {
+                minPrice: minPriceInput?.value,
+                maxPrice: maxPriceInput?.value,
+                checkedBoxes: checkedBoxes.length
+            });
+            searchForm.submit();
+        });
+    }
+    const listViewBtn = document.getElementById('listViewBtn');
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const gridContainer = document.getElementById('grid');
+
+    if (listViewBtn && gridViewBtn && gridContainer) {
+        listViewBtn.addEventListener('click', function() {
+            switchToListView();
+            sessionStorage.setItem('viewMode', 'list');
+        });
+
+        gridViewBtn.addEventListener('click', function() {
+            switchToGridView();
+            sessionStorage.setItem('viewMode', 'grid');
+        });
+
+        const savedView = sessionStorage.getItem('viewMode');
+        if (savedView === 'grid') {
+            switchToGridView();
+        } else {
+            switchToListView();
+        }
+    }
+    const userMenu = document.querySelector('.user-menu');
+    if (userMenu) {
+        const userIcon = userMenu.querySelector('.nav-user-icon');
+
+        if (userIcon) {
+            userIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                userMenu.classList.toggle('active');
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!userMenu.contains(e.target)) {
+                userMenu.classList.remove('active');
+            }
+        });
+    }
+    const checkinInput = document.querySelector('input[name="checkin"]');
+    const checkoutInput = document.querySelector('input[name="checkout"]');
+
+    if (checkinInput && checkoutInput) {
+        const today = new Date().toISOString().split('T')[0];
+
+        if (!checkinInput.value) {
+            checkinInput.setAttribute('min', today);
+        }
+
+        checkinInput.addEventListener('change', function() {
+            const checkinDate = new Date(this.value);
+            checkinDate.setDate(checkinDate.getDate() + 1);
+            const minCheckout = checkinDate.toISOString().split('T')[0];
+            checkoutInput.setAttribute('min', minCheckout);
+
+            if (checkoutInput.value && checkoutInput.value < minCheckout) {
+                checkoutInput.value = '';
+            }
+        });
+    }
+    const searchLocationInput = document.getElementById('searchLocationInput');
+
+    if (searchLocationInput && searchForm) {
+        const originalLocation = searchLocationInput.value.trim().toLowerCase();
+        searchLocationInput.addEventListener('input', function() {
+            const hiddenCityId = searchForm.querySelector('input[name="cityId"]');
+            if (hiddenCityId) {
+                hiddenCityId.remove();
+                console.log('🗑️ Removed cityId - user is changing location');
+            }
+        });
+        searchForm.addEventListener('submit', function(e) {
+            const newLocation = searchLocationInput.value.trim().toLowerCase();
+
+            if (newLocation !== originalLocation) {
+                const hiddenCityId = searchForm.querySelector('input[name="cityId"]');
+                if (hiddenCityId) {
+                    hiddenCityId.remove();
+                    console.log('🗑️ Removed cityId on submit - location changed');
+                }
+            }
+        });
+    }
 });
+function switchToListView() {
+    const gridContainer = document.getElementById('grid');
+    const listViewBtn = document.getElementById('listViewBtn');
+    const gridViewBtn = document.getElementById('gridViewBtn');
 
-gridViewBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  gridContainer.classList.add("grid-mode");
-  gridContainer.classList.remove("list-mode");
-  gridViewBtn.classList.add("active");
-  listViewBtn.classList.remove("active");
-});
+    if (!gridContainer || !listViewBtn || !gridViewBtn) return;
 
-const minRange = document.getElementById("minRange");
-const maxRange = document.getElementById("maxRange");
+    gridContainer.classList.remove('grid-mode');
+    gridContainer.classList.add('list-mode');
+    listViewBtn.classList.add('active');
+    gridViewBtn.classList.remove('active');
 
-if (minRange && maxRange) {
-  const gap = 100000;
-
-  minRange.addEventListener("input", () => {
-    if (parseInt(minRange.value) >= parseInt(maxRange.value) - gap) {
-      minRange.value = parseInt(maxRange.value) - gap;
-    }
-    updateSliderTrack();
-  });
-
-  maxRange.addEventListener("input", () => {
-    if (parseInt(maxRange.value) <= parseInt(minRange.value) + gap) {
-      maxRange.value = parseInt(minRange.value) + gap;
-    }
-    updateSliderTrack();
-  });
-
-  function updateSliderTrack() {
-    const minVal = parseInt(minRange.value);
-    const maxVal = parseInt(maxRange.value);
-    const minPercent = ((minVal - minRange.min) / (minRange.max - minRange.min)) * 100;
-    const maxPercent = ((maxVal - maxRange.max) / (maxRange.max - maxRange.min)) * 100;
-
-    document.querySelector(".slider-track").style.background = `linear-gradient(to right, 
-      #ddd ${minPercent}%, 
-      #0078ff ${minPercent}%, 
-      #0078ff ${maxPercent}%, 
-      #ddd ${maxPercent}%)`;
-  }
-
-  updateSliderTrack();
-  minRange.dispatchEvent(new Event("input"));
+    document.querySelectorAll('.card-list').forEach(card => {
+        card.style.display = 'flex';
+    });
+    document.querySelectorAll('.card-grid').forEach(card => {
+        card.style.display = 'none';
+    });
 }
 
-const cityMaps = {
-    "Hà Nội": { map: "mapHN.html", key: "Ha Noi" },
-    "TP. Hồ Chí Minh": { map: "mapHCM.html", key: "Ho Chi Minh City" },
-    "Hải Phòng": { map: "mapHP.html", key: "Hai Phong" },
-    "Đà Nẵng": { map: "mapDN.html", key: "Da Nang" },
-    "TP. Cần Thơ": { map: "mapCT.html", key: "Can Tho" },
-    "Hạ Long": { map: "mapHL.html", key: "Ha Long" },
-    "Hội An": { map: "mapHA.html", key: "Hoi An" },
-    "Phú Quốc": { map: "mapPQ.html", key: "Phu Quoc" },
-    "Nha Trang": { map: "mapNT.html", key: "Nha Trang" },
-    "Vũng Tàu": { map: "mapVT.html", key: "Vung Tau" },
-    "Huế": { map: "mapHUE.html", key: "Hue" }
-};
+function switchToGridView() {
+    const gridContainer = document.getElementById('grid');
+    const listViewBtn = document.getElementById('listViewBtn');
+    const gridViewBtn = document.getElementById('gridViewBtn');
 
-const searchInput = document.getElementById("q");
-const searchBtn = document.getElementById("searchBtn");
-const mapBtn = document.querySelector(".map-icon");
+    if (!gridContainer || !listViewBtn || !gridViewBtn) return;
 
-searchBtn.addEventListener("click", handleSearch);
-searchInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") handleSearch();
-});
+    gridContainer.classList.remove('list-mode');
+    gridContainer.classList.add('grid-mode');
+    gridViewBtn.classList.add('active');
+    listViewBtn.classList.remove('active');
 
-function handleSearch() {
-  const query = searchInput.value.trim();
-  if (!query) {
-    showAllHotels();
-    resetMapLink();
-    return;
-  }
-
-  filterHotelsByCity(query);
-  updateMapLink(query);
+    document.querySelectorAll('.card-list').forEach(card => {
+        card.style.display = 'none';
+    });
+    document.querySelectorAll('.card-grid').forEach(card => {
+        card.style.display = 'block';
+    });
 }
 
-function filterHotelsByCity(cityName) {
-  const cards = document.querySelectorAll(".card");
-  const normalizedInput = removeAccents(cityName.toLowerCase());
-  let hasMatch = false;
-  let matchedKey = null;
-
-  for (const [viName, info] of Object.entries(cityMaps)) {
-    if (
-      removeAccents(viName.toLowerCase()).includes(normalizedInput) ||
-      removeAccents(info.key.toLowerCase()).includes(normalizedInput)
-    ) {
-      matchedKey = removeAccents(info.key.toLowerCase());
-      break;
-    }
-  }
-
-  cards.forEach(card => {
-    const dataCity = removeAccents((card.getAttribute("data-city") || "").toLowerCase());
-    if (matchedKey && dataCity.includes(matchedKey)) {
-      card.style.display = "";
-      hasMatch = true;
-    } else {
-      card.style.display = "none";
-    }
-  });
-
-  if (!hasMatch) {
-    resetMapLink();
-  }
+function formatPrice(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
-
-function updateMapLink(cityName) {
-  const normalizedInput = removeAccents(cityName.toLowerCase());
-  for (const [viName, info] of Object.entries(cityMaps)) {
-    if (
-      removeAccents(viName.toLowerCase()).includes(normalizedInput) ||
-      removeAccents(info.key.toLowerCase()).includes(normalizedInput)
-    ) {
-      mapBtn.onclick = () => window.location.href = info.map;
-      mapBtn.style.cursor = "pointer";
-      mapBtn.title = `Xem bản đồ ${viName}`;
-      mapBtn.classList.remove("no-city");
-      return;
-    }
-  }
-  resetMapLink();
-}
-
-function resetMapLink() {
-  mapBtn.onclick = () => {
-    mapBtn.classList.add("refreshing");
-    setTimeout(() => window.location.href = "search.html", 300);
-  };
-  mapBtn.style.cursor = "pointer";
-  mapBtn.title = "Chưa chọn tỉnh/thành — bấm để tải lại trang";
-  mapBtn.classList.add("no-city");
-}
-
-function showAllHotels() {
-  document.querySelectorAll(".card").forEach(card => {
-    card.style.display = "";
-  });
-}
-
-function removeAccents(str) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  searchInput.value = "Hà Nội";
-
-  handleSearch();
-
-  resetMapLink();
-  updateMapLink("Hà Nội");
-
-});
