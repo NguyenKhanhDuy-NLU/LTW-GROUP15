@@ -8,7 +8,7 @@ public class Hotel implements Serializable {
     private int id;
     private String name;
     private int cityId;
-    private String cityName;
+    private String cityName; // Từ JOIN với cities table
     private String address;
     private int starRating;
     private BigDecimal pricePerNight;
@@ -65,6 +65,14 @@ public class Hotel implements Serializable {
 
     public String getFormattedPrice() {
         if (pricePerNight == null) return "0";
-        return String.format("%,.0f", pricePerNight);
+        return String.format("%,.0f", pricePerNight).replace(",", ".");
+    }
+
+    public String getStarDisplay() {
+        StringBuilder stars = new StringBuilder();
+        for (int i = 0; i < starRating; i++) {
+            stars.append("⭐");
+        }
+        return stars.toString();
     }
 }
