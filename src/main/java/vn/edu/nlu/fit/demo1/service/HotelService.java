@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HotelService {
-    private final HotelDAO hotelDAO = new HotelDAO();
+    private final HotelDAO hotelDAO;
+
+    public HotelService() {
+        this.hotelDAO = new HotelDAO();
+    }
 
     public List<Hotel> searchByFilter(
             Integer cityId,
@@ -27,7 +31,7 @@ public class HotelService {
                 try {
                     stars.add(Integer.parseInt(s));
                 } catch (NumberFormatException e) {
-                    System.err.println("Invalid star rating: " + s);
+                    System.err.println("Lỗi định dạng sao: " + s);
                 }
             }
         }
@@ -50,11 +54,17 @@ public class HotelService {
     public List<Hotel> searchHotelsByCityId(int cityId, String checkin, String checkout) {
         return hotelDAO.advancedSearch(cityId, checkin, checkout, null, null, null, null, null);
     }
+
     public List<Hotel> searchHotels(String location, String checkin, String checkout) {
         String searchLocation = (location != null) ? location.trim() : "";
-        return hotelDAO.searchHotels(searchLocation, checkin, checkout);
+        return hotelDAO.searchHotelsByLocation(searchLocation);
     }
+
     public Hotel getHotelById(int id) {
         return hotelDAO.getHotelById(id);
+    }
+
+    public List<Hotel> getAllHotels() {
+        return hotelDAO.getAllHotels();
     }
 }
