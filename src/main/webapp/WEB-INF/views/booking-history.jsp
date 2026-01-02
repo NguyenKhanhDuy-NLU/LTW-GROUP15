@@ -1,7 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="vn.edu.nlu.fit.demo1.model.User" %>
+<%@ page import="vn.edu.nlu.fit.demo1.model.Booking" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%
     User user = (User) session.getAttribute("user");
+    List<Booking> bookings = (List<Booking>) request.getAttribute("bookings");
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -15,7 +20,6 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo.jpg">
 </head>
 <body>
-
 <header class="header">
     <div class="container">
         <nav class="navbar">
@@ -25,8 +29,7 @@
             <div class="nav-right">
                 <div class="language-currency">
                     <img src="${pageContext.request.contextPath}/assets/images/Anh_VN.webp" alt="Việt Nam">
-                    <span>VND</span>
-                    <i class="fas fa-chevron-down"></i>
+                    <span>VND</span> <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="user-menu">
                     <a href="${pageContext.request.contextPath}/user" class="nav-user-icon">
@@ -43,7 +46,6 @@
         </nav>
     </div>
 </header>
-
 <main class="profile-main">
     <div class="container">
         <div class="profile-layout">
@@ -64,87 +66,56 @@
                     </ul>
                 </nav>
             </aside>
-
             <section class="user-content">
                 <div class="content-title">
                     <h2>Lịch sử đặt phòng</h2>
                     <p>Xem lại các chuyến đi và trạng thái đặt phòng của bạn</p>
                 </div>
-
                 <div class="history-list">
-
-                    <!-- Booking Card 1 - Hoàn thành -->
+                    <% if (bookings != null && !bookings.isEmpty()) { %>
+                    <% for (Booking booking : bookings) { %>
                     <div class="booking-card">
                         <div class="booking-img">
-                            <img src="${pageContext.request.contextPath}/assets/images/img1.png" alt="Hotel Image">
+                            <img src="${pageContext.request.contextPath}<%= booking.getHotelImage() %>" alt="<%= booking.getHotelName() %>">
                         </div>
                         <div class="booking-info">
                             <div class="booking-header">
-                                <h3>The Five Residences Hanoi</h3>
-                                <span class="status-badge success">Hoàn thành</span>
+                                <h3><%= booking.getHotelName() %></h3>
+                                <span class="status-badge <%= booking.getStatusBadgeClass() %>"><%= booking.getStatusText() %></span>
                             </div>
                             <div class="booking-details">
-                                <p><i class="fas fa-calendar-alt"></i> 15/11/2025 - 18/11/2025</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Quận Ba Đình, Hà Nội</p>
-                                <p><i class="fas fa-bed"></i> 1 Phòng giường đôi</p>
+                                <p><i class="fas fa-calendar-alt"></i> <%= sdf.format(booking.getCheckInDate()) %> - <%= sdf.format(booking.getCheckOutDate()) %></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <%= booking.getCityName() %></p>
+                                <p><i class="fas fa-bed"></i> <%= booking.getRoomType() %></p>
+                                <p><i class="fas fa-users"></i> <%= booking.getGuests() %> khách</p>
+                                <p><i class="fas fa-barcode"></i> Mã đặt phòng: <strong><%= booking.getBookingCode() %></strong></p>
                             </div>
                         </div>
                         <div class="booking-price">
-                            <p class="total-price">4.500.000 VND</p>
-                            <button class="btn-detail" onclick="alert('Chức năng đang phát triển')">Xem chi tiết</button>
-                        </div>
-                    </div>
-
-                    <!-- Booking Card 2 - Sắp tới -->
-                    <div class="booking-card">
-                        <div class="booking-img">
-                            <img src="${pageContext.request.contextPath}/assets/images/img6.png" alt="Hotel Image">
-                        </div>
-                        <div class="booking-info">
-                            <div class="booking-header">
-                                <h3>La Vela Saigon Hotel</h3>
-                                <span class="status-badge pending">Sắp tới</span>
-                            </div>
-                            <div class="booking-details">
-                                <p><i class="fas fa-calendar-alt"></i> 20/12/2025 - 22/12/2025</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Quận 3, TP.HCM</p>
-                                <p><i class="fas fa-bed"></i> 1 Phòng VIP</p>
-                            </div>
-                        </div>
-                        <div class="booking-price">
-                            <p class="total-price">3.200.000 VND</p>
-                            <button class="btn-detail" onclick="alert('Chức năng đang phát triển')">Xem chi tiết</button>
-                        </div>
-                    </div>
-
-                    <!-- Booking Card 3 - Đã hủy -->
-                    <div class="booking-card">
-                        <div class="booking-img">
-                            <img src="${pageContext.request.contextPath}/assets/images/img37.png" alt="Hotel Image">
-                        </div>
-                        <div class="booking-info">
-                            <div class="booking-header">
-                                <h3>JW Marriott Phú Quốc</h3>
-                                <span class="status-badge cancel">Đã hủy</span>
-                            </div>
-                            <div class="booking-details">
-                                <p><i class="fas fa-calendar-alt"></i> 01/10/2025 - 03/10/2025</p>
-                                <p><i class="fas fa-map-marker-alt"></i> An Thới, Phú Quốc</p>
-                                <p><i class="fas fa-bed"></i> 1 Biệt thự biển</p>
-                            </div>
-                        </div>
-                        <div class="booking-price">
-                            <p class="total-price">10.000.000 VND</p>
+                            <p class="total-price"><%= booking.getFormattedPrice() %> VND</p>
+                            <% if ("cancelled".equals(booking.getStatus())) { %>
                             <button class="btn-rebook" onclick="alert('Chức năng đang phát triển')">Đặt lại</button>
+                            <% } else { %>
+                            <button class="btn-detail" onclick="alert('Chức năng đang phát triển')">Xem chi tiết</button>
+                            <% } %>
                         </div>
                     </div>
-
+                    <% } %>
+                    <% } else { %>
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <i class="fas fa-calendar-times" style="font-size: 64px; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3>Chưa có lịch sử đặt phòng</h3>
+                        <p>Bạn chưa có đơn đặt phòng nào. Hãy khám phá và đặt phòng ngay!</p>
+                        <a href="${pageContext.request.contextPath}/" class="btn-detail" style="display: inline-block; margin-top: 20px; text-decoration: none;">
+                            <i class="fas fa-search"></i> Tìm khách sạn
+                        </a>
+                    </div>
+                    <% } %>
                 </div>
             </section>
         </div>
     </div>
 </main>
-
 <footer class="footer">
     <div class="container">
         <div class="footer-main">
@@ -152,25 +123,23 @@
                 <div class="logo">
                     <img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="logo">
                 </div>
-                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo - từ nhà khách ấm cúng đến khách sạn hàng đầu - một cách dễ dàng, tin cậy với ưu đãi tốt nhất.</p>
+                <p>Chúng tôi giúp bạn tìm và đặt chỗ ở hoàn hảo - từ nhà khách ấm cúng đến khách sạn hạng đầu - một cách dễ dàng, tin cậy với ưu đãi tốt nhất.</p>
                 <h3>Tải Ứng Dụng Của Chúng Tôi</h3>
                 <div class="app-buttons">
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=App+Store" alt="App Store"></a>
                     <a href="#"><img src="https://placehold.co/135x40/4A4A4A/FFFFFF?text=Google+Play" alt="Google Play"></a>
                 </div>
             </div>
-
             <div class="footer-col links">
                 <h3>Khám phá</h3>
                 <ul>
                     <li><a href="#">Điểm đến nổi bật</a></li>
                     <li><a href="#">Điểm nóng mùa hè</a></li>
-                    <li><a href="#">Chốn nghỉ mùa đông</a></li>
+                    <li><a href="#">Chọn nghỉ mùa đông</a></li>
                     <li><a href="#">Ưu đãi cuối tuần</a></li>
                     <li><a href="#">Chỗ ở cho gia đình</a></li>
                 </ul>
             </div>
-
             <div class="footer-col links">
                 <h3>Loại hình chỗ ở</h3>
                 <ul>
@@ -182,7 +151,6 @@
                     <li><a href="#">Nhà vòm</a></li>
                 </ul>
             </div>
-
             <div class="footer-col links">
                 <h3>Hỗ trợ</h3>
                 <ul>
@@ -192,7 +160,6 @@
                     <li><a href="#">Liên hệ</a></li>
                 </ul>
             </div>
-
             <div class="footer-col contact">
                 <h3>Liên lạc</h3>
                 <p>+1 (800) 123 456</p>
@@ -205,9 +172,7 @@
                 </div>
             </div>
         </div>
-
         <hr class="footer-divider">
-
         <div class="footer-bottom">
             <p class="copyright">© 2025 Group15. Đã đăng ký bản quyền.</p>
             <div class="payment-icons">
@@ -221,6 +186,5 @@
         </div>
     </div>
 </footer>
-
 </body>
 </html>
