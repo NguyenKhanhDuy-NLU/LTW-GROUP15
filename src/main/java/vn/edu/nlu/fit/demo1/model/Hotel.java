@@ -18,10 +18,8 @@ public class Hotel implements Serializable {
     private BigDecimal latitude;
     private BigDecimal longitude;
 
-    // Constructors
     public Hotel() {}
 
-    // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
