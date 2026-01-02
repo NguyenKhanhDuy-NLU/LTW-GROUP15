@@ -50,6 +50,7 @@ public class HotelService {
                 amenityFilters
         );
     }
+
     public List<Hotel> searchHotelsByCityId(int cityId, String checkin, String checkout) {
         return hotelDAO.advancedSearch(cityId, checkin, checkout, null, null, null, null, null);
     }
