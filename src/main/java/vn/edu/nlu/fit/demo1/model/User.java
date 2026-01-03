@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private int id;
     private String username;
     private String password;
     private String fullName;
@@ -12,6 +13,7 @@ public class User implements Serializable {
     private String phone;
     private String address;
     private String gender;
+    private String avatar;
 
     public User() {
     }
@@ -29,7 +31,14 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -86,10 +95,19 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
