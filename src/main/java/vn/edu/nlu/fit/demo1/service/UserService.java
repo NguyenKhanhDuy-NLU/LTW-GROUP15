@@ -1,4 +1,5 @@
 package vn.edu.nlu.fit.demo1.service;
+
 import vn.edu.nlu.fit.demo1.dao.UserDAO;
 import vn.edu.nlu.fit.demo1.model.User;
 
@@ -39,5 +40,9 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return userDAO.getUserByUsername(username);
+    }
+
+    public User getUserByEmail(String email) {
+        return userDAO.getUserByEmail(email);
     }
 }
