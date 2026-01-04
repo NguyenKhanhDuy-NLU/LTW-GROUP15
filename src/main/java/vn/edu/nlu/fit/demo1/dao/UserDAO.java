@@ -1,25 +1,28 @@
-
 package vn.edu.nlu.fit.demo1.dao;
 
 import vn.edu.nlu.fit.demo1.config.DatabaseConfig;
 import vn.edu.nlu.fit.demo1.model.User;
+import vn.edu.nlu.fit.demo1.util.PasswordUtil;
 
 import java.sql.*;
 
 public class UserDAO {
 
     public User authenticate(String username, String password) {
-        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM users WHERE username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, username);
-            stmt.setString(2, password);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return extractUserFromResultSet(rs);
+                    String hashedPasswordInDB = rs.getString("password");
+
+                    if (PasswordUtil.checkPassword(password, hashedPasswordInDB)) {
+                        return extractUserFromResultSet(rs);
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -29,13 +32,16 @@ public class UserDAO {
     }
 
     public boolean register(User user) {
-        String sql = "INSERT INTO users (username, password, full_name, email, phone, address, gender) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, password, full_name, email, phone, address, gender) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
+            String hashedPassword = PasswordUtil.hashPassword(user.getPassword());
+
             stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPassword());
+            stmt.setString(2, hashedPassword);
             stmt.setString(3, user.getFullName());
             stmt.setString(4, user.getEmail());
             stmt.setString(5, user.getPhone());
@@ -58,6 +64,29 @@ public class UserDAO {
         return false;
     }
 
+    public boolean changePassword(String username, String oldPassword, String newPassword) {
+        User user = authenticate(username, oldPassword);
+        if (user == null) {
+            return false;
+        }
+
+        String sql = "UPDATE users SET password = ? WHERE username = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                String hashedNewPassword = PasswordUtil.hashPassword(newPassword);
+
+                stmt.setString(1, hashedNewPassword);
+                stmt.setString(2, username);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean updateUser(User user) {
         String sql = "UPDATE users SET full_name = ?, email = ?, phone = ?, address = ?, gender = ?, avatar = ? WHERE id = ?";
 
@@ -71,27 +100,6 @@ public class UserDAO {
             stmt.setString(5, user.getGender());
             stmt.setString(6, user.getAvatar());
             stmt.setInt(7, user.getId());
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean changePassword(String username, String oldPassword, String newPassword) {
-        User user = authenticate(username, oldPassword);
-        if (user == null) {
-            return false;
-        }
-
-        String sql = "UPDATE users SET password = ? WHERE username = ?";
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, newPassword);
-            stmt.setString(2, username);
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -164,6 +172,25 @@ public class UserDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, username);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extractUserFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User getUserByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
