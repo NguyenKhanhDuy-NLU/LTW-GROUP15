@@ -203,6 +203,84 @@ public class UserDAO {
         return null;
     }
 
+
+    public boolean verifyUser(int userId) {
+        String sql = "UPDATE users SET is_verified = TRUE WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isUserVerified(int userId) {
+        String sql = "SELECT is_verified FROM users WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("is_verified");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updatePasswordById(int userId, String newPassword) {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String hashedPassword = PasswordUtil.hashPassword(newPassword);
+
+            stmt.setString(1, hashedPassword);
+            stmt.setInt(2, userId);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean canResendVerification(int userId) {
+        String sql = "SELECT created_at FROM verification_tokens " +
+                "WHERE user_id = ? AND token_type = 'email_verification' " +
+                "ORDER BY created_at DESC LIMIT 1";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Timestamp lastSent = rs.getTimestamp("created_at");
+                    long minutesAgo = (System.currentTimeMillis() - lastSent.getTime()) / (1000 * 60);
+                    // Cho phép gửi lại sau 5 phút
+                    return minutesAgo >= 5;
+                }
+            }
+            return true; // Chưa từng gửi
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private User extractUserFromResultSet(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getInt("id"));
@@ -214,6 +292,14 @@ public class UserDAO {
         user.setAddress(rs.getString("address"));
         user.setGender(rs.getString("gender"));
         user.setAvatar(rs.getString("avatar"));
+
+        try {
+            user.setVerified(rs.getBoolean("is_verified"));
+        } catch (SQLException e) {
+            user.setVerified(false);
+        }
+
         return user;
     }
+
 }

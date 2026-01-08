@@ -1,25 +1,32 @@
+// src/main/java/vn/edu/nlu/fit/demo1/controller/RegisterController.java
 package vn.edu.nlu.fit.demo1.controller;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.nlu.fit.demo1.dao.VerificationTokenDAO;
 import vn.edu.nlu.fit.demo1.model.User;
+import vn.edu.nlu.fit.demo1.model.VerificationToken;
 import vn.edu.nlu.fit.demo1.service.UserService;
+import vn.edu.nlu.fit.demo1.util.EmailUtil;
+import vn.edu.nlu.fit.demo1.util.TokenUtil;
 import vn.edu.nlu.fit.demo1.util.ValidationUtil;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet(name = "RegisterController", urlPatterns = {"/register"})
 public class RegisterController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserService userService;
+    private VerificationTokenDAO tokenDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
         userService = new UserService();
+        tokenDAO = new VerificationTokenDAO();
     }
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -77,6 +84,7 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
             return;
         }
+
         if (phone != null && !phone.trim().isEmpty() && !ValidationUtil.isValidPhone(phone)) {
             request.setAttribute("errorMessage", "Số điện thoại không đúng định dạng");
             setFormData(request, username, fullName, email, phone);
@@ -119,12 +127,47 @@ public class RegisterController extends HttpServlet {
             return;
         }
 
-        User newUser = new User(username.trim(), password, fullName.trim(), email.trim(), phone != null ? phone.trim() : null);
+        User newUser = new User(username.trim(), password, fullName.trim(), email.trim(),
+                phone != null ? phone.trim() : null);
 
         if (userService.register(newUser)) {
-            HttpSession session = request.getSession(true);
-            session.setAttribute("successMessage", "Đăng ký thành công! Vui lòng đăng nhập.");
-            response.sendRedirect(request.getContextPath() + "/login");
+            String token = TokenUtil.generateToken();
+            LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
+
+            VerificationToken verificationToken = new VerificationToken(
+                    newUser.getId(),
+                    token,
+                    "email_verification",
+                    expiryDate
+            );
+
+            if (tokenDAO.createToken(verificationToken)) {
+                String verificationLink = request.getRequestURL().toString()
+                        .replace("/register", "/verify-email?token=" + token);
+
+                boolean emailSent = EmailUtil.sendVerificationEmail(
+                        newUser.getEmail(),
+                        newUser.getFullName(),
+                        verificationLink
+                );
+
+                if (emailSent) {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("registeredEmail", newUser.getEmail());
+                    session.setAttribute("successMessage",
+                            "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.");
+                    response.sendRedirect(request.getContextPath() + "/verification-sent");
+                } else {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("warningMessage",
+                            "Đăng ký thành công nhưng không thể gửi email xác thực. Vui lòng liên hệ admin.");
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+            } else {
+                request.setAttribute("errorMessage", "Không thể tạo mã xác thực. Vui lòng thử lại.");
+                setFormData(request, username, fullName, email, phone);
+                request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
+            }
         } else {
             request.setAttribute("errorMessage", "Đăng ký thất bại. Vui lòng thử lại.");
             setFormData(request, username, fullName, email, phone);
