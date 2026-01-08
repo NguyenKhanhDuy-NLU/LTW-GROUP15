@@ -226,3 +226,20 @@ body {
 .input-group.full-width {
     grid-column: 1 / -1;
 }
+.error-message {
+    color: #d32f2f;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: none;
+}
+.error-message.show {
+    display: block;
+}
+.input-field.error input {
+    border-color: #d32f2f;
+    background-color: #ffebee;
+}
+.success-icon {
+    color: #4caf50;
+    margin-left: 8px;
+}
