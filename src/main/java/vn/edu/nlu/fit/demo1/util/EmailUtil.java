@@ -10,8 +10,8 @@ public class EmailUtil {
 
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
-    private static final String EMAIL_USERNAME = "emailgroup15@gmail.com"; // Thay bằng email của bạn
-    private static final String EMAIL_PASSWORD = "passwordemailgroup15"; // Thay bằng App Password
+    private static final String EMAIL_USERNAME = "emailgroup15@gmail.com";
+    private static final String EMAIL_PASSWORD = "passwordemailgroup15";
     private static final String FROM_EMAIL = "Group15 Hotel <emailemailgroup15@gmail.com>";
 
     public static boolean sendVerificationEmail(String toEmail, String fullName, String verificationLink) {

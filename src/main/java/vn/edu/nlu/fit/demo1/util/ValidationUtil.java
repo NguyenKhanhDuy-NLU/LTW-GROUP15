@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 
 public class ValidationUtil {
 
-    // Regex patterns
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
     );
@@ -26,7 +25,7 @@ public class ValidationUtil {
 
     public static boolean isValidPhone(String phone) {
         if (phone == null || phone.trim().isEmpty()) {
-            return true; // Phone is optional
+            return true;
         }
         String cleanPhone = phone.trim().replaceAll("\\s", "");
         return PHONE_PATTERN.matcher(cleanPhone).matches();

@@ -1,4 +1,3 @@
-
 package vn.edu.nlu.fit.demo1.service;
 
 import vn.edu.nlu.fit.demo1.dao.HotelDAO;

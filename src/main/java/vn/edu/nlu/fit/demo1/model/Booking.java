@@ -15,8 +15,8 @@ public class Booking implements Serializable {
     private int guests;
     private String roomType;
     private BigDecimal totalPrice;
-    private String status; // pending, confirmed, cancelled, completed
-    private String paymentStatus; // unpaid, paid, refunded
+    private String status;
+    private String paymentStatus;
     private String notes;
 
     private String hotelName;
