@@ -1,4 +1,3 @@
-// src/main/java/vn/edu/nlu/fit/demo1/controller/RegisterController.java
 package vn.edu.nlu.fit.demo1.controller;
 
 import jakarta.servlet.*;
