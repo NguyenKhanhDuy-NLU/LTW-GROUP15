@@ -26,6 +26,8 @@ body {
 
 .login-wrapper {
     background: #ffffff;
+    width: 420px;
+    max-width: 100%;
     padding: 40px 30px;
     border-radius: 12px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
@@ -211,35 +213,67 @@ body {
         padding: 30px 20px;
     }
 }
-.login-wrapper {
-    max-width: 500px;
-    width: 100%;
+.result-box {
+    text-align: center;
+    padding: 40px 20px;
 }
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+.result-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: scaleIn 0.5s ease;
 }
-.form-row .input-group {
+.result-icon.success {
+    color: #10B981;
+}
+.result-icon.error {
+    color: #EF4444;
+}
+@keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+.result-box h1 {
+    color: #0A2540;
+    font-size: 28px;
     margin-bottom: 15px;
 }
-.input-group.full-width {
-    grid-column: 1 / -1;
+.result-box p {
+    color: #6B7280;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
 }
-.error-message {
-    color: #d32f2f;
-    font-size: 0.85rem;
-    margin-top: 4px;
-    display: none;
+.action-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
-.error-message.show {
-    display: block;
+.btn {
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
-.input-field.error input {
-    border-color: #d32f2f;
-    background-color: #ffebee;
+.btn-primary {
+    background: #0057FF;
+    color: white;
 }
-.success-icon {
-    color: #4caf50;
-    margin-left: 8px;
+.btn-primary:hover {
+    background: #0044cc;
+    transform: translateY(-2px);
+}
+.btn-secondary {
+    background: transparent;
+    color: #0057FF;
+    border: 2px solid #0057FF;
+}
+.btn-secondary:hover {
+    background: #EFF6FF;
 }

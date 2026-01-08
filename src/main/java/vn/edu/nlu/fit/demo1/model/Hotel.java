@@ -8,7 +8,7 @@ public class Hotel implements Serializable {
     private int id;
     private String name;
     private int cityId;
-    private String cityName; // Từ JOIN với cities table
+    private String cityName;
     private String address;
     private int starRating;
     private BigDecimal pricePerNight;

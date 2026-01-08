@@ -22,22 +22,38 @@
             <p>Vui lòng đăng nhập để quản lý đặt phòng</p>
         </div>
 
+        <% if (request.getAttribute("successMessage") != null) { %>
+        <div class="alert-error" style="display:flex; background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724;">
+            <i class="fas fa-check-circle"></i>
+            <span><%= request.getAttribute("successMessage") %></span>
+        </div>
+        <% } %>
+
         <div class="alert-error" style="<%= request.getAttribute("errorMessage") != null ? "display:flex;" : "display:none;" %>">
             <i class="fas fa-exclamation-circle"></i>
             <span><%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %></span>
         </div>
 
+        <% if (request.getAttribute("showResendLink") != null) { %>
+        <div style="text-align: center; margin: 15px 0;">
+            <a href="${pageContext.request.contextPath}/resend-verification"
+               style="color: #0057FF; text-decoration: none; font-weight: 600; font-size: 14px;">
+                <i class="fas fa-paper-plane"></i> Gửi lại email xác thực
+            </a>
+        </div>
+        <% } %>
+
         <form action="${pageContext.request.contextPath}/login" method="POST" class="login-form">
 
             <div class="input-group">
-                <label for="username">Tên đăng nhập / Email</label>
+                <label for="username">Tên đăng nhập / Email</label>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
                     <input
                             type="text"
                             id="username"
                             name="username"
-                            placeholder="Nhập tên đăng nhập / email"
+                            placeholder="Nhập tên đăng nhập / email"
                             value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>"
                             required
                             autofocus>
