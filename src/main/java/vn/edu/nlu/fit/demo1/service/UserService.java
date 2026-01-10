@@ -34,6 +34,18 @@ public class UserService {
         return userDAO.isEmailExists(email);
     }
 
+    public boolean isPhoneExists(String phone) {
+        return userDAO.isPhoneExists(phone);
+    }
+
+    public boolean isEmailOrUsernameExists(String email, String username) {
+        return userDAO.isEmailOrUsernameExists(email, username);
+    }
+
+    public User getUserByEmailOrUsername(String identifier) {
+        return userDAO.getUserByEmailOrUsername(identifier);
+    }
+
     public User getUserById(int id) {
         return userDAO.getUserById(id);
     }
@@ -44,5 +56,13 @@ public class UserService {
 
     public User getUserByEmail(String email) {
         return userDAO.getUserByEmail(email);
+    }
+
+    public boolean isEmailTakenByOtherUser(int userId, String email) {
+        return userDAO.isEmailTakenByOtherUser(userId, email);
+    }
+
+    public boolean isPhoneTakenByOtherUser(int userId, String phone) {
+        return userDAO.isPhoneTakenByOtherUser(userId, phone);
     }
 }
