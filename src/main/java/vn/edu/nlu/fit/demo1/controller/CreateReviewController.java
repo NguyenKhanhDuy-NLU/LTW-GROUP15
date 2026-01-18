@@ -41,12 +41,28 @@ public class CreateReviewController extends HttpServlet {
             }
 
             User currentUser = (User) session.getAttribute("user");
+
             String hotelIdStr = request.getParameter("hotelId");
             String ratingStr = request.getParameter("rating");
             String comment = request.getParameter("comment");
-            if (hotelIdStr == null || ratingStr == null || comment == null) {
+
+            if (hotelIdStr == null || hotelIdStr.trim().isEmpty()) {
                 result.put("success", false);
-                result.put("message", "Thiếu thông tin đánh giá");
+                result.put("message", "Thiếu thông tin khách sạn");
+                out.print(gson.toJson(result));
+                return;
+            }
+
+            if (ratingStr == null || ratingStr.trim().isEmpty()) {
+                result.put("success", false);
+                result.put("message", "Vui lòng chọn số sao đánh giá");
+                out.print(gson.toJson(result));
+                return;
+            }
+
+            if (comment == null || comment.trim().isEmpty()) {
+                result.put("success", false);
+                result.put("message", "Vui lòng nhập nhận xét");
                 out.print(gson.toJson(result));
                 return;
             }
@@ -54,12 +70,34 @@ public class CreateReviewController extends HttpServlet {
             int hotelId = Integer.parseInt(hotelIdStr);
             double rating = Double.parseDouble(ratingStr);
 
+            if (rating < 1.0 || rating > 5.0) {
+                result.put("success", false);
+                result.put("message", "Đánh giá phải từ 1 đến 5 sao");
+                out.print(gson.toJson(result));
+                return;
+            }
+
+            String trimmedComment = comment.trim();
+            if (trimmedComment.length() < 10) {
+                result.put("success", false);
+                result.put("message", "Nhận xét phải có ít nhất 10 ký tự");
+                out.print(gson.toJson(result));
+                return;
+            }
+
+            if (trimmedComment.length() > 1000) {
+                result.put("success", false);
+                result.put("message", "Nhận xét không được quá 1000 ký tự");
+                out.print(gson.toJson(result));
+                return;
+            }
+
             boolean created = reviewService.createReview(
                     currentUser.getId(),
                     hotelId,
                     0,
                     rating,
-                    comment.trim()
+                    trimmedComment
             );
 
             if (created) {
@@ -73,10 +111,13 @@ public class CreateReviewController extends HttpServlet {
         } catch (NumberFormatException e) {
             result.put("success", false);
             result.put("message", "Dữ liệu không hợp lệ");
+            e.printStackTrace();
         } catch (IllegalStateException e) {
+
             result.put("success", false);
             result.put("message", e.getMessage());
         } catch (IllegalArgumentException e) {
+
             result.put("success", false);
             result.put("message", e.getMessage());
         } catch (Exception e) {
