@@ -3,16 +3,30 @@ package vn.edu.nlu.fit.demo1.util;
 
 import javax.mail.*;
 import javax.mail.internet.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.Date;
 
 public class EmailUtil {
+    private static final Properties emailProps = new Properties();
 
-    private static final String SMTP_HOST = "smtp.gmail.com";
-    private static final String SMTP_PORT = "587";
-    private static final String EMAIL_USERNAME = "emailgroup15@gmail.com";
-    private static final String EMAIL_PASSWORD = "passwordemailgroup15";
-    private static final String FROM_EMAIL = "Group15 Hotel <emailemailgroup15@gmail.com>";
+    static {
+        try (InputStream input = EmailUtil.class.getClassLoader().getResourceAsStream("email.properties")) {
+            if (input == null) {
+                throw new RuntimeException("Unable to find email.properties");
+            }
+            emailProps.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading email configuration", e);
+        }
+    }
+
+    private static final String SMTP_HOST = emailProps.getProperty("email.host");
+    private static final String SMTP_PORT = emailProps.getProperty("email.port");
+    private static final String EMAIL_USERNAME = emailProps.getProperty("email.username");
+    private static final String EMAIL_PASSWORD = emailProps.getProperty("email.password");
+    private static final String FROM_EMAIL = emailProps.getProperty("email.from");
 
     public static boolean sendVerificationEmail(String toEmail, String fullName, String verificationLink) {
         String subject = "Xác thực tài khoản - Group15 Hotel Booking";
@@ -118,9 +132,6 @@ public class EmailUtil {
                 "</html>";
     }
 
-    /**
-     * Build HTML cho email đặt lại mật khẩu
-     */
     private static String buildPasswordResetEmailHtml(String fullName, String resetLink) {
         return "<!DOCTYPE html>" +
                 "<html lang='vi'>" +
