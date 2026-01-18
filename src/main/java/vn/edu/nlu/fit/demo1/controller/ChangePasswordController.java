@@ -39,6 +39,7 @@ public class ChangePasswordController extends HttpServlet {
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
+
         if (currentPassword == null || currentPassword.trim().isEmpty() ||
                 newPassword == null || newPassword.trim().isEmpty() ||
                 confirmPassword == null || confirmPassword.trim().isEmpty()) {
@@ -46,29 +47,34 @@ public class ChangePasswordController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/change-password.jsp").forward(request, response);
             return;
         }
-        if (!currentUser.getPassword().equals(currentPassword)) {
+
+        if (!vn.edu.nlu.fit.demo1.util.PasswordUtil.checkPassword(currentPassword, currentUser.getPassword())) {
             request.setAttribute("errorMessage", "Mật khẩu hiện tại không đúng");
             request.getRequestDispatcher("/WEB-INF/views/change-password.jsp").forward(request, response);
             return;
         }
+
         if (!newPassword.equals(confirmPassword)) {
             request.setAttribute("errorMessage", "Mật khẩu mới không khớp");
             request.getRequestDispatcher("/WEB-INF/views/change-password.jsp").forward(request, response);
             return;
         }
+
         if (newPassword.length() < 6) {
             request.setAttribute("errorMessage", "Mật khẩu mới phải có ít nhất 6 ký tự");
             request.getRequestDispatcher("/WEB-INF/views/change-password.jsp").forward(request, response);
             return;
         }
+
         if (newPassword.equals(currentPassword)) {
             request.setAttribute("errorMessage", "Mật khẩu mới phải khác mật khẩu hiện tại");
             request.getRequestDispatcher("/WEB-INF/views/change-password.jsp").forward(request, response);
             return;
         }
+
         if (userService.changePassword(currentUser.getUsername(), currentPassword, newPassword)) {
-            currentUser.setPassword(newPassword);
-            session.setAttribute("user", currentUser);
+            User updatedUser = userService.getUserById(currentUser.getId());
+            session.setAttribute("user", updatedUser);
             session.setAttribute("successMessage", "Đổi mật khẩu thành công!");
             response.sendRedirect(request.getContextPath() + "/user");
         } else {

@@ -9,6 +9,7 @@ public class Booking implements Serializable {
     private int id;
     private int userId;
     private int hotelId;
+    private int roomId;
     private String bookingCode;
     private Date checkInDate;
     private Date checkOutDate;
@@ -33,6 +34,9 @@ public class Booking implements Serializable {
 
     public int getHotelId() { return hotelId; }
     public void setHotelId(int hotelId) { this.hotelId = hotelId; }
+
+    public int getRoomId() { return roomId; }
+    public void setRoomId(int roomId) { this.roomId = roomId; }
 
     public String getBookingCode() { return bookingCode; }
     public void setBookingCode(String bookingCode) { this.bookingCode = bookingCode; }

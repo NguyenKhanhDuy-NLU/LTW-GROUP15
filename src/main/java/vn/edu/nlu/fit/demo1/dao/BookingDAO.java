@@ -114,6 +114,7 @@ public class BookingDAO {
         booking.setId(rs.getInt("id"));
         booking.setUserId(rs.getInt("user_id"));
         booking.setHotelId(rs.getInt("hotel_id"));
+        booking.setRoomId(rs.getInt("room_id"));
         booking.setBookingCode(rs.getString("booking_code"));
         booking.setCheckInDate(rs.getDate("check_in_date"));
         booking.setCheckOutDate(rs.getDate("check_out_date"));
