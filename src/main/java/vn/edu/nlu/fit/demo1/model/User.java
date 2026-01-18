@@ -15,6 +15,8 @@ public class User implements Serializable {
     private String gender;
     private String avatar;
     private boolean isVerified;
+    private int roleId;
+    private boolean isActive;
 
     public User() {}
 
@@ -61,6 +63,20 @@ public class User implements Serializable {
     public boolean isVerified() { return isVerified; }
     public void setVerified(boolean verified) { isVerified = verified; }
 
+    public int getRoleId() { return roleId; }
+    public void setRoleId(int roleId) { this.roleId = roleId; }
+
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
+
+    public boolean isAdmin() {
+        return roleId == 1;
+    }
+
+    public String getRoleName() {
+        return roleId == 1 ? "Admin" : "User";
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -69,7 +85,9 @@ public class User implements Serializable {
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", roleId=" + roleId +
                 ", isVerified=" + isVerified +
+                ", isActive=" + isActive +
                 '}';
     }
 }
