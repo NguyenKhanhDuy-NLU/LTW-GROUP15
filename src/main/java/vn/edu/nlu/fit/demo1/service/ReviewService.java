@@ -56,7 +56,7 @@ public class ReviewService {
             throw new IllegalStateException("Bạn không có quyền chỉnh sửa đánh giá này");
         }
 
-        review.setStar(rating);
+        review.setRating(rating);
         review.setComment(comment);
 
         return reviewDAO.updateReview(review);
