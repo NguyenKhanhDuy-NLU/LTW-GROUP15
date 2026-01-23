@@ -18,7 +18,7 @@ public class OAuthConfig {
             throw new RuntimeException("Error loading OAuth configuration", e);
         }
     }
-
+    //gg
     public static String getGoogleClientId() {
         return properties.getProperty("google.client.id");
     }
@@ -29,5 +29,18 @@ public class OAuthConfig {
 
     public static String getGoogleRedirectUri() {
         return properties.getProperty("google.redirect.uri");
+    }
+
+    // fb
+    public static String getFacebookAppId() {
+        return properties.getProperty("facebook.app.id");
+    }
+
+    public static String getFacebookAppSecret() {
+        return properties.getProperty("facebook.app.secret");
+    }
+
+    public static String getFacebookRedirectUri() {
+        return properties.getProperty("facebook.redirect.uri");
     }
 }
