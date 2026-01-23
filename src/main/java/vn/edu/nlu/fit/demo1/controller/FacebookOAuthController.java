@@ -85,7 +85,7 @@ public class FacebookOAuthController extends HttpServlet {
                 user.setEmail(email != null ? email : "fb_" + facebookId + "@facebook.com");
                 user.setFullName(name);
                 user.setPassword(ValidationUtil.generateRandomPassword());
-                user.setVerified(true); // Facebook users are pre-verified
+                user.setVerified(true);
                 user.setAvatar(picture);
 
                 boolean registered = userService.register(user);
