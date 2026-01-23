@@ -8,13 +8,20 @@ body {
     font-family: "Segoe UI", Arial, sans-serif;
     background: #f4f6f9;
     color: #333;
+    width: 100%;
+    min-height: 100vh;
 }
 
 .container {
     max-width: 1100px;
-    margin: auto;
+    margin: 0 auto;
     padding: 0 20px;
 }
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { font-family: inherit; }
+
 
 .main-header {
     background: #fff;
@@ -44,24 +51,25 @@ body {
     text-decoration: underline;
 }
 
-/* TOP */
 .room-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 25px auto;
+    align-items: flex-end;
+    margin: 30px auto;
     gap: 20px;
 }
 
-.room-top h1 {
-    font-size: 28px;
+.room-title h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
 }
 
 .room-type {
     color: #666;
-    margin-top: 6px;
+    font-size: 16px;
 }
-
 .price-box {
     background: #fff;
     padding: 14px 18px;
@@ -114,57 +122,125 @@ body {
 .room-content {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 24px;
+    gap: 30px;
+    margin-bottom: 30px;
 }
 
 .gallery {
     background: #fff;
-    padding: 16px;
+    padding: 10px;
     border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 
 .main-img {
     width: 100%;
-    height: 360px;
+    height: 450px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 8px;
+    display: block;
 }
 
-/* INFO CARD */
 .info-card {
     background: #fff;
-    padding: 20px;
+    padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    border: 1px solid #eee;
+    height: fit-content;
 }
 
 .info-card h3 {
-    margin-bottom: 12px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+    color: #333;
 }
 
-.info-card ul {
-    list-style: none;
-}
-
-.info-card li {
-    margin-bottom: 10px;
+.info-card ul li {
+    margin-bottom: 18px;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    color: #444;
 }
 
 .info-card i {
     color: #0066ff;
-    margin-right: 8px;
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 18px;
 }
 
-.description {
+.description, .amenities-section {
     background: #fff;
     margin: 30px auto;
-    padding: 20px;
+    padding: 30px;
     border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    border: 1px solid #eee;
 }
 
-.description h2 {
-    margin-bottom: 10px;
+.description h2, .amenities-section h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #222;
+    font-weight: 700;
+}
+
+.description p {
+    line-height: 1.8;
+    color: #555;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.amenities-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 16px;
+    color: #555;
+    font-weight: 400;
+
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.amenities-list li i {
+    font-size: 18px;
+    color: #666;
+
+    background: none;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+}
+
+.amenities-list li:hover {
+    color: #000;
+}
+
+.footer {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 14px;
+    margin-top: 60px;
+    border-top: 1px solid #e0e0e0;
+    background: #fff;
 }
 
 @media (max-width: 768px) {
@@ -175,9 +251,25 @@ body {
 
     .price-box {
         width: 100%;
+        text-align: left;
+    }
+
+    .price-line {
+        justify-content: flex-start;
     }
 
     .room-content {
         grid-template-columns: 1fr;
+    }
+
+    .main-img {
+        height: 250px;
+    }
+
+    .amenities-list {
+        gap: 15px;
+    }
+    .amenities-list li {
+        width: 45%;
     }
 }
