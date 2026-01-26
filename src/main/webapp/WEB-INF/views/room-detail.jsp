@@ -33,8 +33,16 @@
             </span>
             <span class="per-night">/ đêm</span>
         </div>
+        <form action="${pageContext.request.contextPath}/cart/add" method="post" style="margin: 0;">
+            <input type="hidden" name="id" value="${room.id}">
 
-        <button class="btn-book">Đặt phòng ngay</button>
+            <input type="hidden" name="quantity" value="1">
+
+            <button type="submit" class="btn-book"
+            ${room.quantity <= 0 ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
+                ${room.quantity > 0 ? 'Đặt phòng ngay' : 'Hết phòng'}
+            </button>
+        </form>
         <small class="note">Đã bao gồm thuế & phí</small>
     </div>
 </section>
