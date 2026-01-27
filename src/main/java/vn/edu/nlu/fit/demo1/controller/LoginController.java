@@ -1,11 +1,8 @@
 package vn.edu.nlu.fit.demo1.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import vn.edu.nlu.fit.demo1.model.User;
 import vn.edu.nlu.fit.demo1.service.UserService;
 
@@ -31,6 +28,12 @@ public class LoginController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/");
             return;
         }
+
+        if (session != null && session.getAttribute("successMessage") != null) {
+            request.setAttribute("successMessage", session.getAttribute("successMessage"));
+            session.removeAttribute("successMessage");
+        }
+
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
     }
 
@@ -44,7 +47,6 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Validate input
         if (username == null || username.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin đăng nhập");
@@ -52,22 +54,54 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
             return;
         }
+        System.out.println("=== LOGIN ATTEMPT ===");
+        System.out.println("Username: " + username);
+        System.out.println("Password length: " + password.length());
 
-        // Authenticate user
         User user = userService.authenticate(username.trim(), password);
 
         if (user != null) {
-            // Đăng nhập thành công
+            System.out.println("✓ Authentication successful for: " + username);
+
+            if (!user.isVerified()) {
+                System.out.println("✗ User not verified: " + username);
+                request.setAttribute("errorMessage",
+                        "Tài khoản chưa được xác thực. Vui lòng kiểm tra email để xác thực tài khoản.");
+                request.setAttribute("username", username);
+                request.setAttribute("showResendLink", true);
+                request.setAttribute("userEmail", user.getEmail());
+                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+                return;
+            }
+
+            if (!user.isActive()) {
+                System.out.println("✗ User account is inactive: " + username);
+                request.setAttribute("errorMessage",
+                        "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ admin để được hỗ trợ.");
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+                return;
+            }
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
+            session.setAttribute("userId", user.getId());
             session.setAttribute("username", user.getUsername());
             session.setAttribute("fullName", user.getFullName());
-            session.setMaxInactiveInterval(30 * 60); // Session timeout 30 phút
+            session.setAttribute("userRole", user.getRoleId()); // 1=Admin, 2=User
+            session.setMaxInactiveInterval(30 * 60); // 30 phút
 
-            // Redirect về trang chủ
-            response.sendRedirect(request.getContextPath() + "/");
+            System.out.println("✓ Login successful! User ID: " + user.getId());
+            System.out.println("✓ User role: " + user.getRoleId());
+
+            if (user.getRoleId() == 1) {
+                System.out.println("Admin login - Redirecting to admin dashboard...");
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+            } else {
+                System.out.println("User login - Redirecting to home page...");
+                response.sendRedirect(request.getContextPath() + "/");
+            }
         } else {
-            // Đăng nhập thất bại
+            System.out.println("✗ Authentication failed for: " + username);
             request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng");
             request.setAttribute("username", username);
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
