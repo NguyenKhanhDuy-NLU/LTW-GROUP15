@@ -9,6 +9,8 @@ import java.sql.*;
 public class UserDAO {
 
     public User authenticate(String username, String password) {
+        System.out.println("UserDAO.authenticate() - Starting authentication for: " + username);
+
         String sql = "SELECT * FROM users WHERE username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
@@ -18,55 +20,104 @@ public class UserDAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    System.out.println("UserDAO.authenticate() - User found in database");
+
                     String hashedPasswordInDB = rs.getString("password");
+                    String hashedInputPassword = PasswordUtil.hashPassword(password);
+
+                    System.out.println("UserDAO.authenticate() - Hash from DB: " + hashedPasswordInDB);
+                    System.out.println("UserDAO.authenticate() - Hash from input: " + hashedInputPassword);
 
                     if (PasswordUtil.checkPassword(password, hashedPasswordInDB)) {
+                        System.out.println("UserDAO.authenticate() - ✓ Password matched! Authentication successful");
                         return extractUserFromResultSet(rs);
+                    } else {
+                        System.out.println("UserDAO.authenticate() - ✗ Password mismatch");
                     }
+                } else {
+                    System.out.println("UserDAO.authenticate() - ✗ User not found in database");
                 }
             }
         } catch (SQLException e) {
+            System.err.println("UserDAO.authenticate() - SQL Error: " + e.getMessage());
             e.printStackTrace();
         }
+
+        System.out.println("UserDAO.authenticate() - Authentication failed");
         return null;
     }
 
     public boolean register(User user) {
-        String sql = "INSERT INTO users (username, password, full_name, email, phone, address, gender) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        System.out.println("UserDAO.register() - Starting registration for: " + user.getUsername());
+
+        String sql = "INSERT INTO users (username, password, full_name, email, phone, address, gender, role_id, is_active) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+            // md5
             String hashedPassword = PasswordUtil.hashPassword(user.getPassword());
+            System.out.println("UserDAO.register() - Password hashed: " + hashedPassword);
 
             stmt.setString(1, user.getUsername());
             stmt.setString(2, hashedPassword);
             stmt.setString(3, user.getFullName());
             stmt.setString(4, user.getEmail());
-            stmt.setString(5, user.getPhone());
-            stmt.setString(6, user.getAddress());
-            stmt.setString(7, user.getGender());
 
+            if (user.getPhone() != null && !user.getPhone().trim().isEmpty()) {
+                stmt.setString(5, user.getPhone());
+            } else {
+                stmt.setNull(5, Types.VARCHAR);
+            }
+
+            if (user.getAddress() != null && !user.getAddress().trim().isEmpty()) {
+                stmt.setString(6, user.getAddress());
+            } else {
+                stmt.setNull(6, Types.VARCHAR);
+            }
+
+            if (user.getGender() != null && !user.getGender().trim().isEmpty()) {
+                stmt.setString(7, user.getGender());
+            } else {
+                stmt.setNull(7, Types.VARCHAR);
+            }
+
+            int roleId = user.getRoleId() > 0 ? user.getRoleId() : 2;
+            stmt.setInt(8, roleId);
+
+            stmt.setBoolean(9, true);
+
+            System.out.println("UserDAO.register() - Executing SQL insert...");
             int affectedRows = stmt.executeUpdate();
+            System.out.println("UserDAO.register() - Affected rows: " + affectedRows);
 
             if (affectedRows > 0) {
+                // Lấy ID của user vừa tạo
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        user.setId(generatedKeys.getInt(1));
+                        int generatedId = generatedKeys.getInt(1);
+                        user.setId(generatedId);
+                        System.out.println("UserDAO.register() - ✓ SUCCESS! User ID: " + generatedId);
                     }
                 }
                 return true;
             }
         } catch (SQLException e) {
+            System.err.println("UserDAO.register() - SQL Error: " + e.getMessage());
+            System.err.println("SQL State: " + e.getSQLState());
+            System.err.println("Error Code: " + e.getErrorCode());
             e.printStackTrace();
         }
+
+        System.out.println("UserDAO.register() - ✗ FAILED!");
         return false;
     }
 
     public boolean changePassword(String username, String oldPassword, String newPassword) {
+        // Xác thực password cũ trước
         User user = authenticate(username, oldPassword);
         if (user == null) {
+            System.out.println("UserDAO.changePassword() - Old password incorrect");
             return false;
         }
 
@@ -75,13 +126,16 @@ public class UserDAO {
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                String hashedNewPassword = PasswordUtil.hashPassword(newPassword);
+            String hashedNewPassword = PasswordUtil.hashPassword(newPassword);
 
-                stmt.setString(1, hashedNewPassword);
-                stmt.setString(2, username);
+            stmt.setString(1, hashedNewPassword);
+            stmt.setString(2, username);
 
-            return stmt.executeUpdate() > 0;
+            int result = stmt.executeUpdate();
+            System.out.println("UserDAO.changePassword() - Password changed successfully");
+            return result > 0;
         } catch (SQLException e) {
+            System.err.println("UserDAO.changePassword() - Error: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -103,6 +157,7 @@ public class UserDAO {
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
+            System.err.println("UserDAO.updateUser() - Error: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -203,7 +258,6 @@ public class UserDAO {
         return null;
     }
 
-
     public boolean verifyUser(int userId) {
         String sql = "UPDATE users SET is_verified = TRUE WHERE id = ?";
 
@@ -270,7 +324,7 @@ public class UserDAO {
                 if (rs.next()) {
                     Timestamp lastSent = rs.getTimestamp("created_at");
                     long minutesAgo = (System.currentTimeMillis() - lastSent.getTime()) / (1000 * 60);
-                    // Cho phép gửi lại sau 5 phút
+
                     return minutesAgo >= 5;
                 }
             }
@@ -299,8 +353,21 @@ public class UserDAO {
             user.setVerified(false);
         }
 
+        try {
+            user.setRoleId(rs.getInt("role_id"));
+        } catch (SQLException e) {
+            user.setRoleId(2);
+        }
+
+        try {
+            user.setActive(rs.getBoolean("is_active"));
+        } catch (SQLException e) {
+            user.setActive(true);
+        }
+
         return user;
     }
+
     public boolean isPhoneExists(String phone) {
         if (phone == null || phone.trim().isEmpty()) {
             return false;
@@ -407,5 +474,4 @@ public class UserDAO {
         }
         return false;
     }
-
 }
