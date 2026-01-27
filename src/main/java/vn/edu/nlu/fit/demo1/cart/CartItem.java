@@ -8,16 +8,19 @@ public class CartItem implements Serializable {
 
     private Room room;
     private int quantity;
+    private int nights;
 
-    public CartItem(Room room, int quantity) {
+    public CartItem(Room room, int quantity, int nights) {
         this.room = room;
         this.quantity = quantity;
+        this.nights = (nights > 0) ? nights : 1;
     }
 
     public double getTotalPrice() {
-        return room.getBasePrice() * quantity;
+        return room.getBasePrice() * quantity * nights;
     }
-
+    public int getNights() { return nights; }
+    public void setNights(int nights) { this.nights = nights; }
     public Room getRoom() { return room; }
     public void setRoom(Room room) { this.room = room; }
     public int getQuantity() { return quantity; }

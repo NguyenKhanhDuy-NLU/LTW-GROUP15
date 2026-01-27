@@ -272,4 +272,18 @@ button { font-family: inherit; }
     .amenities-list li {
         width: 45%;
     }
+    .hotel-tag {
+        display: inline-block;
+        background: #e3f2fd;
+        color: #003580;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        text-decoration: none;
+    }
+    .hotel-tag:hover {
+        background: #d0e8fc;
+    }
 }

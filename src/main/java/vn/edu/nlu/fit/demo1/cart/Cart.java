@@ -12,13 +12,23 @@ public class Cart implements Serializable {
 
     private Map<Integer, CartItem> data = new HashMap<>();
 
-    public void add(Room room, int quantity) {
+
+    public void add(Room room, int quantity, int nights) {
         if (data.containsKey(room.getId())) {
             CartItem item = data.get(room.getId());
             item.setQuantity(item.getQuantity() + quantity);
+            item.setNights(nights);
         } else {
-            data.put(room.getId(), new CartItem(room, quantity));
+            data.put(room.getId(), new CartItem(room, quantity, nights));
         }
+    }
+
+    public double getTotalMoney() {
+        double total = 0;
+        for (CartItem item : data.values()) {
+            total += item.getTotalPrice();
+        }
+        return total;
     }
 
     public void update(int id, int quantity) {
@@ -45,11 +55,5 @@ public class Cart implements Serializable {
         return new ArrayList<>(data.values());
     }
 
-    public double getTotalMoney() {
-        double total = 0;
-        for (CartItem item : data.values()) {
-            total += item.getTotalPrice();
-        }
-        return total;
-    }
+
 }

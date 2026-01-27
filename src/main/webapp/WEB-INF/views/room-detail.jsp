@@ -22,28 +22,36 @@
 
 <section class="room-top container">
     <div class="room-title">
+        <a href="${pageContext.request.contextPath}/hotel-detail?id=${hotelId}" class="hotel-tag">
+            <i class="fas fa-hotel"></i> ${hotelName}
+        </a>
         <h1>${room.roomName}</h1>
         <p class="room-type">${room.roomType} · Được yêu thích nhất</p>
     </div>
 
     <div class="price-box">
         <div class="price-line">
-            <span class="price">
-                <fmt:formatNumber value="${room.basePrice}" type="currency" currencySymbol="đ"/>
-            </span>
+        <span class="price">
+            <fmt:formatNumber value="${room.basePrice}" type="currency" currencySymbol="đ"/>
+        </span>
             <span class="per-night">/ đêm</span>
         </div>
-        <form action="${pageContext.request.contextPath}/cart/add" method="post" style="margin: 0;">
-            <input type="hidden" name="id" value="${room.id}">
 
+        <form action="${pageContext.request.contextPath}/cart/add" method="post">
+            <input type="hidden" name="id" value="${room.id}">
             <input type="hidden" name="quantity" value="1">
 
-            <button type="submit" class="btn-book"
-            ${room.quantity <= 0 ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
+            <div style="margin-bottom: 10px; display: flex; gap: 5px;">
+                <input type="date" name="checkin" required style="padding: 5px; flex:1;" placeholder="Nhận phòng">
+                <input type="date" name="checkout" required style="padding: 5px; flex:1;" placeholder="Trả phòng">
+            </div>
+
+            <button type="submit" class="btn-book" ${room.quantity <= 0 ? 'disabled' : ''}>
                 ${room.quantity > 0 ? 'Đặt phòng ngay' : 'Hết phòng'}
             </button>
         </form>
-        <small class="note">Đã bao gồm thuế & phí</small>
+
+        <small class="note">Giá sẽ thay đổi theo số đêm lưu trú</small>
     </div>
 </section>
 
@@ -86,20 +94,6 @@
     <h2>Mô tả phòng</h2>
     <p>${room.description}</p>
 </section>
-
-<section class="amenities-section container">
-    <h2>Tiện nghi</h2> <ul class="amenities-list">
-    <c:if test="${empty room.amenities}">
-        <li style="color: #888;">Đang cập nhật...</li>
-    </c:if>
-    <c:forEach var="a" items="${room.amenities}">
-        <li>
-            <i class="${a.amenityIcon}"></i> ${a.amenityName}
-        </li>
-    </c:forEach>
-</ul>
-</section>
-
 
 </body>
 </html>

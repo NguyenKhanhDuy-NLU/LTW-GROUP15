@@ -70,12 +70,12 @@
     </ul>
 </section>
 
-<section class="location container">
-    <h2>Vị trí</h2>
-    <img src="${pageContext.request.contextPath}/assets/images/${hotel.mapImage}"
-         alt="Bản đồ" class="location-img"
-         onerror="this.src='https://placehold.co/1100x400?text=Map'"/>
-</section>
+<%--<section class="location container">--%>
+<%--    <h2>Vị trí</h2>--%>
+<%--    <img src="${pageContext.request.contextPath}/assets/images/${hotel.mapImage}"--%>
+<%--         alt="Bản đồ" class="location-img"--%>
+<%--         onerror="this.src='https://placehold.co/1100x400?text=Map'"/>--%>
+<%--</section>--%>
 
 <section class="rooms container">
     <h2>Danh sách phòng</h2>
@@ -95,21 +95,6 @@
             </div>
         </a>
     </c:forEach>
-</section>
-
-<section class="reviews container">
-    <h2>Đánh giá của khách</h2>
-
-    <div class="review-box">
-        <div class="review-score">
-            ${hotel.averageStar}
-        </div>
-
-        <div class="review-details">
-            <div class="review-title">Tuyệt vời</div>
-            <div class="review-count">Dựa trên <strong>${hotel.reviewCount}</strong> nhận xét xác thực</div>
-        </div>
-    </div>
 </section>
 
 <section class="policy container">

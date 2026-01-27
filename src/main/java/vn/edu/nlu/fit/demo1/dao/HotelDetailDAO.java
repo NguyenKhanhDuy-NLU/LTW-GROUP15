@@ -16,10 +16,7 @@ public class HotelDetailDAO extends BaseDAO {
                 h.setId(rs.getInt("id"));
                 h.setHotelName(rs.getString("hotel_name"));
                 h.setStarRating(rs.getInt("star_rating"));
-                h.setAverageStar(rs.getDouble("average_star"));
-                h.setReviewCount(rs.getInt("review_count"));
                 h.setAddress(rs.getString("address"));
-                h.setMapImage(rs.getString("map_image"));
                 h.setDescription(rs.getString("description"));
                 h.setMainImage(rs.getString("main_image"));
                 h.setCoverImages(rs.getString("cover_images"));
