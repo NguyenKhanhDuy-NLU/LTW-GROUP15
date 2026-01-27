@@ -91,9 +91,15 @@ public class LoginController extends HttpServlet {
             session.setMaxInactiveInterval(30 * 60); // 30 phút
 
             System.out.println("✓ Login successful! User ID: " + user.getId());
-            System.out.println("✓ Redirecting to home page...");
+            System.out.println("✓ User role: " + user.getRoleId());
 
-            response.sendRedirect(request.getContextPath() + "/");
+            if (user.getRoleId() == 1) {
+                System.out.println("✓ Admin login - Redirecting to admin dashboard...");
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+            } else {
+                System.out.println("✓ User login - Redirecting to home page...");
+                response.sendRedirect(request.getContextPath() + "/");
+            }
         } else {
             System.out.println("✗ Authentication failed for: " + username);
             request.setAttribute("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng");
