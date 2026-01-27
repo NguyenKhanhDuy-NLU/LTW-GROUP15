@@ -1,0 +1,104 @@
+package vn.edu.nlu.fit.demo1.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchHotelCard implements Serializable {
+
+    private int id;
+    private String hotelName;
+    private String address;
+    private int starRating;
+    private BigDecimal minPrice;
+    private String mainImage;
+    private String amenities;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getStarRating() {
+        return starRating;
+    }
+
+    public void setStarRating(int starRating) {
+        this.starRating = starRating;
+    }
+
+    public BigDecimal getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(BigDecimal minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
+    }
+
+    public String getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(String amenities) {
+        this.amenities = amenities;
+    }
+
+
+    public int getFullStars() {
+        return starRating;
+    }
+
+    public Integer getReviewCount() {
+        return null; 
+    }
+
+    public String getFormattedPrice() {
+        return String.format("%,d", minPrice.intValue()).replace(",", ".");
+    }
+
+    public List<String> getAmenitiesList() {
+
+        List<String> list = new ArrayList<>();
+
+        if (amenities == null || amenities.isBlank())
+            return list;
+
+        String[] arr = amenities.split(",");
+
+        for (String a : arr) {
+            list.add(a.trim());
+        }
+
+        return list;
+    }
+}
+
+
