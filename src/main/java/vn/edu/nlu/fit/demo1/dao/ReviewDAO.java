@@ -54,8 +54,7 @@ public class ReviewDAO {
             } else {
                 stmt.setNull(3, Types.INTEGER);
             }
-
-            stmt.setDouble(4, review.getRating());
+            stmt.setInt(4, review.getRating());
             stmt.setString(5, review.getComment());
 
             int affectedRows = stmt.executeUpdate();
@@ -231,7 +230,7 @@ public class ReviewDAO {
                 stmt.setNull(3, Types.INTEGER);
             }
 
-            stmt.setDouble(4, review.getRating());
+            stmt.setInt(4, review.getRating());
             stmt.setString(5, review.getComment());
 
             int affectedRows = stmt.executeUpdate();
@@ -254,7 +253,7 @@ public class ReviewDAO {
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setDouble(1, review.getRating());
+            stmt.setInt(1, review.getRating());
             stmt.setString(2, review.getComment());
             stmt.setInt(3, review.getId());
 
@@ -311,11 +310,17 @@ public class ReviewDAO {
         review.setUserId(rs.getInt("user_id"));
         review.setHotelId(rs.getInt("hotel_id"));
         review.setBookingId(rs.getInt("booking_id"));
-        review.setRating(rs.getDouble("rating"));
+        review.setRating(rs.getInt("rating"));
         review.setComment(rs.getString("comment"));
         review.setCreatedAt(rs.getTimestamp("created_at"));
-        review.setUserName(rs.getString("full_name"));
-        review.setUserAvatar(rs.getString("avatar"));
+
+        review.setUserFullName(rs.getString("full_name"));
+
+        try {
+            rs.findColumn("avatar");
+        } catch (SQLException e) {
+        }
+
         return review;
     }
 }

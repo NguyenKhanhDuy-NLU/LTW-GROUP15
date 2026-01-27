@@ -55,7 +55,7 @@ public class UserDAO {
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            // md5
+
             String hashedPassword = PasswordUtil.hashPassword(user.getPassword());
             System.out.println("UserDAO.register() - Password hashed: " + hashedPassword);
 
@@ -92,7 +92,6 @@ public class UserDAO {
             System.out.println("UserDAO.register() - Affected rows: " + affectedRows);
 
             if (affectedRows > 0) {
-                // Lấy ID của user vừa tạo
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         int generatedId = generatedKeys.getInt(1);
@@ -114,7 +113,6 @@ public class UserDAO {
     }
 
     public boolean changePassword(String username, String oldPassword, String newPassword) {
-        // Xác thực password cũ trước
         User user = authenticate(username, oldPassword);
         if (user == null) {
             System.out.println("UserDAO.changePassword() - Old password incorrect");
