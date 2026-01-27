@@ -85,22 +85,6 @@
             <button type="submit" class="btn-login">
                 Đăng Nhập <i class="fas fa-arrow-right"></i>
             </button>
-
-            <div class="divider">
-                <span>Hoặc đăng nhập với</span>
-            </div>
-
-            <div class="social-buttons">
-                <a href="${pageContext.request.contextPath}/oauth/google" class="btn-social btn-google">
-                    <i class="fab fa-google"></i>
-                    <span>Google</span>
-                </a>
-                <a href="${pageContext.request.contextPath}/oauth/facebook" class="btn-social btn-facebook">
-                    <i class="fab fa-facebook-f"></i>
-                    <span>Facebook</span>
-                </a>
-            </div>
-
             <div class="register-link">
                 Bạn chưa có tài khoản?
                 <a href="${pageContext.request.contextPath}/register">Đăng ký ngay</a>
