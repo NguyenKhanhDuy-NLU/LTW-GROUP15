@@ -94,10 +94,10 @@ public class LoginController extends HttpServlet {
             System.out.println("✓ User role: " + user.getRoleId());
 
             if (user.getRoleId() == 1) {
-                System.out.println("✓ Admin login - Redirecting to admin dashboard...");
+                System.out.println("Admin login - Redirecting to admin dashboard...");
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             } else {
-                System.out.println("✓ User login - Redirecting to home page...");
+                System.out.println("User login - Redirecting to home page...");
                 response.sendRedirect(request.getContextPath() + "/");
             }
         } else {
