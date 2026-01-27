@@ -3,6 +3,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    text-decoration: none;
 }
 
 body {
@@ -541,7 +542,8 @@ header {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 8px;
 }
 
 .card-list .card-title h4 {
@@ -913,3 +915,9 @@ header {
 }
 
 
+/* Reset all links */
+a, a:link, a:visited, a:hover, a:active, a:focus,
+a:-webkit-any-link, a:-moz-any-link {
+    text-decoration: none !important;
+    color: inherit !important;
+}
