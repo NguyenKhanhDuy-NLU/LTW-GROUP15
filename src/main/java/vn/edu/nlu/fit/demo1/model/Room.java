@@ -17,8 +17,6 @@ public class Room {
     private String size;
     private String view;
 
-    private List<Amenity> amenities = new ArrayList<>();
-
     public String getThumbnail() {
         List<String> imgs = getGalleryImages();
         return imgs.isEmpty() ? "placeholder.jpg" : imgs.get(0).trim();
@@ -54,6 +52,4 @@ public class Room {
     public void setSize(String size) { this.size = size; }
     public String getView() { return view; }
     public void setView(String view) { this.view = view; }
-    public List<Amenity> getAmenities() { return amenities; }
-    public void setAmenities(List<Amenity> amenities) { this.amenities = amenities; }
 }
