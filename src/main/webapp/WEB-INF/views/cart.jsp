@@ -33,9 +33,8 @@
             <thead>
             <tr>
                 <th>Phòng</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
+                <th>Giá / Đêm</th> <th>Số lượng</th>
+                <th>Số đêm</th>    <th>Thành tiền</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
@@ -51,15 +50,29 @@
                             </div>
                         </div>
                     </td>
-                    <td><fmt:formatNumber value="${item.room.basePrice}" type="currency" currencySymbol="đ"/></td>
+
+                    <td>
+                        <fmt:formatNumber value="${item.room.basePrice}" type="currency" currencySymbol="đ"/>
+                    </td>
+
                     <td>
                         <form action="${pageContext.request.contextPath}/cart/update" method="post" style="display: inline-flex; gap: 5px;">
                             <input type="hidden" name="id" value="${item.room.id}">
-                            <input type="number" name="quantity" value="${item.quantity}" min="1" max="${item.room.quantity}" class="quantity-input">
+                            <input type="number" name="quantity" value="${item.quantity}" min="1" max="${item.room.quantity}" class="quantity-input" style="width: 50px; text-align: center;">
                             <button type="submit" class="btn btn-update"><i class="fas fa-sync"></i></button>
                         </form>
                     </td>
-                    <td><fmt:formatNumber value="${item.totalPrice}" type="currency" currencySymbol="đ"/></td>
+
+                    <td style="text-align: center;">
+                        <span style="background: #e3f2fd; color: #0d47a1; padding: 5px 10px; border-radius: 4px; font-weight: bold; white-space: nowrap;">
+                            ${item.nights} đêm
+                        </span>
+                    </td>
+
+                    <td style="font-weight: bold; color: #d32f2f;">
+                        <fmt:formatNumber value="${item.totalPrice}" type="currency" currencySymbol="đ"/>
+                    </td>
+
                     <td>
                         <a href="${pageContext.request.contextPath}/cart/dell?id=${item.room.id}" class="btn btn-danger" onclick="return confirm('Xóa phòng này?')">
                             <i class="fas fa-times"></i> Xóa
@@ -70,7 +83,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="3" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                <td colspan="4" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
                 <td colspan="2" class="total-price">
                     <fmt:formatNumber value="${sessionScope.cart.totalMoney}" type="currency" currencySymbol="đ"/>
                 </td>
@@ -78,9 +91,7 @@
             </tfoot>
         </table>
 
-
         <c:set var="continueLink" value="${pageContext.request.contextPath}/index.jsp"/>
-
         <c:if test="${not empty sessionScope.cart.list}">
             <c:set var="firstItem" value="${sessionScope.cart.list[0]}"/>
             <c:set var="continueLink" value="${pageContext.request.contextPath}/hotel-detail?id=${firstItem.room.hotelId}"/>
