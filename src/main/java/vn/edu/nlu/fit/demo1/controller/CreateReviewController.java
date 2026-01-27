@@ -68,9 +68,9 @@ public class CreateReviewController extends HttpServlet {
             }
 
             int hotelId = Integer.parseInt(hotelIdStr);
-            double rating = Double.parseDouble(ratingStr);
+            int rating = Integer.parseInt(ratingStr);
 
-            if (rating < 1.0 || rating > 5.0) {
+            if (rating < 1 || rating > 5) {
                 result.put("success", false);
                 result.put("message", "Đánh giá phải từ 1 đến 5 sao");
                 out.print(gson.toJson(result));

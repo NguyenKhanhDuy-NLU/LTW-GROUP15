@@ -10,17 +10,20 @@ public class Review implements Serializable {
     private int userId;
     private int hotelId;
     private int bookingId;
-    private double rating;
+    private int rating;
     private String comment;
     private Timestamp createdAt;
+    private Timestamp updatedAt;
 
-    private String userName;
+    private String username;
+    private String userFullName;
+    private String userEmail;
     private String userAvatar;
+    private String hotelName;
 
-    public Review() {
-    }
+    public Review() {}
 
-    public Review(int userId, int hotelId, int bookingId, double rating, String comment) {
+    public Review(int userId, int hotelId, int bookingId, int rating, String comment) {
         this.userId = userId;
         this.hotelId = hotelId;
         this.bookingId = bookingId;
@@ -28,105 +31,61 @@ public class Review implements Serializable {
         this.comment = comment;
     }
 
-    public int getId() {
-        return id;
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
+
+    public int getHotelId() { return hotelId; }
+    public void setHotelId(int hotelId) { this.hotelId = hotelId; }
+
+    public int getBookingId() { return bookingId; }
+    public void setBookingId(int bookingId) { this.bookingId = bookingId; }
+
+    public int getRating() { return rating; }
+    public void setRating(int rating) { this.rating = rating; }
+
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
+
+    public Timestamp getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    public Timestamp getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getUserFullName() { return userFullName; }
+    public void setUserFullName(String userFullName) { this.userFullName = userFullName; }
+
+    public String getUserEmail() { return userEmail; }
+    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+
+    public String getUserAvatar() { return userAvatar; }
+    public void setUserAvatar(String userAvatar) { this.userAvatar = userAvatar; }
+
+    public String getHotelName() { return hotelName; }
+    public void setHotelName(String hotelName) { this.hotelName = hotelName; }
+
+    public String getRatingStars() {
+        StringBuilder stars = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            if (i < rating) {
+                stars.append("★");
+            } else {
+                stars.append("☆");
+            }
+        }
+        return stars.toString();
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getHotelId() {
-        return hotelId;
-    }
-
-    public void setHotelId(int hotelId) {
-        this.hotelId = hotelId;
-    }
-
-    public int getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserAvatar() {
-        return userAvatar;
-    }
-
-    public void setUserAvatar(String userAvatar) {
-        this.userAvatar = userAvatar;
-    }
-
-    public String getFormattedRating() {
-        return String.format("%.1f", rating);
-    }
-
-    public int getFullStars() {
-        return (int) Math.floor(rating);
-    }
-
-    public boolean hasHalfStar() {
-        return (rating - Math.floor(rating)) >= 0.5;
-    }
-
-    public int getRatingAsInt() {
-        return (int) Math.round(rating);
-    }
-
-    @Override
-    public String toString() {
-        return "Review{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", hotelId=" + hotelId +
-                ", bookingId=" + bookingId +
-                ", rating=" + rating +
-                ", comment='" + comment + '\'' +
-                ", userName='" + userName + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
+    public String getRatingBadgeClass() {
+        if (rating >= 4) return "success";
+        if (rating >= 3) return "info";
+        if (rating >= 2) return "warning";
+        return "danger";
     }
 }

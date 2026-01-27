@@ -24,12 +24,13 @@ public class ReviewService {
     public RatingStats getHotelRatingStats(int hotelId) throws SQLException {
         return reviewDAO.getRatingStats(hotelId);
     }
+
     public int countHotelReviews(int hotelId) throws SQLException {
         return reviewDAO.countReviewsByHotelId(hotelId);
     }
 
     public boolean createReview(int userId, int hotelId, int bookingId,
-                                double rating, String comment) throws SQLException {
+                                int rating, String comment) throws SQLException {
 
         validateReview(rating, comment);
 
@@ -41,7 +42,7 @@ public class ReviewService {
         return reviewDAO.createReview(review);
     }
 
-    public boolean updateReview(int reviewId, int userId, double rating, String comment)
+    public boolean updateReview(int reviewId, int userId, int rating, String comment)
             throws SQLException {
 
         validateReview(rating, comment);
@@ -61,6 +62,7 @@ public class ReviewService {
 
         return reviewDAO.updateReview(review);
     }
+
     public boolean deleteReview(int reviewId, int userId) throws SQLException {
         Review review = reviewDAO.getReviewById(reviewId);
 
@@ -79,9 +81,9 @@ public class ReviewService {
         return !reviewDAO.hasUserReviewedHotel(userId, hotelId);
     }
 
-    private void validateReview(double rating, String comment) {
-        if (rating < 1.0 || rating > 5.0) {
-            throw new IllegalArgumentException("Đánh giá không hợp lệ");
+    private void validateReview(int rating, String comment) {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("Đánh giá phải từ 1 đến 5 sao");
         }
 
         if (comment == null || comment.trim().isEmpty()) {
