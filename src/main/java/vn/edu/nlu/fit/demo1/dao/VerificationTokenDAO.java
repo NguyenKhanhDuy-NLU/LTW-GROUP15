@@ -9,21 +9,33 @@ import java.time.LocalDateTime;
 public class VerificationTokenDAO {
 
     public boolean createToken(VerificationToken token) {
-        String sql = "INSERT INTO verification_tokens (user_id, token, token_type, expiry_date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO verification_tokens (user_id, token, token_type, expires_at) " +
+                "VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, token.getUserId());
             stmt.setString(2, token.getToken());
             stmt.setString(3, token.getTokenType());
-            stmt.setTimestamp(4, Timestamp.valueOf(token.getExpiryDate()));
 
-            return stmt.executeUpdate() > 0;
+            stmt.setTimestamp(4, Timestamp.valueOf(token.getExpiresAt()));
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        token.setId(rs.getInt(1));
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     public VerificationToken getTokenByString(String tokenString) {
@@ -52,36 +64,65 @@ public class VerificationTokenDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, tokenString);
-
             return stmt.executeUpdate() > 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
-    public void deleteExpiredTokens() {
-        String sql = "DELETE FROM verification_tokens WHERE expiry_date < NOW()";
+    public int deleteExpiredTokens() {
+        String sql = "DELETE FROM verification_tokens WHERE expires_at < NOW()";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            int deleted = stmt.executeUpdate();
-            System.out.println("Deleted " + deleted + " expired tokens");
+            return stmt.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return 0;
         }
+    }
+
+    public boolean deleteUserTokens(int userId, String tokenType) {
+        String sql = "DELETE FROM verification_tokens WHERE user_id = ? AND token_type = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            stmt.setString(2, tokenType);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean isTokenValid(String tokenString) {
+        VerificationToken token = getTokenByString(tokenString);
+        return token != null && token.isValid();
     }
 
     private VerificationToken extractTokenFromResultSet(ResultSet rs) throws SQLException {
         VerificationToken token = new VerificationToken();
+
         token.setId(rs.getInt("id"));
         token.setUserId(rs.getInt("user_id"));
         token.setToken(rs.getString("token"));
         token.setTokenType(rs.getString("token_type"));
-        token.setExpiryDate(rs.getTimestamp("expiry_date").toLocalDateTime());
+
+        Timestamp expiresTimestamp = rs.getTimestamp("expires_at");
+        if (expiresTimestamp != null) {
+            token.setExpiresAt(expiresTimestamp.toLocalDateTime());
+        }
+
+        token.setCreatedAt(rs.getTimestamp("created_at"));
         token.setUsed(rs.getBoolean("is_used"));
-        token.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+
         return token;
     }
 }

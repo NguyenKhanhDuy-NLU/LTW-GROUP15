@@ -8,10 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý Booking - Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin-dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<!-- Sidebar -->
 <aside class="sidebar">
     <div class="sidebar-header">
         <img src="${pageContext.request.contextPath}/assets/images/logo.jpg" alt="Logo" class="logo">
@@ -30,9 +29,6 @@
         <a href="${pageContext.request.contextPath}/admin/users" class="menu-item">
             <i class="fas fa-users"></i> Quản lý User
         </a>
-        <a href="${pageContext.request.contextPath}/admin/reviews" class="menu-item">
-            <i class="fas fa-star"></i> Quản lý Review
-        </a>
         <a href="${pageContext.request.contextPath}/" class="menu-item">
             <i class="fas fa-home"></i> Về trang chủ
         </a>
@@ -50,12 +46,11 @@
         </div>
     </header>
 
-    <!-- Filter Section -->
     <section class="filter-section">
         <div class="filter-group">
             <label>Lọc theo trạng thái:</label>
-            <select id="statusFilter" onchange="filterByStatus(this.value)">
-                <option value="all" ${currentStatus eq 'all' ? 'selected' : ''}>Tất cả</option>
+            <select id="statusFilter" onchange="window.location.href='?status=' + this.value">
+                <option value="all" ${currentStatus eq 'all' || empty currentStatus ? 'selected' : ''}>Tất cả</option>
                 <option value="pending" ${currentStatus eq 'pending' ? 'selected' : ''}>Chờ xác nhận</option>
                 <option value="confirmed" ${currentStatus eq 'confirmed' ? 'selected' : ''}>Đã xác nhận</option>
                 <option value="completed" ${currentStatus eq 'completed' ? 'selected' : ''}>Hoàn thành</option>
@@ -67,7 +62,6 @@
         </div>
     </section>
 
-    <!-- Bookings Table -->
     <section class="data-section">
         <div class="card">
             <div class="card-header">
@@ -78,6 +72,7 @@
                     <div class="alert alert-success">
                         <c:choose>
                             <c:when test="${param.success eq 'delete'}">Xóa booking thành công!</c:when>
+                            <c:when test="${param.success eq 'update'}">Cập nhật booking thành công!</c:when>
                             <c:otherwise>Thao tác thành công!</c:otherwise>
                         </c:choose>
                     </div>
@@ -93,12 +88,7 @@
                         <th>ID</th>
                         <th>Khách hàng</th>
                         <th>Khách sạn</th>
-                        <th>Check-in</th>
-                        <th>Check-out</th>
-                        <th>Số khách</th>
-                        <th>Tổng tiền</th>
                         <th>Trạng thái</th>
-                        <th>Thanh toán</th>
                         <th>Thao tác</th>
                     </tr>
                     </thead>
@@ -106,7 +96,7 @@
                     <c:choose>
                         <c:when test="${empty bookings}">
                             <tr>
-                                <td colspan="10" class="text-center">Không có booking nào</td>
+                                <td colspan="5" class="text-center">Không có booking nào</td>
                             </tr>
                         </c:when>
                         <c:otherwise>
@@ -118,19 +108,10 @@
                                         <small>${booking.userEmail}</small>
                                     </td>
                                     <td>${booking.hotelName}</td>
-                                    <td><fmt:formatDate value="${booking.checkInDate}" pattern="dd/MM/yyyy"/></td>
-                                    <td><fmt:formatDate value="${booking.checkOutDate}" pattern="dd/MM/yyyy"/></td>
-                                    <td>${booking.numGuests}</td>
-                                    <td><fmt:formatNumber value="${booking.totalPrice}" pattern="#,###"/>đ</td>
                                     <td>
-                                            <span class="badge badge-${booking.statusBadgeClass}">
-                                                    ${booking.statusText}
-                                            </span>
-                                    </td>
-                                    <td>
-                                            <span class="badge badge-${booking.paymentStatus eq 'paid' ? 'success' : 'warning'}">
-                                                    ${booking.paymentStatusText}
-                                            </span>
+                                        <span class="badge ${booking.statusClass}">
+                                                ${booking.statusText}
+                                        </span>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
@@ -138,10 +119,6 @@
                                                class="btn btn-sm btn-info" title="Xem chi tiết">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <button onclick="changeStatus(${booking.id})"
-                                                    class="btn btn-sm btn-primary" title="Đổi trạng thái">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
                                             <a href="${pageContext.request.contextPath}/admin/bookings/delete?id=${booking.id}"
                                                class="btn btn-sm btn-danger"
                                                onclick="return confirm('Bạn có chắc muốn xóa booking này?')"
@@ -157,7 +134,6 @@
                     </tbody>
                 </table>
 
-                <!-- Pagination -->
                 <c:if test="${totalPages > 1}">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
@@ -180,31 +156,14 @@
 </main>
 
 <script>
-    function filterByStatus(status) {
-        window.location.href = '${pageContext.request.contextPath}/admin/bookings?status=' + status;
-    }
-
-    function changeStatus(bookingId) {
-        const status = prompt('Nhập trạng thái mới (pending/confirmed/completed/cancelled):');
-        if (status) {
-            fetch('${pageContext.request.contextPath}/admin/bookings/update-status', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'id=' + bookingId + '&status=' + status
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Cập nhật thành công!');
-                        location.reload();
-                    } else {
-                        alert('Lỗi: ' + data.message);
-                    }
-                });
-        }
-    }
+    // Tự động ẩn thông báo sau 5 giây
+    setTimeout(function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        });
+    }, 5000);
 </script>
 </body>
 </html>

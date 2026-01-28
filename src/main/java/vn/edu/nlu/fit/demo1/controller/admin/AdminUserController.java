@@ -84,7 +84,7 @@ public class AdminUserController extends HttpServlet {
             throws ServletException, IOException {
 
         int page = 1;
-        int pageSize = 15;
+        int pageSize = 1000; // Hiển thị tất cả
 
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
@@ -191,7 +191,10 @@ public class AdminUserController extends HttpServlet {
             int userId = Integer.parseInt(idParam);
             int roleId = Integer.parseInt(roleIdParam);
 
-            boolean success = adminUserDAO.updateUserRole(userId, roleId);
+            // ĐÃ SỬA: Chuyển đổi roleId (int) sang role (String) để phù hợp với database ENUM
+            String role = (roleId == 1) ? "admin" : "customer";
+
+            boolean success = adminUserDAO.updateUserRole(userId, role);
 
             result.put("success", success);
             result.put("message", success ? "Cập nhật role thành công" : "Cập nhật role thất bại");

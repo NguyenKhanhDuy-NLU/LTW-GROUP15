@@ -75,7 +75,7 @@ public class AdminBookingController extends HttpServlet {
             throws ServletException, IOException {
 
         int page = 1;
-        int pageSize = 15;
+        int pageSize = 1000; // Hiển thị tất cả
 
         String pageParam = request.getParameter("page");
         if (pageParam != null && !pageParam.isEmpty()) {

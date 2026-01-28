@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý Khách sạn - Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/hotel-list.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -39,7 +39,6 @@
     </nav>
 </aside>
 
-<!-- Main Content -->
 <main class="main-content">
     <header class="content-header">
         <div>
@@ -51,7 +50,6 @@
         </a>
     </header>
 
-    <!-- Success/Error Messages -->
     <c:if test="${param.success eq 'add'}">
         <div class="alert alert-success">
             <i class="fas fa-check-circle"></i> Thêm khách sạn thành công!
@@ -67,6 +65,11 @@
             <i class="fas fa-check-circle"></i> Xóa khách sạn thành công!
         </div>
     </c:if>
+    <c:if test="${param.success eq 'toggle'}">
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> Thay đổi trạng thái khách sạn thành công!
+        </div>
+    </c:if>
 
     <section class="card">
         <div class="table-responsive">
@@ -74,13 +77,11 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Ảnh</th>
                     <th>Tên khách sạn</th>
                     <th>Thành phố</th>
                     <th>Giá gốc</th>
                     <th>Giá KM</th>
                     <th>Sao</th>
-                    <th>Số ảnh</th>
                     <th>Trạng thái</th>
                     <th>Thao tác</th>
                 </tr>
@@ -89,20 +90,6 @@
                 <c:forEach var="hotel" items="${hotels}">
                     <tr>
                         <td>${hotel.id}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${not empty hotel.mainImage}">
-                                    <img src="${pageContext.request.contextPath}${hotel.mainImage}"
-                                         alt="${hotel.name}"
-                                         class="table-img">
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="no-image">
-                                        <i class="fas fa-image"></i>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
                         <td>
                             <strong>${hotel.name}</strong><br>
                             <small class="text-muted">${hotel.address}</small>
@@ -114,9 +101,9 @@
                         <td>
                             <c:choose>
                                 <c:when test="${hotel.hasDiscount()}">
-                                            <span class="text-success">
-                                                <fmt:formatNumber value="${hotel.discountPrice}" pattern="#,###" /> đ
-                                            </span>
+                                    <span class="text-success">
+                                        <fmt:formatNumber value="${hotel.discountPrice}" pattern="#,###" /> đ
+                                    </span>
                                     <span class="badge badge-danger">-${hotel.discountPercent}%</span>
                                 </c:when>
                                 <c:otherwise>
@@ -130,20 +117,22 @@
                             </c:forEach>
                         </td>
                         <td>
-                            <span class="badge badge-info">${hotel.imageCount}</span>
-                        </td>
-                        <td>
-                                    <span class="badge ${hotel.statusClass}">
-                                            ${hotel.statusText}
-                                    </span>
+                            <span class="badge ${hotel.statusClass}">
+                                    ${hotel.statusText}
+                            </span>
                         </td>
                         <td>
                             <div class="action-buttons">
-                                <a href="${pageContext.request.contextPath}/admin/hotels/edit?id=${hotel.id}"
-                                   class="btn-icon btn-edit"
-                                   title="Sửa">
-                                    <i class="fas fa-edit"></i>
+                                <a href="${pageContext.request.contextPath}/admin/rooms?hotelId=${hotel.id}"
+                                   class="btn-icon btn-info"
+                                   title="Quản lý phòng">
+                                    <i class="fas fa-bed"></i>
                                 </a>
+                                <button onclick="toggleStatus(${hotel.id}, ${hotel.active})"
+                                        class="btn-icon ${hotel.active ? 'btn-warning' : 'btn-success'}"
+                                        title="${hotel.active ? 'Khóa' : 'Mở khóa'}">
+                                    <i class="fas ${hotel.active ? 'fa-lock' : 'fa-lock-open'}"></i>
+                                </button>
                                 <button onclick="confirmDelete(${hotel.id}, '${hotel.name}')"
                                         class="btn-icon btn-delete"
                                         title="Xóa">
@@ -182,6 +171,12 @@
 </main>
 
 <script>
+    function toggleStatus(id, currentActive) {
+        const action = currentActive ? 'khóa' : 'mở khóa';
+        if (confirm('Bạn có chắc muốn ' + action + ' khách sạn này?')) {
+            window.location.href = '${pageContext.request.contextPath}/admin/hotels/toggle-status?id=' + id;
+        }
+    }
     function confirmDelete(id, name) {
         if (confirm('Bạn có chắc muốn xóa khách sạn "' + name + '"?')) {
             window.location.href = '${pageContext.request.contextPath}/admin/hotels/delete?id=' + id;

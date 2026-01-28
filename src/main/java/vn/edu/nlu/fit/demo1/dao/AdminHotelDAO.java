@@ -17,7 +17,8 @@ public class AdminHotelDAO {
 
         try (Connection conn = DatabaseConfig.getConnection()) {
 
-            String sqlHotels = "SELECT COUNT(*) as total FROM hotels WHERE is_active = 1";
+            // ĐÃ SỬA: hotels → hotel, is_active → is_featured (hoặc đếm tất cả)
+            String sqlHotels = "SELECT COUNT(*) as total FROM hotel";
             try (PreparedStatement stmt = conn.prepareStatement(sqlHotels);
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -26,7 +27,8 @@ public class AdminHotelDAO {
                 }
             }
 
-            String sqlBookings = "SELECT COUNT(*) as total FROM bookings";
+            // ĐÃ SỬA: bookings → booking
+            String sqlBookings = "SELECT COUNT(*) as total FROM booking";
             try (PreparedStatement stmt = conn.prepareStatement(sqlBookings);
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -35,7 +37,7 @@ public class AdminHotelDAO {
                 }
             }
 
-            String sqlPending = "SELECT COUNT(*) as total FROM bookings WHERE status = 'pending'";
+            String sqlPending = "SELECT COUNT(*) as total FROM booking WHERE status = 'pending'";
             try (PreparedStatement stmt = conn.prepareStatement(sqlPending);
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -44,7 +46,7 @@ public class AdminHotelDAO {
                 }
             }
 
-            String sqlConfirmed = "SELECT COUNT(*) as total FROM bookings WHERE status = 'confirmed'";
+            String sqlConfirmed = "SELECT COUNT(*) as total FROM booking WHERE status = 'confirmed'";
             try (PreparedStatement stmt = conn.prepareStatement(sqlConfirmed);
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -53,7 +55,7 @@ public class AdminHotelDAO {
                 }
             }
 
-            String sqlUsers = "SELECT COUNT(*) as total FROM users WHERE is_active = 1";
+            String sqlUsers = "SELECT COUNT(*) as total FROM user WHERE is_active = 1";
             try (PreparedStatement stmt = conn.prepareStatement(sqlUsers);
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -62,7 +64,7 @@ public class AdminHotelDAO {
                 }
             }
 
-            String sqlRevenue = "SELECT COALESCE(SUM(total_price), 0) as total FROM bookings WHERE payment_status = 'paid'";
+            String sqlRevenue = "SELECT COALESCE(SUM(final_price), 0) as total FROM booking WHERE payment_status = 'success'";
             try (PreparedStatement stmt = conn.prepareStatement(sqlRevenue);
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -71,16 +73,20 @@ public class AdminHotelDAO {
                 }
             }
 
-            String sqlMonthRevenue = "SELECT COALESCE(SUM(total_price), 0) as total " +
-                    "FROM bookings " +
-                    "WHERE payment_status = 'paid' " +
-                    "AND MONTH(booking_date) = MONTH(CURRENT_DATE()) " +
-                    "AND YEAR(booking_date) = YEAR(CURRENT_DATE())";
+            String sqlMonthRevenue = "SELECT COALESCE(SUM(final_price), 0) as total " +
+                    "FROM booking " +
+                    "WHERE payment_status = 'success' " +
+                    "AND MONTH(created_at) = MONTH(CURRENT_DATE()) " +
+                    "AND YEAR(created_at) = YEAR(CURRENT_DATE())";
             try (PreparedStatement stmt = conn.prepareStatement(sqlMonthRevenue);
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    stats.setMonthRevenue(rs.getBigDecimal("total"));
-                    System.out.println("  Month Revenue: " + stats.getMonthRevenue());
+                    BigDecimal totalBookingMonth = rs.getBigDecimal("total");
+                    // Tính doanh thu tháng = tổng booking * 10%
+                    BigDecimal monthRevenue = totalBookingMonth.multiply(new BigDecimal("0.10"));
+                    stats.setMonthRevenue(monthRevenue);
+                    System.out.println("  Total Booking Month: " + totalBookingMonth);
+                    System.out.println("  Month Revenue (10%): " + monthRevenue);
                 }
             }
 
@@ -102,14 +108,33 @@ public class AdminHotelDAO {
         return stats;
     }
 
+    public boolean toggleHotelStatus(int hotelId) {
+        String sql = "UPDATE hotel SET is_featured = NOT is_featured WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, hotelId);
+            int rowsAffected = stmt.executeUpdate();
+
+            System.out.println("Toggle hotel featured status - ID: " + hotelId + ", Rows affected: " + rowsAffected);
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error toggling hotel status: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public List<Hotel> getAllHotels(int page, int pageSize) {
         List<Hotel> hotels = new ArrayList<>();
         int offset = (page - 1) * pageSize;
 
-        String sql = "SELECT h.*, " +
-                "(SELECT COUNT(*) FROM hotel_images WHERE hotel_id = h.id) as image_count " +
-                "FROM hotels h " +
-                "ORDER BY h.created_at DESC " +
+        String sql = "SELECT h.*, c.city_name " +
+                "FROM hotel h " +
+                "LEFT JOIN city c ON h.city_id = c.id " +
+                "ORDER BY h.id DESC " +
                 "LIMIT ? OFFSET ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
@@ -124,73 +149,80 @@ public class AdminHotelDAO {
                     hotels.add(hotel);
                 }
             }
+
         } catch (SQLException e) {
-            System.err.println("Error loading hotels: " + e.getMessage());
+            System.err.println("Error getting hotels: " + e.getMessage());
             e.printStackTrace();
         }
+
         return hotels;
     }
 
     public int countHotels() {
-        String sql = "SELECT COUNT(*) FROM hotels";
+        String sql = "SELECT COUNT(*) as total FROM hotel";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
-                return rs.getInt(1);
+                return rs.getInt("total");
             }
+
         } catch (SQLException e) {
+            System.err.println("Error counting hotels: " + e.getMessage());
             e.printStackTrace();
         }
+
         return 0;
     }
 
     public boolean addHotel(Hotel hotel) {
-        String sql = "INSERT INTO hotels (name, city_id, address, star_rating, " +
-                "price_per_night, discount_price, description, main_image, amenities, " +
-                "latitude, longitude, is_active) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO hotel (city_id, hotel_name, slug, address, star_rating, " +
+                "min_price, max_price, description, main_image, is_featured) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, hotel.getName());
-            stmt.setInt(2, hotel.getCityId());
-            stmt.setString(3, hotel.getAddress());
-            stmt.setInt(4, hotel.getStarRating());
-            stmt.setBigDecimal(5, hotel.getPricePerNight());
-            stmt.setBigDecimal(6, hotel.getDiscountPrice());
-            stmt.setString(7, hotel.getDescription());
-            stmt.setString(8, hotel.getMainImage());
-            stmt.setString(9, hotel.getAmenities());
-            stmt.setBigDecimal(10, hotel.getLatitude());
-            stmt.setBigDecimal(11, hotel.getLongitude());
-            stmt.setBoolean(12, hotel.isActive());
+            stmt.setInt(1, hotel.getCityId());
+            stmt.setString(2, hotel.getName());
+            String slug = hotel.getName().toLowerCase()
+                    .replaceAll("[^a-z0-9\\s-]", "")
+                    .replaceAll("\\s+", "-");
+            stmt.setString(3, slug);
+            stmt.setString(4, hotel.getAddress());
+            stmt.setInt(5, hotel.getStarRating());
+            stmt.setBigDecimal(6, hotel.getPricePerNight()); // min_price
+            stmt.setBigDecimal(7, hotel.getDiscountPrice()); // max_price
+            stmt.setString(8, hotel.getDescription());
+            stmt.setString(9, null); // main_image
+            stmt.setBoolean(10, hotel.isActive()); // is_featured
 
-            int affectedRows = stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
 
-            if (affectedRows > 0) {
+            if (rowsAffected > 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         hotel.setId(generatedKeys.getInt(1));
                     }
                 }
+                System.out.println("Added hotel - ID: " + hotel.getId() + ", Name: " + hotel.getName());
                 return true;
             }
+
+            return false;
+
         } catch (SQLException e) {
             System.err.println("Error adding hotel: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     public boolean updateHotel(Hotel hotel) {
-        String sql = "UPDATE hotels SET name = ?, city_id = ?, address = ?, " +
-                "star_rating = ?, price_per_night = ?, discount_price = ?, " +
-                "description = ?, main_image = ?, amenities = ?, latitude = ?, longitude = ?, " +
-                "is_active = ?, updated_at = NOW() " +
+        String sql = "UPDATE hotel SET hotel_name = ?, city_id = ?, address = ?, star_rating = ?, " +
+                "min_price = ?, max_price = ?, description = ?, is_featured = ? " +
                 "WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
@@ -203,88 +235,77 @@ public class AdminHotelDAO {
             stmt.setBigDecimal(5, hotel.getPricePerNight());
             stmt.setBigDecimal(6, hotel.getDiscountPrice());
             stmt.setString(7, hotel.getDescription());
-            stmt.setString(8, hotel.getMainImage());
-            stmt.setString(9, hotel.getAmenities());
-            stmt.setBigDecimal(10, hotel.getLatitude());
-            stmt.setBigDecimal(11, hotel.getLongitude());
-            stmt.setBoolean(12, hotel.isActive());
-            stmt.setInt(13, hotel.getId());
+            stmt.setBoolean(8, hotel.isActive());
+            stmt.setInt(9, hotel.getId());
 
-            return stmt.executeUpdate() > 0;
+            int rowsAffected = stmt.executeUpdate();
+
+            System.out.println("Update hotel - ID: " + hotel.getId() + ", Rows affected: " + rowsAffected);
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
             System.err.println("Error updating hotel: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
-    public boolean deleteHotel(int id) {
-        String sql = "UPDATE hotels SET is_active = 0, updated_at = NOW() WHERE id = ?";
+    public boolean deleteHotel(int hotelId) {
+        // ĐÃ SỬA: hotels → hotel
+        String sql = "DELETE FROM hotel WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            return stmt.executeUpdate() > 0;
+            stmt.setInt(1, hotelId);
+            int rowsAffected = stmt.executeUpdate();
+
+            System.out.println("Delete hotel - ID: " + hotelId + ", Rows affected: " + rowsAffected);
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
             System.err.println("Error deleting hotel: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
-    public boolean permanentDeleteHotel(int id) {
-        String sql = "DELETE FROM hotels WHERE id = ?";
+    public Hotel getHotelById(int hotelId) {
+        String sql = "SELECT h.*, c.city_name " +
+                "FROM hotel h " +
+                "LEFT JOIN city c ON h.city_id = c.id " +
+                "WHERE h.id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            return stmt.executeUpdate() > 0;
+            stmt.setInt(1, hotelId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extractHotelFromResultSet(rs);
+                }
+            }
 
         } catch (SQLException e) {
+            System.err.println("Error getting hotel by ID: " + e.getMessage());
             e.printStackTrace();
         }
-        return false;
+
+        return null;
     }
 
     private Hotel extractHotelFromResultSet(ResultSet rs) throws SQLException {
         Hotel hotel = new Hotel();
         hotel.setId(rs.getInt("id"));
-        hotel.setName(rs.getString("name"));
-        try {
-            hotel.setCityId(rs.getInt("city_id"));
-        } catch (SQLException e) {
-        }
-
+        hotel.setName(rs.getString("hotel_name"));
         hotel.setAddress(rs.getString("address"));
-
-        try {
-            hotel.setStarRating(rs.getInt("star_rating"));
-        } catch (SQLException e) {
-        }
-
-        hotel.setPricePerNight(rs.getBigDecimal("price_per_night"));
-        hotel.setDiscountPrice(rs.getBigDecimal("discount_price"));
-        hotel.setDescription(rs.getString("description"));
-        hotel.setMainImage(rs.getString("main_image"));
-        hotel.setAmenities(rs.getString("amenities"));
-
-        try {
-            hotel.setLatitude(rs.getBigDecimal("latitude"));
-            hotel.setLongitude(rs.getBigDecimal("longitude"));
-        } catch (SQLException e) {
-        }
-
-        hotel.setActive(rs.getBoolean("is_active"));
-
-        try {
-            hotel.setImageCount(rs.getInt("image_count"));
-        } catch (SQLException e) {
-        }
-
+        hotel.setCityName(rs.getString("city_name"));
+        hotel.setPricePerNight(rs.getBigDecimal("min_price"));
+        hotel.setDiscountPrice(rs.getBigDecimal("max_price"));
+        hotel.setStarRating(rs.getInt("star_rating"));
+        hotel.setActive(rs.getBoolean("is_featured"));
+        hotel.setImageCount(0);
         return hotel;
     }
 }

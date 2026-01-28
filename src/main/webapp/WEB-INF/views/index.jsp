@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="vn.edu.nlu.fit.demo1.model.User" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group15 - Đặt phòng khách sạn</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style_home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="${pageContext.request.contextPath}/assets/images/logo.jpg">
 </head>
 <body>
@@ -24,12 +25,21 @@
                     <i class="fas fa-chevron-down"></i>
                 </div>
 
-                <% if (session.getAttribute("user") != null) { %>
+                <%
+                    User currentUser = (User) session.getAttribute("user");
+                    if (currentUser != null) {
+                %>
                 <div class="user-menu">
                     <a href="${pageContext.request.contextPath}/user" class="nav-user-icon">
                         <i class="fas fa-user"></i>
                     </a>
-                    <div class="user-dropdown">
+                    <div class="user-dropdown"><% if ("admin".equals(session.getAttribute("userRole"))) { %>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard" class="admin-link">
+                            <i class="fas fa-user-shield"></i> Admin Panel
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <% } %>
+
                         <a href="${pageContext.request.contextPath}/user"><i class="fas fa-user"></i> Hồ sơ</a>
                         <a href="${pageContext.request.contextPath}/bookings"><i class="fas fa-calendar-check"></i> Đặt phòng của tôi</a>
                         <a href="${pageContext.request.contextPath}/change-password"><i class="fas fa-lock"></i> Đổi mật khẩu</a>
@@ -53,7 +63,7 @@
         <p>Đặt phòng nhanh chóng, giá tốt nhất thị trường</p>
 
         <div class="search-container">
-            <form class="search-form" action="${pageContext.request.contextPath}/assets/html/search.html" method="GET">
+            <form class="search-form" action="${pageContext.request.contextPath}/hotels/search" method="GET">
                 <div class="form-group">
                     <label for="location"><i class="fas fa-map-marker-alt"></i> Địa điểm</label>
                     <input type="text" id="location" name="location" placeholder="Bạn muốn đến đâu?" required>
@@ -111,7 +121,7 @@
     <div class="container">
         <h2>Khám Phá Việt Nam</h2>
         <div class="sights-grid">
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail11.html" class="sight-card-link span-3">
+            <a href="${pageContext.request.contextPath}/hotels?city=ha-long" class="sight-card-link span-3">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img5.png" alt="Vịnh Hạ Long">
                     <div class="sight-content">
@@ -120,7 +130,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail12.html" class="sight-card-link span-3">
+            <a href="${pageContext.request.contextPath}/hotels?city=hoi-an" class="sight-card-link span-3">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img6.png" alt="Hội An">
                     <div class="sight-content">
@@ -129,7 +139,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail13.html" class="sight-card-link span-2">
+            <a href="${pageContext.request.contextPath}/hotels?city=nha-trang" class="sight-card-link span-2">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img7.png" alt="Nha Trang">
                     <div class="sight-content">
@@ -138,7 +148,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail14.html" class="sight-card-link span-2">
+            <a href="${pageContext.request.contextPath}/hotels?city=phu-quoc" class="sight-card-link span-2">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img8.png" alt="Phú Quốc">
                     <div class="sight-content">
@@ -147,7 +157,7 @@
                 </div>
             </a>
 
-            <a href="${pageContext.request.contextPath}/assets/html/hotel-detail16.html" class="sight-card-link span-2">
+            <a href="${pageContext.request.contextPath}/hotels?city=hue" class="sight-card-link span-2">
                 <div class="sight-card">
                     <img src="${pageContext.request.contextPath}/assets/images/img9.png" alt="Huế">
                     <div class="sight-content">
@@ -233,9 +243,11 @@
 </footer>
 
 <script>
+    // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('checkin').setAttribute('min', today);
 
+    // Set checkout minimum date based on checkin
     document.getElementById('checkin').addEventListener('change', function() {
         const checkinDate = new Date(this.value);
         checkinDate.setDate(checkinDate.getDate() + 1);

@@ -14,13 +14,13 @@ public class AdminBookingDAO {
         int offset = (page - 1) * pageSize;
 
         String sql = "SELECT b.*, " +
-                "h.name as hotel_name, " +
-                "c.name as city_name, " +
+                "h.hotel_name, " +
+                "c.city_name, " +
                 "u.username, u.full_name, u.email " +
-                "FROM bookings b " +
-                "JOIN hotels h ON b.hotel_id = h.id " +
-                "LEFT JOIN cities c ON h.city_id = c.id " +
-                "JOIN users u ON b.user_id = u.id " +
+                "FROM booking b " +
+                "JOIN hotel h ON b.hotel_id = h.id " +
+                "LEFT JOIN city c ON h.city_id = c.id " +
+                "JOIN user u ON b.user_id = u.id " +
                 "ORDER BY b.created_at DESC " +
                 "LIMIT ? OFFSET ?";
 
@@ -44,7 +44,7 @@ public class AdminBookingDAO {
     }
 
     public int countBookings() {
-        String sql = "SELECT COUNT(*) as total FROM bookings";
+        String sql = "SELECT COUNT(*) as total FROM booking";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -62,13 +62,13 @@ public class AdminBookingDAO {
 
     public Booking getBookingById(int id) {
         String sql = "SELECT b.*, " +
-                "h.name as hotel_name, h.main_image as hotel_image, " +
-                "c.name as city_name, " +
+                "h.hotel_name, h.main_image as hotel_image, " +
+                "c.city_name, " +
                 "u.username, u.full_name, u.email " +
-                "FROM bookings b " +
-                "JOIN hotels h ON b.hotel_id = h.id " +
-                "LEFT JOIN cities c ON h.city_id = c.id " +
-                "JOIN users u ON b.user_id = u.id " +
+                "FROM booking b " +
+                "JOIN hotel h ON b.hotel_id = h.id " +
+                "LEFT JOIN city c ON h.city_id = c.id " +
+                "JOIN user u ON b.user_id = u.id " +
                 "WHERE b.id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
@@ -90,11 +90,11 @@ public class AdminBookingDAO {
     }
 
     public boolean updateBooking(Booking booking) {
-        String sql = "UPDATE bookings SET " +
+        // ĐÃ SỬA: bookings → booking, updated_at → CURRENT_TIMESTAMP
+        String sql = "UPDATE booking SET " +
                 "status = ?, " +
                 "payment_status = ?, " +
-                "notes = ?, " +
-                "updated_at = NOW() " +
+                "notes = ? " +
                 "WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
@@ -117,7 +117,8 @@ public class AdminBookingDAO {
     }
 
     public boolean deleteBooking(int id) {
-        String sql = "UPDATE bookings SET status = 'cancelled', updated_at = NOW() WHERE id = ?";
+        // ĐÃ SỬA: bookings → booking
+        String sql = "UPDATE booking SET status = 'cancelled' WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -133,7 +134,7 @@ public class AdminBookingDAO {
     }
 
     public boolean permanentDeleteBooking(int id) {
-        String sql = "DELETE FROM bookings WHERE id = ?";
+        String sql = "DELETE FROM booking WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -153,13 +154,13 @@ public class AdminBookingDAO {
         int offset = (page - 1) * pageSize;
 
         String sql = "SELECT b.*, " +
-                "h.name as hotel_name, " +
-                "c.name as city_name, " +
+                "h.hotel_name, " +
+                "c.city_name, " +
                 "u.username, u.full_name, u.email " +
-                "FROM bookings b " +
-                "JOIN hotels h ON b.hotel_id = h.id " +
-                "LEFT JOIN cities c ON h.city_id = c.id " +
-                "JOIN users u ON b.user_id = u.id " +
+                "FROM booking b " +
+                "JOIN hotel h ON b.hotel_id = h.id " +
+                "LEFT JOIN city c ON h.city_id = c.id " +
+                "JOIN user u ON b.user_id = u.id " +
                 "WHERE b.status = ? " +
                 "ORDER BY b.created_at DESC " +
                 "LIMIT ? OFFSET ?";
@@ -185,7 +186,8 @@ public class AdminBookingDAO {
     }
 
     public int countBookingsByStatus(String status) {
-        String sql = "SELECT COUNT(*) as total FROM bookings WHERE status = ?";
+        // ĐÃ SỬA: bookings → booking
+        String sql = "SELECT COUNT(*) as total FROM booking WHERE status = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -217,11 +219,23 @@ public class AdminBookingDAO {
         }
 
         booking.setBookingCode(rs.getString("booking_code"));
-        booking.setCheckInDate(rs.getDate("check_in_date"));
-        booking.setCheckOutDate(rs.getDate("check_out_date"));
-        booking.setGuests(rs.getInt("guests"));
-        booking.setRoomType(rs.getString("room_type"));
-        booking.setTotalPrice(rs.getBigDecimal("total_price"));
+
+        booking.setCheckInDate(rs.getDate("check_in"));
+        booking.setCheckOutDate(rs.getDate("check_out"));
+
+        try {
+            booking.setGuests(rs.getInt("guests"));
+        } catch (SQLException e) {
+            booking.setGuests(0);
+        }
+
+        try {
+            booking.setRoomType(rs.getString("room_type"));
+        } catch (SQLException e) {
+            booking.setRoomType("");
+        }
+
+        booking.setTotalPrice(rs.getBigDecimal("final_price"));
         booking.setStatus(rs.getString("status"));
         booking.setPaymentStatus(rs.getString("payment_status"));
         booking.setNotes(rs.getString("notes"));
