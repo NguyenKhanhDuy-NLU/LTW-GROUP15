@@ -1,0 +1,289 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { font-family: inherit; }
+
+
+.main-header {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.btn-back {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #0066ff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-back i {
+    margin-right: 6px;
+}
+
+.btn-back:hover {
+    text-decoration: underline;
+}
+
+.room-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 30px auto;
+    gap: 20px;
+}
+
+.room-title h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.room-type {
+    color: #666;
+    font-size: 16px;
+}
+.price-box {
+    background: #fff;
+    padding: 14px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    min-width: 220px;
+}
+
+.price-line {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #00bfa5;
+}
+
+.per-night {
+    color: #666;
+    font-size: 14px;
+}
+
+.btn-book {
+    margin-top: 12px;
+    width: 100%;
+    padding: 11px;
+    background: #0066ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-book:hover {
+    background: #004ecc;
+}
+
+.note {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #777;
+}
+
+.room-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.gallery {
+    background: #fff;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.main-img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+.info-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    border: 1px solid #eee;
+    height: fit-content;
+}
+
+.info-card h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+    color: #333;
+}
+
+.info-card ul li {
+    margin-bottom: 18px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    color: #444;
+}
+
+.info-card i {
+    color: #0066ff;
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.description, .amenities-section {
+    background: #fff;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    border: 1px solid #eee;
+}
+
+.description h2, .amenities-section h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #222;
+    font-weight: 700;
+}
+
+.description p {
+    line-height: 1.8;
+    color: #555;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.amenities-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 16px;
+    color: #555;
+    font-weight: 400;
+
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.amenities-list li i {
+    font-size: 18px;
+    color: #666;
+
+    background: none;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+}
+
+.amenities-list li:hover {
+    color: #000;
+}
+
+.footer {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 14px;
+    margin-top: 60px;
+    border-top: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    .room-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .price-box {
+        width: 100%;
+        text-align: left;
+    }
+
+    .price-line {
+        justify-content: flex-start;
+    }
+
+    .room-content {
+        grid-template-columns: 1fr;
+    }
+
+    .main-img {
+        height: 250px;
+    }
+
+    .amenities-list {
+        gap: 15px;
+    }
+    .amenities-list li {
+        width: 45%;
+    }
+    .hotel-tag {
+        display: inline-block;
+        background: #e3f2fd;
+        color: #003580;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        text-decoration: none;
+    }
+    .hotel-tag:hover {
+        background: #d0e8fc;
+    }
+}

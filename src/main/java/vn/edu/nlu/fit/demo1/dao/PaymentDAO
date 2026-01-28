@@ -1,0 +1,139 @@
+package vn.edu.nlu.fit.demo1.dao;
+
+import vn.edu.nlu.fit.demo1.config.DatabaseConfig;
+import vn.edu.nlu.fit.demo1.model.Payment;
+
+import java.sql.*;
+import java.util.Date;
+
+public class PaymentDAO {
+
+
+    public Payment getPaymentByBookingId(int bookingId) throws SQLException {
+        String sql = """
+            SELECT p.*, pm.method_name 
+            FROM payment p 
+            JOIN payment_method pm ON p.method_id = pm.id 
+            WHERE p.booking_id = ?
+        """;
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, bookingId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return extractPaymentFromResultSet(rs);
+            }
+        }
+        return null;
+    }
+
+
+    public Payment getPaymentById(int id) throws SQLException {
+        String sql = """
+            SELECT p.*, pm.method_name 
+            FROM payment p 
+            JOIN payment_method pm ON p.method_id = pm.id 
+            WHERE p.id = ?
+        """;
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return extractPaymentFromResultSet(rs);
+            }
+        }
+        return null;
+    }
+
+    public boolean createPayment(Payment payment) throws SQLException {
+        String sql = """
+            INSERT INTO payment (booking_id, method_id, amount, status, 
+                transaction_id, card_name, card_number_last4, card_expiry) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setInt(1, payment.getBookingId());
+            stmt.setInt(2, payment.getMethodId());
+            stmt.setBigDecimal(3, payment.getAmount());
+            stmt.setString(4, payment.getStatus());
+            stmt.setString(5, payment.getTransactionId());
+            stmt.setString(6, payment.getCardName());
+            stmt.setString(7, payment.getCardNumberLast4());
+
+            if (payment.getCardExpiry() != null) {
+                stmt.setDate(8, new java.sql.Date(payment.getCardExpiry().getTime()));
+            } else {
+                stmt.setNull(8, Types.DATE);
+            }
+
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    payment.setId(rs.getInt(1));
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean updatePayment(Payment payment) throws SQLException {
+        String sql = "UPDATE payment SET status = ?, paid_at = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, payment.getStatus());
+
+            if (payment.getPaidAt() != null) {
+                stmt.setTimestamp(2, new Timestamp(payment.getPaidAt().getTime()));
+            } else {
+                stmt.setNull(2, Types.TIMESTAMP);
+            }
+
+            stmt.setInt(3, payment.getId());
+
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    private Payment extractPaymentFromResultSet(ResultSet rs) throws SQLException {
+        Payment payment = new Payment();
+        payment.setId(rs.getInt("id"));
+        payment.setBookingId(rs.getInt("booking_id"));
+        payment.setMethodId(rs.getInt("method_id"));
+        payment.setAmount(rs.getBigDecimal("amount"));
+        payment.setStatus(rs.getString("status"));
+        payment.setTransactionId(rs.getString("transaction_id"));
+        payment.setQrImageUrl(rs.getString("qr_image_url"));
+        payment.setCardName(rs.getString("card_name"));
+        payment.setCardNumberLast4(rs.getString("card_number_last4"));
+
+        Date cardExpiry = rs.getDate("card_expiry");
+        if (cardExpiry != null) {
+            payment.setCardExpiry(cardExpiry);
+        }
+
+        Timestamp paidAt = rs.getTimestamp("paid_at");
+        if (paidAt != null) {
+            payment.setPaidAt(paidAt);
+        }
+
+        payment.setCreatedAt(rs.getTimestamp("created_at"));
+        payment.setMethodName(rs.getString("method_name"));
+
+        return payment;
+    }
+}

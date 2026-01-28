@@ -1,0 +1,166 @@
+package vn.edu.nlu.fit.demo1.dao;
+
+import vn.edu.nlu.fit.demo1.config.DatabaseConfig;
+import vn.edu.nlu.fit.demo1.model.SearchHotelCard;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchHotelDAO {
+
+    private static final String BASE_SELECT =
+            "SELECT h.id, h.hotel_name, h.address, h.star_rating, " +
+                    "h.min_price, h.main_image, " +
+                    "GROUP_CONCAT(DISTINCT a.amenity_name ORDER BY a.id SEPARATOR ', ') AS amenities " +
+                    "FROM hotel h " +
+                    "LEFT JOIN hotel_amenity ha ON h.id = ha.hotel_id " +
+                    "LEFT JOIN amenity a ON ha.amenity_id = a.id ";
+
+
+    public List<SearchHotelCard> getAllHotels() {
+
+        String sql = BASE_SELECT +
+                "GROUP BY h.id " +
+                "ORDER BY h.star_rating DESC, h.min_price ASC";
+
+        return executeQuery(sql, new ArrayList<>());
+    }
+
+
+    public List<SearchHotelCard> searchHotels(
+            Integer cityId,
+            Integer minPrice,
+            Integer maxPrice,
+            List<Integer> starRatings,
+            List<String> amenities
+    ) {
+
+        if (cityId == null) {
+            return new ArrayList<>();
+        }
+
+        StringBuilder sql = new StringBuilder(BASE_SELECT);
+        sql.append(" WHERE h.city_id=? ");
+
+        List<Object> params = new ArrayList<>();
+        params.add(cityId);
+
+
+        if (minPrice != null) {
+            sql.append(" AND h.min_price >= ? ");
+            params.add(minPrice);
+        }
+
+        if (maxPrice != null) {
+            sql.append(" AND h.min_price <= ? ");
+            params.add(maxPrice);
+        }
+
+
+        if (starRatings != null && !starRatings.isEmpty()) {
+
+            sql.append(" AND h.star_rating IN (");
+
+            for (int i = 0; i < starRatings.size(); i++) {
+                sql.append("?");
+                if (i < starRatings.size() - 1) sql.append(",");
+                params.add(starRatings.get(i));
+            }
+
+            sql.append(") ");
+        }
+
+
+        sql.append(" GROUP BY h.id ");
+
+        if (amenities != null && !amenities.isEmpty()) {
+
+            sql.append(" HAVING ");
+
+            for (int i = 0; i < amenities.size(); i++) {
+                sql.append(" amenities LIKE ? ");
+                params.add("%" + amenities.get(i) + "%");
+
+                if (i < amenities.size() - 1) {
+                    sql.append(" AND ");
+                }
+            }
+        }
+
+        sql.append(" ORDER BY h.star_rating DESC, h.min_price ASC ");
+
+        return executeQuery(sql.toString(), params);
+    }
+
+
+    private List<SearchHotelCard> executeQuery(String sql, List<Object> params) {
+
+        List<SearchHotelCard> list = new ArrayList<>();
+
+        try (Connection c = DatabaseConfig.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            for (int i = 0; i < params.size(); i++)
+                ps.setObject(i + 1, params.get(i));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                SearchHotelCard h = new SearchHotelCard();
+
+                h.setId(rs.getInt("id"));
+                h.setHotelName(rs.getString("hotel_name"));
+                h.setAddress(rs.getString("address"));
+                h.setStarRating(rs.getInt("star_rating"));
+                h.setMinPrice(rs.getBigDecimal("min_price"));
+                h.setMainImage(rs.getString("main_image"));
+                h.setAmenities(rs.getString("amenities"));
+
+                list.add(h);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public SearchHotelCard getById(int id) {
+
+        String sql = BASE_SELECT +
+                " WHERE h.id = ? " +
+                " GROUP BY h.id ";
+
+        try (Connection c = DatabaseConfig.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                SearchHotelCard h = new SearchHotelCard();
+
+                h.setId(rs.getInt("id"));
+                h.setHotelName(rs.getString("hotel_name"));
+                h.setAddress(rs.getString("address"));
+                h.setStarRating(rs.getInt("star_rating"));
+                h.setMinPrice(rs.getBigDecimal("min_price"));
+                h.setMainImage(rs.getString("main_image"));
+                h.setAmenities(rs.getString("amenities"));
+
+                return h;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+}

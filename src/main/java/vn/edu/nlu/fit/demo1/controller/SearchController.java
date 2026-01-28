@@ -2,33 +2,29 @@ package vn.edu.nlu.fit.demo1.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import vn.edu.nlu.fit.demo1.model.User;
-import vn.edu.nlu.fit.demo1.service.HotelService;
-import vn.edu.nlu.fit.demo1.service.HotelService.SearchFilter;
-import vn.edu.nlu.fit.demo1.service.HotelService.SearchResult;
+import jakarta.servlet.http.*;
+
+import vn.edu.nlu.fit.demo1.model.SearchHotelCard;
+import vn.edu.nlu.fit.demo1.service.SearchHotelService;
+import vn.edu.nlu.fit.demo1.dao.CityDAO;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.util.*;
 
-@WebServlet(name = "SearchController", urlPatterns = {"/search"})
+@WebServlet("/search")
 public class SearchController extends HttpServlet {
 
-    private final HotelService hotelService = new HotelService();
-
+    private final SearchHotelService service = new SearchHotelService();
+    private final CityDAO cityDAO = new CityDAO();
+    
     private static final String[][] AMENITIES = {
-            {"WiFi", "fa-wifi", "WiFi miễn phí"},
-            {"Pool", "fa-person-swimming", "Hồ bơi"},
-            {"Parking", "fa-square-parking", "Bãi đỗ xe"},
-            {"Free breakfast", "fa-mug-hot", "Bữa sáng miễn phí"},
-            {"Gym", "fa-dumbbell", "Gym"},
-            {"Spa", "fa-spa", "Spa"}
+            {"wifi", "fa-wifi", "WiFi miễn phí"},
+            {"pool", "fa-swimming-pool", "Hồ bơi"},
+            {"parking", "fa-parking", "Bãi đỗ xe"},
+            {"restaurant", "fa-utensils", "Nhà hàng"},
+            {"gym", "fa-dumbbell", "Phòng gym"},
+            {"spa", "fa-spa", "Spa"}
     };
 
     @Override
@@ -36,131 +32,115 @@ public class SearchController extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
 
-        String location = request.getParameter("location");
-        String cityIdRe = request.getParameter("cityId");
-        String checkin = request.getParameter("checkin");
-        String checkout = request.getParameter("checkout");
-        String guestsRe = request.getParameter("guests");
-        String minPriceRe = request.getParameter("minPrice");
-        String maxPriceRe = request.getParameter("maxPrice");
-        String[] starRating = request.getParameterValues("starRating");
-        String[] amenityRe = request.getParameterValues("amenity");
 
-        Integer minPrice = parseInt(minPriceRe, 400000);
-        Integer maxPrice = parseInt(maxPriceRe, 20000000);
+        String location = getParam(request, "location");
+        String checkin = getParam(request, "checkin");
+        String checkout = getParam(request, "checkout");
+        String guests = getParam(request, "guests");
 
-        List<String> selectedStars = (starRating != null)
-                ? Arrays.asList(starRating) : new ArrayList<>();
-        List<String> selectedAmenities = (amenityRe != null)
-                ? Arrays.asList(amenityRe) : new ArrayList<>();
 
-        SearchFilter filter = new SearchFilter(
-                location,
-                cityIdRe,
-                checkin,
-                checkout,
-                guestsRe,
-                minPrice,
-                maxPrice,
-                starRating,
-                selectedAmenities
-        );
+        Integer cityId = null;
+        String cityIdParam = request.getParameter("cityId");
 
-        SearchResult result = hotelService.searchHotels(filter);
+        if (cityIdParam != null && !cityIdParam.isBlank()) {
+            cityId = parseInt(cityIdParam, null);
+        }
 
-        HttpSession session = request.getSession();
-        User currentUser = (User) session.getAttribute("user");
-        boolean isLoggedIn = (currentUser != null);
-        String displayName = getUserDisplayName(currentUser);
+        // 🔥 Nếu không có cityId nhưng có location → tìm theo tên
+        if (cityId == null && location != null && !location.isBlank()) {
+            cityId = cityDAO.findCityIdByName(location.trim());
+        }
 
-        String guestsDisplay = (guestsRe != null && !guestsRe.trim().isEmpty())
-                ? guestsRe.trim() : "";
+        String minPriceParam = request.getParameter("minPrice");
+        String maxPriceParam = request.getParameter("maxPrice");
 
-        String minPriceFormat = hotelService.formatPrice(minPrice);
-        String maxPriceFormat = (maxPrice >= 20000000)
-                ? "20.000.000" : hotelService.formatPrice(maxPrice);
-        String priceRange = (maxPrice >= 20000000) ? "+" : "";
+        Integer minPrice = (minPriceParam == null || minPriceParam.isBlank())
+                ? 400000
+                : parseInt(minPriceParam, 400000);
 
-        String resetUrl = buildResetUrl(
-                request.getContextPath(),
-                result.getCityInfo().getCityId(),
-                result.getCityInfo().getCityName(),
-                checkin,
-                checkout,
-                guestsDisplay
-        );
+        Integer maxPrice = (maxPriceParam == null || maxPriceParam.isBlank())
+                ? 20000000
+                : parseInt(maxPriceParam, 20000000);
 
-        String pageTitle = buildPageTitle(result.getCityInfo().getCityName());
+        String[] starsRaw = request.getParameterValues("starRating");
+        String[] amenitiesRaw = request.getParameterValues("amenity");
+        List<Integer> stars = parseIntList(starsRaw);
+        List<String> amenities = amenitiesRaw != null
+                ? Arrays.asList(amenitiesRaw)
+                : new ArrayList<>();
 
-        request.setAttribute("isLoggedIn", isLoggedIn);
-        request.setAttribute("displayName", displayName);
-        request.setAttribute("hotels", result.getHotels());
-        request.setAttribute("searchLocation", result.getCityInfo().getCityName());
-        request.setAttribute("searchCheckin", checkin != null ? checkin.trim() : "");
-        request.setAttribute("searchCheckout", checkout != null ? checkout.trim() : "");
-        request.setAttribute("searchGuests", guestsDisplay);
-        request.setAttribute("cityId", result.getCityInfo().getCityId());
-        request.setAttribute("selectedStars", selectedStars);
-        request.setAttribute("selectedAmenities", selectedAmenities);
-        request.setAttribute("AMENITIES", AMENITIES);
+
+        List<SearchHotelCard> hotels = new ArrayList<>();
+
+        if (cityId != null) {
+            hotels = service.searchHotels(cityId, minPrice, maxPrice, stars, amenities);
+        }
+
+
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        String minPriceFormat = formatter.format(minPrice).replace(",", ".");
+        String maxPriceFormat = formatter.format(maxPrice).replace(",", ".");
+
+        request.setAttribute("searchLocation", location != null ? location : "");
+        request.setAttribute("searchCheckin", checkin != null ? checkin : "");
+        request.setAttribute("searchCheckout", checkout != null ? checkout : "");
+        request.setAttribute("searchGuests", guests != null ? guests : "");
+        request.setAttribute("cityId", cityId);
+
         request.setAttribute("minPrice", minPrice);
         request.setAttribute("maxPrice", maxPrice);
         request.setAttribute("minPriceFormat", minPriceFormat);
         request.setAttribute("maxPriceFormat", maxPriceFormat);
-        request.setAttribute("priceRange", priceRange);
-        request.setAttribute("resetUrl", resetUrl);
+
+
+        request.setAttribute("selectedStars", stars);
+        request.setAttribute("selectedAmenities", amenities);
+
+        request.setAttribute("AMENITIES", AMENITIES);
+
+
+        request.setAttribute("hotels", hotels);
+
+        String pageTitle = location != null && !location.isBlank()
+                ? "Khách sạn tại " + location
+                : "Tìm kiếm khách sạn";
         request.setAttribute("pageTitle", pageTitle);
 
-        request.getRequestDispatcher("/WEB-INF/view/search.jsp").forward(request, response);
-    }
+        HttpSession session = request.getSession(false);
+        boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
+        request.setAttribute("isLoggedIn", isLoggedIn);
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    private Integer parseInt(String value, Integer defaultValue) {
-        if (value == null || value.trim().isEmpty()) {
-            return defaultValue;
+        if (isLoggedIn) {
+            request.setAttribute("displayName", session.getAttribute("displayName"));
         }
+        request.getRequestDispatcher("/WEB-INF/views/search.jsp")
+                .forward(request, response);
+    }
+
+
+    private String getParam(HttpServletRequest request, String name) {
+        String value = request.getParameter(name);
+        return (value != null && !value.isBlank()) ? value.trim() : null;
+    }
+
+    private Integer parseInt(String s, Integer def) {
         try {
-            return Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
-    private String getUserDisplayName(User user) {
-        if (user == null) {
-            return "";
-        }
-        return (user.getFullName() != null && !user.getFullName().trim().isEmpty())
-                ? user.getFullName() : user.getUsername();
-    }
-
-    private String buildResetUrl(String contextPath, Integer cityId, String cityName,
-                                 String checkin, String checkout, String guests) {
-        try {
-            StringBuilder url = new StringBuilder(contextPath + "/search?");
-            if (cityId != null) {
-                url.append("cityId=").append(cityId).append("&");
-            }
-            url.append("location=").append(URLEncoder.encode(cityName, "UTF-8"));
-            url.append("&checkin=").append(URLEncoder.encode(checkin != null ? checkin : "", "UTF-8"));
-            url.append("&checkout=").append(URLEncoder.encode(checkout != null ? checkout : "", "UTF-8"));
-            url.append("&guests=").append(URLEncoder.encode(guests, "UTF-8"));
-            return url.toString();
+            return (s == null || s.isBlank()) ? def : Integer.parseInt(s);
         } catch (Exception e) {
-            return contextPath + "/search";
+            return def;
         }
     }
 
-    private String buildPageTitle(String cityName) {
-        return (cityName != null && !cityName.isEmpty())
-                ? cityName + " - Tìm kiếm khách sạn • Group15"
-                : "Tìm kiếm khách sạn • Group15";
+    private List<Integer> parseIntList(String[] arr) {
+        List<Integer> list = new ArrayList<>();
+        if (arr != null) {
+            for (String s : arr) {
+                try {
+                    list.add(Integer.parseInt(s));
+                } catch (Exception ignored) {}
+            }
+        }
+        return list;
     }
 }
