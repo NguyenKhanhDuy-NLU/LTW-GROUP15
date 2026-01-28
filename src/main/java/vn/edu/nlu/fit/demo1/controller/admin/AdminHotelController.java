@@ -111,7 +111,7 @@ public class AdminHotelController extends HttpServlet {
             throws ServletException, IOException {
 
         int page = 1;
-        int pageSize = 10;
+        int pageSize = 1000;
 
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
@@ -182,6 +182,7 @@ public class AdminHotelController extends HttpServlet {
 
             if (success) {
                 uploadImagesForHotel(request, hotel.getId());
+                addRoomsForHotel(request, hotel.getId());
 
                 response.sendRedirect(request.getContextPath() + "/admin/hotels?success=add");
             } else {
@@ -413,12 +414,44 @@ public class AdminHotelController extends HttpServlet {
             HotelImage image = new HotelImage();
             image.setHotelId(hotelId);
             image.setImageUrl(uploadedPaths.get(i));
-            image.setThumbnail(false); // Sẽ set thumbnail sau
+            image.setThumbnail(false);
             image.setDisplayOrder(i);
 
             hotelImageDAO.addImage(image);
         }
 
         return uploadCount;
+    }
+
+    private void addRoomsForHotel(HttpServletRequest request, int hotelId) {
+        vn.edu.nlu.fit.demo1.dao.AdminRoomDAO roomDAO = new vn.edu.nlu.fit.demo1.dao.AdminRoomDAO();
+        Map<String, String[]> params = request.getParameterMap();
+        
+        int roomCount = 0;
+        for (String key : params.keySet()) {
+            if (key.startsWith("rooms[") && key.contains("].roomName")) {
+                roomCount++;
+            }
+        }
+        
+        for (int i = 0; i < roomCount; i++) {
+            String roomName = request.getParameter("rooms[" + i + "].roomName");
+            if (roomName != null && !roomName.trim().isEmpty()) {
+                vn.edu.nlu.fit.demo1.model.Room room = new vn.edu.nlu.fit.demo1.model.Room();
+                room.setHotelId(hotelId);
+                room.setRoomName(roomName);
+                room.setRoomType(request.getParameter("rooms[" + i + "].roomType"));
+                room.setBasePrice(new BigDecimal(request.getParameter("rooms[" + i + "].basePrice")));
+                room.setMaxPeople(Integer.parseInt(request.getParameter("rooms[" + i + "].maxPeople")));
+                room.setQuantity(Integer.parseInt(request.getParameter("rooms[" + i + "].quantity")));
+                room.setSize(request.getParameter("rooms[" + i + "].size"));
+                room.setView(request.getParameter("rooms[" + i + "].view"));
+                room.setImages(request.getParameter("rooms[" + i + "].images"));
+                room.setDescription(request.getParameter("rooms[" + i + "].description"));
+                room.setAvailable(true);
+                
+                roomDAO.addRoom(room);
+            }
+        }
     }
 }

@@ -143,13 +143,11 @@ public class AdminReviewDAO {
         review.setCreatedAt(rs.getTimestamp("created_at"));
         review.setUpdatedAt(rs.getTimestamp("updated_at"));
 
-        // Additional info from joins
         try {
             review.setUsername(rs.getString("username"));
             review.setUserFullName(rs.getString("full_name"));
             review.setHotelName(rs.getString("hotel_name"));
         } catch (SQLException e) {
-            // These fields might not always be present
         }
 
         return review;

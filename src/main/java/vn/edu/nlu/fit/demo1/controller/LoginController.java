@@ -63,16 +63,6 @@ public class LoginController extends HttpServlet {
         if (user != null) {
             System.out.println("✓ Authentication successful for: " + username);
 
-            if (!user.isVerified()) {
-                System.out.println("✗ User not verified: " + username);
-                request.setAttribute("errorMessage",
-                        "Tài khoản chưa được xác thực. Vui lòng kiểm tra email để xác thực tài khoản.");
-                request.setAttribute("username", username);
-                request.setAttribute("showResendLink", true);
-                request.setAttribute("userEmail", user.getEmail());
-                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-                return;
-            }
 
             if (!user.isActive()) {
                 System.out.println("✗ User account is inactive: " + username);
@@ -87,13 +77,13 @@ public class LoginController extends HttpServlet {
             session.setAttribute("userId", user.getId());
             session.setAttribute("username", user.getUsername());
             session.setAttribute("fullName", user.getFullName());
-            session.setAttribute("userRole", user.getRoleId()); // 1=Admin, 2=User
+            session.setAttribute("userRole", user.getRole()); // admin hoặc customer
             session.setMaxInactiveInterval(30 * 60); // 30 phút
 
             System.out.println("✓ Login successful! User ID: " + user.getId());
-            System.out.println("✓ User role: " + user.getRoleId());
+            System.out.println("✓ User role: " + user.getRole());
 
-            if (user.getRoleId() == 1) {
+            if ("admin".equalsIgnoreCase(user.getRole())) {
                 System.out.println("Admin login - Redirecting to admin dashboard...");
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             } else {

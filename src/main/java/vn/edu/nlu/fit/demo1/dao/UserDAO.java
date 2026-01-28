@@ -11,7 +11,8 @@ public class UserDAO {
     public User authenticate(String username, String password) {
         System.out.println("UserDAO.authenticate() - Starting authentication for: " + username);
 
-        String sql = "SELECT * FROM users WHERE username = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user', 'password' thành 'password_hash'
+        String sql = "SELECT * FROM user WHERE username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -22,7 +23,8 @@ public class UserDAO {
                 if (rs.next()) {
                     System.out.println("UserDAO.authenticate() - User found in database");
 
-                    String hashedPasswordInDB = rs.getString("password");
+                    // ĐÃ SỬA: Đổi 'password' thành 'password_hash'
+                    String hashedPasswordInDB = rs.getString("password_hash");
                     String hashedInputPassword = PasswordUtil.hashPassword(password);
 
                     System.out.println("UserDAO.authenticate() - Hash from DB: " + hashedPasswordInDB);
@@ -50,7 +52,8 @@ public class UserDAO {
     public boolean register(User user) {
         System.out.println("UserDAO.register() - Starting registration for: " + user.getUsername());
 
-        String sql = "INSERT INTO users (username, password, full_name, email, phone, address, gender, role_id, is_active) " +
+        // ĐÃ SỬA: Đổi 'users' thành 'user', bỏ 'role_id' (dùng 'role' ENUM), đổi 'password' thành 'password_hash'
+        String sql = "INSERT INTO user (username, password_hash, full_name, email, phone, address, gender, role, is_active) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
@@ -82,8 +85,9 @@ public class UserDAO {
                 stmt.setNull(7, Types.VARCHAR);
             }
 
-            int roleId = user.getRoleId() > 0 ? user.getRoleId() : 2;
-            stmt.setInt(8, roleId);
+            // ĐÃ SỬA: Dùng role trực tiếp
+            String role = (user.getRole() != null) ? user.getRole() : "customer";
+            stmt.setString(8, role);
 
             stmt.setBoolean(9, true);
 
@@ -119,7 +123,8 @@ public class UserDAO {
             return false;
         }
 
-        String sql = "UPDATE users SET password = ? WHERE username = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user', 'password' thành 'password_hash'
+        String sql = "UPDATE user SET password_hash = ? WHERE username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -140,7 +145,8 @@ public class UserDAO {
     }
 
     public boolean updateUser(User user) {
-        String sql = "UPDATE users SET full_name = ?, email = ?, phone = ?, address = ?, gender = ?, avatar = ? WHERE id = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user', 'avatar' thành 'avatar_url'
+        String sql = "UPDATE user SET full_name = ?, email = ?, phone = ?, address = ?, gender = ?, avatar_url = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -150,7 +156,7 @@ public class UserDAO {
             stmt.setString(3, user.getPhone());
             stmt.setString(4, user.getAddress());
             stmt.setString(5, user.getGender());
-            stmt.setString(6, user.getAvatar());
+            stmt.setString(6, user.getAvatarUrl());
             stmt.setInt(7, user.getId());
 
             return stmt.executeUpdate() > 0;
@@ -162,7 +168,8 @@ public class UserDAO {
     }
 
     public boolean isUsernameExists(String username) {
-        String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user'
+        String sql = "SELECT COUNT(*) FROM user WHERE username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -181,7 +188,8 @@ public class UserDAO {
     }
 
     public boolean isEmailExists(String email) {
-        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user'
+        String sql = "SELECT COUNT(*) FROM user WHERE email = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -200,7 +208,8 @@ public class UserDAO {
     }
 
     public User getUserById(int id) {
-        String sql = "SELECT * FROM users WHERE id = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user'
+        String sql = "SELECT * FROM user WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -219,7 +228,7 @@ public class UserDAO {
     }
 
     public User getUserByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE username = ?";
+        String sql = "SELECT * FROM user WHERE username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -238,7 +247,7 @@ public class UserDAO {
     }
 
     public User getUserByEmail(String email) {
-        String sql = "SELECT * FROM users WHERE email = ?";
+        String sql = "SELECT * FROM user WHERE email = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -257,7 +266,7 @@ public class UserDAO {
     }
 
     public boolean verifyUser(int userId) {
-        String sql = "UPDATE users SET is_verified = TRUE WHERE id = ?";
+        String sql = "UPDATE user SET is_verified = TRUE WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -272,7 +281,7 @@ public class UserDAO {
     }
 
     public boolean isUserVerified(int userId) {
-        String sql = "SELECT is_verified FROM users WHERE id = ?";
+        String sql = "SELECT is_verified FROM user WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -291,7 +300,7 @@ public class UserDAO {
     }
 
     public boolean updatePasswordById(int userId, String newPassword) {
-        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        String sql = "UPDATE user SET password_hash = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -337,13 +346,13 @@ public class UserDAO {
         User user = new User();
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
-        user.setPassword(rs.getString("password"));
+        user.setPassword(rs.getString("password_hash"));
         user.setFullName(rs.getString("full_name"));
         user.setEmail(rs.getString("email"));
         user.setPhone(rs.getString("phone"));
         user.setAddress(rs.getString("address"));
         user.setGender(rs.getString("gender"));
-        user.setAvatar(rs.getString("avatar"));
+        user.setAvatarUrl(rs.getString("avatar_url"));
 
         try {
             user.setVerified(rs.getBoolean("is_verified"));
@@ -352,9 +361,10 @@ public class UserDAO {
         }
 
         try {
-            user.setRoleId(rs.getInt("role_id"));
+            String role = rs.getString("role");
+            user.setRole(role);
         } catch (SQLException e) {
-            user.setRoleId(2);
+            user.setRole("customer");
         }
 
         try {
@@ -371,7 +381,7 @@ public class UserDAO {
             return false;
         }
 
-        String sql = "SELECT COUNT(*) FROM users WHERE phone = ?";
+        String sql = "SELECT COUNT(*) FROM user WHERE phone = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -390,7 +400,7 @@ public class UserDAO {
     }
 
     public boolean isEmailOrUsernameExists(String email, String username) {
-        String sql = "SELECT COUNT(*) FROM users WHERE email = ? OR username = ?";
+        String sql = "SELECT COUNT(*) FROM user WHERE email = ? OR username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -410,7 +420,7 @@ public class UserDAO {
     }
 
     public User getUserByEmailOrUsername(String identifier) {
-        String sql = "SELECT * FROM users WHERE email = ? OR username = ?";
+        String sql = "SELECT * FROM user WHERE email = ? OR username = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -430,7 +440,7 @@ public class UserDAO {
     }
 
     public boolean isEmailTakenByOtherUser(int userId, String email) {
-        String sql = "SELECT COUNT(*) FROM users WHERE email = ? AND id != ?";
+        String sql = "SELECT COUNT(*) FROM user WHERE email = ? AND id != ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -454,7 +464,7 @@ public class UserDAO {
             return false;
         }
 
-        String sql = "SELECT COUNT(*) FROM users WHERE phone = ? AND id != ?";
+        String sql = "SELECT COUNT(*) FROM user WHERE phone = ? AND id != ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

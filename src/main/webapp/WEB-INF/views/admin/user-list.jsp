@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý User - Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin-dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 <aside class="sidebar">
@@ -29,9 +28,6 @@
         <a href="${pageContext.request.contextPath}/admin/users" class="menu-item active">
             <i class="fas fa-users"></i> Quản lý User
         </a>
-        <a href="${pageContext.request.contextPath}/admin/reviews" class="menu-item">
-            <i class="fas fa-star"></i> Quản lý Review
-        </a>
         <a href="${pageContext.request.contextPath}/" class="menu-item">
             <i class="fas fa-home"></i> Về trang chủ
         </a>
@@ -43,25 +39,22 @@
 
 <main class="main-content">
     <header class="content-header">
-        <h1>Quản lý User</h1>
-        <div class="user-info">
-            <span>Xin chào, ${sessionScope.user.fullName}</span>
+        <div>
+            <h1>Quản lý User</h1>
+            <p>Tổng số: ${totalUsers} người dùng</p>
         </div>
     </header>
 
-    <!-- Search Section -->
-    <section class="filter-section">
-        <form action="${pageContext.request.contextPath}/admin/users" method="get" class="search-form">
-            <input type="text" name="search" value="${searchQuery}"
-                   placeholder="Tìm theo username, tên hoặc email..." class="search-input">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Tìm kiếm
-            </button>
-        </form>
-        <div class="stats-info">
-            <p>Tổng: <strong>${totalUsers}</strong> user</p>
+    <c:if test="${param.success eq 'toggle'}">
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> Thay đổi trạng thái user thành công!
         </div>
-    </section>
+    </c:if>
+    <c:if test="${param.success eq 'delete'}">
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> Xóa user thành công!
+        </div>
+    </c:if>
 
     <section class="data-section">
         <div class="card">
@@ -69,27 +62,13 @@
                 <h3>Danh sách User</h3>
             </div>
             <div class="card-body">
-                <c:if test="${not empty param.success}">
-                    <div class="alert alert-success">
-                        <c:choose>
-                            <c:when test="${param.success eq 'delete'}">Xóa user thành công!</c:when>
-                            <c:otherwise>Thao tác thành công!</c:otherwise>
-                        </c:choose>
-                    </div>
-                </c:if>
-
                 <table class="data-table">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Username</th>
-                        <th>Họ tên</th>
-                        <th>Email</th>
-                        <th>SĐT</th>
                         <th>Role</th>
                         <th>Trạng thái</th>
-                        <th>Xác thực</th>
-                        <th>Booking</th>
                         <th>Thao tác</th>
                     </tr>
                     </thead>
@@ -97,58 +76,45 @@
                     <c:choose>
                         <c:when test="${empty users}">
                             <tr>
-                                <td colspan="10" class="text-center">Không có user nào</td>
+                                <td colspan="5" class="text-center">Không có user nào</td>
                             </tr>
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="user" items="${users}">
                                 <tr>
                                     <td>${user.id}</td>
-                                    <td><strong>${user.username}</strong></td>
-                                    <td>${user.fullName}</td>
-                                    <td>${user.email}</td>
-                                    <td>${user.phone}</td>
                                     <td>
-                                            <span class="badge badge-${user.roleId == 1 ? 'danger' : 'info'}">
-                                                    ${user.roleText}
-                                            </span>
+                                        <strong>${user.username}</strong>
+                                        <c:if test="${user.verified}">
+                                            <i class="fas fa-check-circle text-success" title="Đã xác thực"></i>
+                                        </c:if>
                                     </td>
                                     <td>
-                                            <span class="badge badge-${user.statusBadgeClass}">
-                                                    ${user.statusText}
-                                            </span>
+                                        <span class="badge ${user.admin ? 'badge-danger' : 'badge-primary'}">
+                                                ${user.admin ? 'Admin' : 'Customer'}
+                                        </span>
                                     </td>
                                     <td>
-                                            <span class="badge badge-${user.verifiedBadgeClass}">
-                                                    ${user.verifiedText}
-                                            </span>
+                                        <span class="badge ${user.statusClass}">
+                                                ${user.statusText}
+                                        </span>
                                     </td>
-                                    <td>${user.bookingCount}</td>
                                     <td>
                                         <div class="action-buttons">
                                             <a href="${pageContext.request.contextPath}/admin/users/view?id=${user.id}"
                                                class="btn btn-sm btn-info" title="Xem chi tiết">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <button onclick="toggleUserStatus(${user.id}, ${!user.active})"
-                                                    class="btn btn-sm btn-${user.active ? 'warning' : 'success'}"
+                                            <button onclick="toggleStatus(${user.id}, ${user.active})"
+                                                    class="btn btn-sm ${user.active ? 'btn-warning' : 'btn-success'}"
                                                     title="${user.active ? 'Khóa' : 'Mở khóa'}">
-                                                <i class="fas fa-${user.active ? 'lock' : 'unlock'}"></i>
+                                                <i class="fas ${user.active ? 'fa-lock' : 'fa-lock-open'}"></i>
                                             </button>
-                                            <c:if test="${!user.verified}">
-                                                <button onclick="verifyUser(${user.id})"
-                                                        class="btn btn-sm btn-primary" title="Xác thực">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            </c:if>
-                                            <c:if test="${user.roleId != 1}">
-                                                <a href="${pageContext.request.contextPath}/admin/users/delete?id=${user.id}"
-                                                   class="btn btn-sm btn-danger"
-                                                   onclick="return confirm('Bạn có chắc muốn xóa user này?')"
-                                                   title="Xóa">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </c:if>
+                                            <button onclick="confirmDelete(${user.id}, '${user.username}')"
+                                                    class="btn btn-sm btn-danger"
+                                                    title="Xóa">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -161,16 +127,16 @@
                 <c:if test="${totalPages > 1}">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
-                            <a href="?page=${currentPage - 1}<c:if test='${not empty searchQuery}'>&search=${searchQuery}</c:if>">&laquo; Trước</a>
+                            <a href="?page=${currentPage - 1}">&laquo; Trước</a>
                         </c:if>
 
                         <c:forEach begin="1" end="${totalPages}" var="i">
-                            <a href="?page=${i}<c:if test='${not empty searchQuery}'>&search=${searchQuery}</c:if>"
+                            <a href="?page=${i}"
                                class="${i == currentPage ? 'active' : ''}">${i}</a>
                         </c:forEach>
 
                         <c:if test="${currentPage < totalPages}">
-                            <a href="?page=${currentPage + 1}<c:if test='${not empty searchQuery}'>&search=${searchQuery}</c:if>">Sau &raquo;</a>
+                            <a href="?page=${currentPage + 1}">Sau &raquo;</a>
                         </c:if>
                     </div>
                 </c:if>
@@ -180,48 +146,26 @@
 </main>
 
 <script>
-    function toggleUserStatus(userId, activate) {
-        const action = activate ? 'mở khóa' : 'khóa';
+    function toggleStatus(id, currentActive) {
+        const action = currentActive ? 'khóa' : 'mở khóa';
         if (confirm('Bạn có chắc muốn ' + action + ' user này?')) {
-            fetch('${pageContext.request.contextPath}/admin/users/update-status', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'id=' + userId + '&isActive=' + activate
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Cập nhật thành công!');
-                        location.reload();
-                    } else {
-                        alert('Lỗi: ' + data.message);
-                    }
-                });
+            window.location.href = '${pageContext.request.contextPath}/admin/users/toggle-status?id=' + id;
         }
     }
 
-    function verifyUser(userId) {
-        if (confirm('Xác thực user này?')) {
-            fetch('${pageContext.request.contextPath}/admin/users/verify', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'id=' + userId
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Xác thực thành công!');
-                        location.reload();
-                    } else {
-                        alert('Lỗi: ' + data.message);
-                    }
-                });
+    function confirmDelete(id, username) {
+        if (confirm('Bạn có chắc muốn xóa user "' + username + '"?')) {
+            window.location.href = '${pageContext.request.contextPath}/admin/users/delete?id=' + id;
         }
     }
+
+    setTimeout(function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        });
+    }, 5000);
 </script>
 </body>
 </html>

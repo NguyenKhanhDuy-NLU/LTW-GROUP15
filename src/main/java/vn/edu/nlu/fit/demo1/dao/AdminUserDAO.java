@@ -13,10 +13,11 @@ public class AdminUserDAO {
         List<User> users = new ArrayList<>();
         int offset = (page - 1) * pageSize;
 
+        // ĐÃ SỬA: Đổi 'users' thành 'user', 'bookings' thành 'booking'
         StringBuilder sql = new StringBuilder(
                 "SELECT u.*, " +
-                        "(SELECT COUNT(*) FROM bookings WHERE user_id = u.id) as booking_count " +
-                        "FROM users u ");
+                        "(SELECT COUNT(*) FROM booking WHERE user_id = u.id) as booking_count " +
+                        "FROM user u ");
 
         if (search != null && !search.trim().isEmpty()) {
             sql.append("WHERE (u.username LIKE ? OR u.full_name LIKE ? OR u.email LIKE ?) ");
@@ -51,7 +52,8 @@ public class AdminUserDAO {
     }
 
     public int countUsers(String search) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM users");
+        // ĐÃ SỬA: Đổi 'users' thành 'user'
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM user");
 
         if (search != null && !search.trim().isEmpty()) {
             sql.append(" WHERE username LIKE ? OR full_name LIKE ? OR email LIKE ?");
@@ -79,9 +81,10 @@ public class AdminUserDAO {
     }
 
     public User getUserById(int id) {
+        // ĐÃ SỬA: Đổi 'users' thành 'user', 'bookings' thành 'booking'
         String sql = "SELECT u.*, " +
-                "(SELECT COUNT(*) FROM bookings WHERE user_id = u.id) as booking_count " +
-                "FROM users u WHERE u.id = ?";
+                "(SELECT COUNT(*) FROM booking WHERE user_id = u.id) as booking_count " +
+                "FROM user u WHERE u.id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -100,7 +103,8 @@ public class AdminUserDAO {
     }
 
     public boolean updateUserStatus(int id, boolean isActive) {
-        String sql = "UPDATE users SET is_active = ?, updated_at = NOW() WHERE id = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user'
+        String sql = "UPDATE user SET is_active = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -117,13 +121,14 @@ public class AdminUserDAO {
         return false;
     }
 
-    public boolean updateUserRole(int id, int roleId) {
-        String sql = "UPDATE users SET role_id = ?, updated_at = NOW() WHERE id = ?";
+    public boolean updateUserRole(int id, String role) {
+        // ĐÃ SỬA: Đổi 'users' thành 'user', 'role_id' thành 'role' (ENUM)
+        String sql = "UPDATE user SET role = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, roleId);
+            stmt.setString(1, role);
             stmt.setInt(2, id);
 
             return stmt.executeUpdate() > 0;
@@ -136,7 +141,8 @@ public class AdminUserDAO {
     }
 
     public boolean verifyUser(int id) {
-        String sql = "UPDATE users SET is_verified = TRUE, updated_at = NOW() WHERE id = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user'
+        String sql = "UPDATE user SET is_verified = TRUE, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -152,7 +158,8 @@ public class AdminUserDAO {
     }
 
     public boolean deleteUser(int id) {
-        String sql = "DELETE FROM users WHERE id = ?";
+        // ĐÃ SỬA: Đổi 'users' thành 'user'
+        String sql = "DELETE FROM user WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -171,15 +178,18 @@ public class AdminUserDAO {
         User user = new User();
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
-        user.setPassword(rs.getString("password"));
+        user.setPassword(rs.getString("password_hash"));
         user.setFullName(rs.getString("full_name"));
         user.setEmail(rs.getString("email"));
         user.setPhone(rs.getString("phone"));
         user.setAddress(rs.getString("address"));
         user.setGender(rs.getString("gender"));
-        user.setAvatar(rs.getString("avatar"));
+        user.setAvatarUrl(rs.getString("avatar_url"));
         user.setVerified(rs.getBoolean("is_verified"));
-        user.setRoleId(rs.getInt("role_id"));
+
+        String role = rs.getString("role");
+        user.setRole(role);
+
         user.setActive(rs.getBoolean("is_active"));
         user.setCreatedAt(rs.getTimestamp("created_at"));
         user.setUpdatedAt(rs.getTimestamp("updated_at"));

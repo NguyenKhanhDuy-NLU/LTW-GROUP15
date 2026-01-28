@@ -29,9 +29,6 @@
         <a href="${pageContext.request.contextPath}/admin/users" class="menu-item">
             <i class="fas fa-users"></i> Quản lý User
         </a>
-        <a href="${pageContext.request.contextPath}/admin/reviews" class="menu-item">
-            <i class="fas fa-star"></i> Quản lý Review
-        </a>
         <a href="${pageContext.request.contextPath}/" class="menu-item">
             <i class="fas fa-home"></i> Về trang chủ
         </a>
@@ -40,8 +37,6 @@
         </a>
     </nav>
 </aside>
-
-<!-- Main Content -->
 <main class="main-content">
     <header class="content-header">
         <h1>Dashboard</h1>
@@ -50,7 +45,6 @@
         </div>
     </header>
 
-    <!-- Statistics Cards -->
     <section class="stats-grid">
         <div class="stat-card blue">
             <div class="stat-icon">
@@ -95,7 +89,6 @@
         </div>
     </section>
 
-    <!-- Quick Actions -->
     <section class="quick-actions">
         <h2>Thao tác nhanh</h2>
         <div class="action-buttons">
@@ -108,39 +101,6 @@
             <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-info">
                 <i class="fas fa-user-plus"></i> Quản lý User
             </a>
-        </div>
-    </section>
-
-    <!-- Recent Activities -->
-    <section class="recent-activities">
-        <h2>Hoạt động gần đây</h2>
-        <div class="card">
-            <table class="data-table">
-                <thead>
-                <tr>
-                    <th>Thời gian</th>
-                    <th>Hoạt động</th>
-                    <th>Người thực hiện</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>10:30 AM</td>
-                    <td>Thêm khách sạn mới: "Sunrise Hotel"</td>
-                    <td>Admin</td>
-                </tr>
-                <tr>
-                    <td>09:15 AM</td>
-                    <td>Xác nhận booking #12345</td>
-                    <td>Admin</td>
-                </tr>
-                <tr>
-                    <td>08:45 AM</td>
-                    <td>User mới đăng ký: john@example.com</td>
-                    <td>System</td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </section>
 </main>

@@ -54,11 +54,6 @@ public class RegisterController extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
 
-        username = ValidationUtil.sanitizeInput(username);
-        fullName = ValidationUtil.sanitizeInput(fullName);
-        email = ValidationUtil.sanitizeInput(email);
-        phone = ValidationUtil.sanitizeInput(phone);
-
         if (username == null || username.trim().isEmpty() ||
                 password == null || password.trim().isEmpty() ||
                 fullName == null || fullName.trim().isEmpty() ||
@@ -143,46 +138,9 @@ public class RegisterController extends HttpServlet {
         );
 
         if (userService.register(newUser)) {
-            String token = TokenUtil.generateToken();
-            LocalDateTime expiryDate = LocalDateTime.now().plusHours(24); 
-
-            VerificationToken verificationToken = new VerificationToken(
-                    newUser.getId(),
-                    token,
-                    "email_verification",
-                    expiryDate
-            );
-
-            if (tokenDAO.createToken(verificationToken)) {
-                String verificationLink = request.getRequestURL().toString()
-                        .replace("/register", "/verify-email?token=" + token);
-
-                boolean emailSent = EmailUtil.sendVerificationEmail(
-                        newUser.getEmail(),
-                        newUser.getFullName(),
-                        verificationLink
-                );
-
-                if (emailSent) {
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("registeredEmail", newUser.getEmail());
-                    session.setAttribute("registeredUsername", newUser.getUsername());
-                    session.setAttribute("successMessage",
-                            "Đăng ký thành công! Vui lòng kiểm tra email " + newUser.getEmail() + " để xác thực tài khoản.");
-                    response.sendRedirect(request.getContextPath() + "/verification-sent");
-                } else {
-                    request.setAttribute("errorMessage",
-                            "Đăng ký thành công nhưng không thể gửi email xác thực. Vui lòng <a href='" +
-                                    request.getContextPath() + "/resend-verification'>gửi lại email xác thực</a>");
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("registeredEmail", newUser.getEmail());
-                    response.sendRedirect(request.getContextPath() + "/verification-sent");
-                }
-            } else {
-                request.setAttribute("errorMessage", "Không thể tạo mã xác thực. Vui lòng thử lại hoặc liên hệ admin.");
-                setFormData(request, username, fullName, email, phone);
-                request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
-            }
+            HttpSession session = request.getSession(true);
+            session.setAttribute("successMessage", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
+            response.sendRedirect(request.getContextPath() + "/login");
         } else {
             request.setAttribute("errorMessage", "Đăng ký thất bại. Vui lòng thử lại sau hoặc liên hệ admin nếu vấn đề vẫn tiếp diễn.");
             setFormData(request, username, fullName, email, phone);

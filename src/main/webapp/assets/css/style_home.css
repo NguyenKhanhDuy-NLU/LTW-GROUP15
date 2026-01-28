@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -723,4 +722,30 @@ a {
     .hero-content > p {
         font-size: 0.8rem;
     }
+}
+/* Admin Panel Link */
+.user-dropdown .admin-link {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+    font-weight: 600;
+    border-bottom: none;
+}
+
+.user-dropdown .admin-link:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    color: white !important;
+    transform: translateX(3px);
+}
+
+.user-dropdown .admin-link i {
+    color: white;
+    font-size: 13px;
+}
+
+/* Dropdown Divider */
+.dropdown-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+    margin: 0;
+    border: none;
 }
